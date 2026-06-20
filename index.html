@@ -1900,9 +1900,8 @@ function applyRemote(data){
   try{
     data.members=mergeById(S.members,data.members);
     data.guests=mergeById(S.guests,data.guests);
-    data.budget=mergeById(S.budget,data.budget);
     if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k]);});}
-    S=data;ensureGallery();
+    S=data;if(!Array.isArray(S.budget))S.budget=[];ensureGallery();
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
