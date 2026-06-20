@@ -1467,7 +1467,16 @@ function rbudget(){
       '<td style="padding:8px 6px;text-align:right;font-size:13px;font-weight:700;color:'+lc+'">'+ff(left)+'</td>'+ed+'</tr>';
   }).join("");
   var tLeft=tPlan-tSpent;
-  el.innerHTML=addBtn+'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'+
+  var thu=(S.txs||[]).filter(function(t){return t.tp==="income";}).reduce(function(a,t){return a+t.amt;},0);
+  var chiAll=(S.txs||[]).filter(function(t){return t.tp==="expense";}).reduce(function(a,t){return a+t.amt;},0);
+  var quy=thu-chiAll, canDoi=quy-tPlan;
+  var cdColor=canDoi<0?"#DC2626":"#059669", cdTxt=(canDoi<0?("\u26a0\ufe0f Thi\u1ebfu "+ff(-canDoi)):("D\u01b0 "+ff(canDoi)));
+  var _budSummary='<div style="background:var(--soft);border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:13px">'+
+    '<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--mu)">Qu\u1ef9 hi\u1ec7n c\u00f3 (thu \u2212 chi th\u1ef1c t\u1ebf)</span><span style="font-weight:700;color:var(--gr)">'+ff(quy)+'</span></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--mu)">T\u1ed5ng d\u1ef1 to\u00e1n chi</span><span style="font-weight:700;color:#C2410C">'+ff(tPlan)+'</span></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:7px 0 2px;border-top:1px solid var(--bdr);margin-top:4px"><span style="font-weight:800;color:var(--navy)">C\u00e2n \u0111\u1ed1i d\u1ef1 to\u00e1n</span><span style="font-weight:800;color:'+cdColor+'">'+cdTxt+'</span></div>'+
+  '</div>';
+  el.innerHTML=addBtn+_budSummary+'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'+
     '<thead><tr style="color:var(--mu);font-size:11px;text-transform:uppercase"><th style="text-align:left;padding:4px 6px">Hạng mục</th><th style="text-align:right;padding:4px 6px">Dự toán</th><th style="text-align:right;padding:4px 6px">Đã chi</th><th style="text-align:right;padding:4px 6px">Còn lại</th>'+(isAdmin?'<th></th>':'')+'</tr></thead>'+
     '<tbody>'+rows+'</tbody>'+
     '<tfoot><tr style="border-top:2px solid var(--navy);font-weight:800"><td style="padding:9px 6px;font-size:13px">TỔNG</td><td style="padding:9px 6px;text-align:right;font-size:13px;color:var(--navy)">'+ff(tPlan)+'</td><td style="padding:9px 6px;text-align:right;font-size:13px;color:#C2410C">'+ff(tSpent)+'</td><td style="padding:9px 6px;text-align:right;font-size:13px;color:'+(tLeft<0?"#DC2626":"#059669")+'">'+ff(tLeft)+'</td>'+(isAdmin?'<td></td>':'')+'</tr></tfoot></table></div>';
