@@ -405,6 +405,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="fc ex"><div class="fi">🔴</div><div><div class="fl">Tổng chi</div><div class="fa" id="fexp">0 VND</div></div></div>
     <div class="fc ba"><div class="fi">🔵</div><div><div class="fl">Tồn quỹ</div><div class="fa" id="fbal">0 VND</div></div></div>
   </div>
+  <div class="card"><div class="stit">📝 Dự toán các khoản chi</div><div id="fbud"></div></div>
   <div class="card"><div class="stit">📊 Nguồn thu</div><div id="fsrc"></div></div>
   <div class="card"><div class="stit">🏅 Vinh danh nhà tài trợ</div><div id="fspon"></div></div>
   <div class="card"><div class="stit">📋 Lịch sử giao dịch</div><div id="txlist"></div></div>
@@ -587,6 +588,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
       <div class="stit">💰 Thu / Chi quỹ</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn bp bsm" onclick="oaf()">💸 Ghi giao dịch</button>
+        <button class="btn bo2 bsm" onclick="openBud()">📝 Hạng mục dự toán</button>
         <button class="btn bo2 bsm" onclick="sp('finance')">📊 Sổ quỹ & lịch sử</button>
       </div>
     </div>
@@ -700,13 +702,27 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 </div>
 
 <!-- MODAL: FINANCE -->
+<div class="mo" id="mbud" onclick="cbg(event,'mbud')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt" id="mbudTitle">➕ Thêm hạng mục dự toán</div><button class="mc" onclick="cm('mbud')">✕</button></div>
+    <div class="fg"><label>Tên hạng mục *</label><input type="text" id="budName" placeholder="VD: Tiệc liên hoan"></div>
+    <div class="fg"><label>Số tiền dự toán (VND)</label><input type="number" id="budPlan" placeholder="0" inputmode="numeric"></div>
+    <div class="fg"><label>Khớp danh mục chi (để tự tính “Đã chi”)</label>
+      <select id="budCat"><option value="">— Không khớp (tự theo dõi) —</option><option>Thuê địa điểm</option><option>Trang trí</option><option>Ăn uống / Tiệc</option><option>Âm thanh / Ánh sáng</option><option>MC / Chương trình</option><option>Quà tặng / Kỷ niệm</option><option>In ấn / Banner</option><option>Học bổng</option><option>Quà lưu niệm trường</option><option>Khác</option></select>
+    </div>
+    <button class="btn bp" onclick="saveBud()">💾 Lưu dự toán</button>
+    <button class="btn" id="mbudDel" onclick="delBud()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá hạng mục</button>
+  </div>
+</div>
+
 <div class="mo" id="mf" onclick="cbg(event,'mf')">
   <div class="modal">
     <div class="mh"></div>
     <div class="mtr"><div class="mt">💸 Ghi giao dịch</div><button class="mc" onclick="cm('mf')">✕</button></div>
     <div class="fg"><label>Loại</label><select id="ttype"><option value="income">💚 Thu tiền</option><option value="expense">🔴 Chi tiêu</option></select></div>
     <div class="fg"><label>Danh mục</label>
-      <select id="tcat"><option>Đóng phí thành viên</option><option>Tài trợ / Hảo tâm</option><option>Thuê địa điểm</option><option>Trang trí</option><option>Ăn uống / Tiệc</option><option>Âm thanh / Ánh sáng</option><option>MC / Chương trình</option><option>Quà tặng / Kỷ niệm</option><option>In ấn / Banner</option><option>Khác</option></select>
+      <select id="tcat"><option>Đóng phí thành viên</option><option>Tài trợ / Hảo tâm</option><option>Thuê địa điểm</option><option>Trang trí</option><option>Ăn uống / Tiệc</option><option>Âm thanh / Ánh sáng</option><option>MC / Chương trình</option><option>Quà tặng / Kỷ niệm</option><option>In ấn / Banner</option><option>Học bổng</option><option>Quà lưu niệm trường</option><option>Khác</option></select>
     </div>
     <div class="fg"><label>Diễn giải *</label><input type="text" id="tdesc" placeholder="VD: Anh Minh đóng phí"></div>
     <div class="fg"><label>Số tiền *</label><input type="number" id="tamt" placeholder="500000" inputmode="numeric"></div>
@@ -789,7 +805,7 @@ var S={cfg:{cls:"Khóa 2003–2006 · THPT Nguyễn Trãi",date:"2026-07-12",loc
     time:{q:"Chọn ngày tổ chức (chốt trước 5/5/2026)",opts:["Chủ nhật 12/7/2026","Chủ nhật 19/7/2026"],v:[0,0]},
     gift:{q:"Quà kỷ niệm",opts:["Sách ảnh lớp","Ly/mug in hình","Khung ảnh","Không cần quà"],v:[0,0,0,0]}
   },
-  songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[]
+  songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[],budget:[]
 };
 function sv(){try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}try{supaPush();}catch(e){}}
 function ld(){try{var d=localStorage.getItem("r20");if(d)S=JSON.parse(d);}catch(e){}}
@@ -1423,12 +1439,53 @@ function at(){
   sv();cm("mf");rf();us();
 }
 function isSpon(t){return t.cat==="Tài trợ / Hảo tâm";}
+var editingBud=null;
+function defaultBudget(){return [
+  {id:5001,name:"Tiệc liên hoan",plan:0,cat:"Ăn uống / Tiệc"},
+  {id:5002,name:"Quà tri ân thầy cô",plan:0,cat:"Quà tặng / Kỷ niệm"},
+  {id:5003,name:"Hoa & Trang trí",plan:0,cat:"Trang trí"},
+  {id:5004,name:"Âm thanh / Ánh sáng",plan:0,cat:"Âm thanh / Ánh sáng"},
+  {id:5005,name:"Văn nghệ / MC",plan:0,cat:"MC / Chương trình"},
+  {id:5006,name:"Backdrop / In ấn",plan:0,cat:"In ấn / Banner"},
+  {id:5007,name:"Thuê địa điểm / Rạp",plan:0,cat:"Thuê địa điểm"},
+  {id:5008,name:"Học bổng",plan:0,cat:"Học bổng"},
+  {id:5009,name:"Quà lưu niệm cho trường",plan:0,cat:"Quà lưu niệm trường"},
+  {id:5010,name:"Chi phí phát sinh",plan:0,cat:"Khác"}
+];}
+function budSpent(b){if(!b.cat)return 0;return (S.txs||[]).filter(function(t){return t.tp==="expense"&&t.cat===b.cat;}).reduce(function(a,t){return a+t.amt;},0);}
+function rbudget(){
+  var el=document.getElementById("fbud");if(!el)return;
+  var list=S.budget||[];
+  var addBtn=isAdmin?'<button class="btn bo2 bsm" style="margin-bottom:10px" onclick="openBud()">➕ Thêm hạng mục dự toán</button>':'';
+  if(!list.length){el.innerHTML=addBtn+'<div style="color:var(--mu);font-size:13px;text-align:center;padding:10px">Chưa có dự toán nào.</div>';return;}
+  var tPlan=0,tSpent=0;
+  var rows=list.map(function(b){
+    var plan=b.plan||0,spent=budSpent(b),left=plan-spent;tPlan+=plan;tSpent+=spent;
+    var lc=left<0?"#DC2626":"#059669";
+    var ed=isAdmin?'<td style="padding:8px 2px;text-align:center"><button onclick="editBud('+b.id+')" style="background:none;border:none;cursor:pointer;font-size:14px">✏️</button></td>':'';
+    return '<tr style="border-top:1px solid var(--bdr)"><td style="padding:8px 6px;font-size:13px">'+(b.name||"—")+(b.cat?'':'<span style="color:var(--mu);font-size:10px"> (tự nhập)</span>')+'</td>'+
+      '<td style="padding:8px 6px;text-align:right;font-size:13px;font-weight:600">'+ff(plan)+'</td>'+
+      '<td style="padding:8px 6px;text-align:right;font-size:13px;color:#C2410C">'+ff(spent)+'</td>'+
+      '<td style="padding:8px 6px;text-align:right;font-size:13px;font-weight:700;color:'+lc+'">'+ff(left)+'</td>'+ed+'</tr>';
+  }).join("");
+  var tLeft=tPlan-tSpent;
+  el.innerHTML=addBtn+'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'+
+    '<thead><tr style="color:var(--mu);font-size:11px;text-transform:uppercase"><th style="text-align:left;padding:4px 6px">Hạng mục</th><th style="text-align:right;padding:4px 6px">Dự toán</th><th style="text-align:right;padding:4px 6px">Đã chi</th><th style="text-align:right;padding:4px 6px">Còn lại</th>'+(isAdmin?'<th></th>':'')+'</tr></thead>'+
+    '<tbody>'+rows+'</tbody>'+
+    '<tfoot><tr style="border-top:2px solid var(--navy);font-weight:800"><td style="padding:9px 6px;font-size:13px">TỔNG</td><td style="padding:9px 6px;text-align:right;font-size:13px;color:var(--navy)">'+ff(tPlan)+'</td><td style="padding:9px 6px;text-align:right;font-size:13px;color:#C2410C">'+ff(tSpent)+'</td><td style="padding:9px 6px;text-align:right;font-size:13px;color:'+(tLeft<0?"#DC2626":"#059669")+'">'+ff(tLeft)+'</td>'+(isAdmin?'<td></td>':'')+'</tr></tfoot></table></div>';
+}
+function budFill(b){document.getElementById("budName").value=b?b.name||"":"";document.getElementById("budPlan").value=b?(b.plan||""):"";document.getElementById("budCat").value=b?(b.cat||""):"";}
+function openBud(){if(!isAdmin)return reqAdmin();editingBud=null;budFill(null);document.getElementById("mbudTitle").textContent="➕ Thêm hạng mục dự toán";document.getElementById("mbudDel").style.display="none";om("mbud");}
+function editBud(id){if(!isAdmin)return reqAdmin();var b=(S.budget||[]).find(function(x){return x.id===id;});if(!b)return;editingBud=id;budFill(b);document.getElementById("mbudTitle").textContent="✏️ Sửa hạng mục dự toán";document.getElementById("mbudDel").style.display="block";om("mbud");}
+function saveBud(){if(!isAdmin)return reqAdmin();if(!S.budget)S.budget=[];var nm=document.getElementById("budName").value.trim();if(!nm)return alert("Nhập tên hạng mục!");var data={name:nm,plan:parseInt(document.getElementById("budPlan").value)||0,cat:document.getElementById("budCat").value};if(editingBud!=null){var b=S.budget.find(function(x){return x.id===editingBud;});if(b){for(var k in data)b[k]=data[k];}editingBud=null;}else{data.id=Date.now();S.budget.push(data);}sv();cm("mbud");rf();}
+function delBud(){if(!isAdmin)return reqAdmin();if(editingBud==null)return;if(!confirm("Xoá hạng mục dự toán này?"))return;var id=editingBud;editingBud=null;S.budget=(S.budget||[]).filter(function(x){return x.id!==id;});sv();cm("mbud");rf();}
 function rf(){
   var inc=S.txs.filter(function(t){return t.tp==="income";}).reduce(function(a,t){return a+t.amt;},0);
   var exp=S.txs.filter(function(t){return t.tp==="expense";}).reduce(function(a,t){return a+t.amt;},0);
   document.getElementById("finc").textContent=ff(inc);
   document.getElementById("fexp").textContent=ff(exp);
   document.getElementById("fbal").textContent=ff(inc-exp);
+  rbudget();
   // Nguồn thu: phí tham dự vs tài trợ
   var phi=S.txs.filter(function(t){return t.tp==="income"&&!isSpon(t);}).reduce(function(a,t){return a+t.amt;},0);
   var taitro=S.txs.filter(function(t){return t.tp==="income"&&isSpon(t);}).reduce(function(a,t){return a+t.amt;},0);
@@ -1836,6 +1893,7 @@ function applyRemote(data){
   try{
     data.members=mergeById(S.members,data.members);
     data.guests=mergeById(S.guests,data.guests);
+    data.budget=mergeById(S.budget,data.budget);
     if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k]);});}
     S=data;ensureGallery();
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
@@ -2130,6 +2188,7 @@ us();rm();rf();rpr();rta();
 if(!S.guests||!S.guests.length){S.guests=defaultGuests();sv();}
 // seed nhiệm vụ + nhóm phụ trách nếu chưa có
 if(!S.team||!S.team.length){S.team=defaultTeam();sv();}
+if(!S.budget||!S.budget.length){S.budget=defaultBudget();sv();}
 if(!S.tasks||!S.tasks.length){S.tasks=defaultTasks().concat(extraTasks());S.taskv=2;sv();}
 else if(S.taskv!==2){var have={};S.tasks.forEach(function(t){have[t.id]=1;});extraTasks().forEach(function(t){if(!have[t.id])S.tasks.push(t);});S.taskv=2;sv();}
 // gán nhóm cho nhiệm vụ cũ chưa có nhóm
