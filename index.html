@@ -145,6 +145,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 .znote{display:inline-block;max-width:84vw;padding:26px 22px;border-radius:5px;font-size:19px;line-height:1.6;color:#3a2e12;box-shadow:0 12px 44px rgba(0,0,0,.6);white-space:pre-wrap;text-align:left;font-family:'Patrick Hand',Inter,sans-serif}
 .zcap{color:#fff;margin-top:14px;font-size:13.5px}
 .zclose{position:fixed;top:15px;right:17px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;border:none;font-size:23px;cursor:pointer;z-index:301}
+.znav{position:fixed;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;border:none;font-size:30px;line-height:1;cursor:pointer;z-index:301;display:flex;align-items:center;justify-content:center}
+.znav:hover{background:rgba(255,255,255,.32)}
+.znav-prev{left:14px}.znav-next{right:14px}
+.zcount{position:fixed;bottom:18px;left:0;right:0;text-align:center;color:#fff;font-size:13.5px;z-index:301;letter-spacing:.5px}
 .zdel{display:inline-block;margin-top:13px;background:#fee2e2;color:#b91c1c;border:none;border-radius:9px;padding:9px 18px;font-weight:700;font-size:13px;cursor:pointer}
 .rtbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-bottom:12px}
 .rton{background:#D1FAE5;color:#065F46}.rtoff{background:#F3F4F6;color:#6B7280}
@@ -322,7 +326,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <button class="qab qgr" onclick="sp('program')"><span class="qai">🗓️</span>Timeline</button>
     <button class="qab qg" onclick="sp('games')"><span class="qai">🎮</span>Trò chơi</button>
     <button class="qab qpu" onclick="sp('polls')"><span class="qai">🏆</span>DH thầy cô</button>
-    <button class="qab qgr" onclick="sp('photos')"><span class="qai">📸</span>Ảnh kỷ niệm</button>
+    <button class="qab qgr" onclick="sp('photos')"><span class="qai">📸</span>Bảng kỷ niệm</button>
     <button class="qab qpu" onclick="sp('music')"><span class="qai">🎤</span>Đăng ký văn nghệ</button>
     <button class="qab qp" onclick="sp('letters')"><span class="qai">📬</span>Góc nhắn nhủ</button>
     <button class="qab qg" onclick="sp('awards')"><span class="qai">🎓</span>DH học sinh</button>
@@ -447,7 +451,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 
 <!-- PHOTOS -->
 <div class="pg" id="pg-photos">
-  <div class="ptit">📸 Bảng kỷ niệm</div>
+  <div class="ptit">📸 BẢNG KỶ NIỆM</div>
   <div class="psub">Mỗi lớp một tấm bảng phấn. Ghim ảnh hoặc dán giấy note — bấm vào để xem lớn.</div>
   <div id="rtwrap"></div>
   <div id="boards"></div>
@@ -475,7 +479,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 <!-- MODAL: ZOOM -->
 <div class="zmo" id="mzoom" onclick="cbg(event,'mzoom')">
   <button class="zclose" onclick="cm('mzoom')">✕</button>
+  <button class="znav znav-prev" id="zprev" onclick="event.stopPropagation();zoomNav(-1)">‹</button>
   <div class="zbox" id="zbox"></div>
+  <button class="znav znav-next" id="znext" onclick="event.stopPropagation();zoomNav(1)">›</button>
+  <div class="zcount" id="zcount"></div>
 </div>
 
 <!-- MUSIC -->
@@ -1846,18 +1853,49 @@ function saveNote(){
   S.gallery[_curBoard].push({id:Date.now()+Math.floor(Math.random()*1000),type:"note",text:t,color:_noteColor,by:by,ts:Date.now()});
   sv();cm("mnote");rgal();
 }
+var _zoomK=null,_zoomList=[],_zoomIdx=0;
 function zoomItem(k,id){
   ensureGallery();
-  var it=(S.gallery[k]||[]).find(function(x){return x.id===id;});if(!it)return;
-  var del=isAdmin?'<button class="zdel" onclick="delGal(\''+k+'\','+id+')">🗑 Gỡ khỏi bảng</button>':'';
+  _zoomK=k;
+  _zoomList=(S.gallery[k]||[]).slice();
+  _zoomIdx=_zoomList.findIndex(function(x){return x.id===id;});
+  if(_zoomIdx<0)return;
+  renderZoom();
+  om("mzoom");
+}
+function renderZoom(){
+  var it=_zoomList[_zoomIdx];if(!it)return;
+  var del=isAdmin?'<button class="zdel" onclick="delGal(\''+_zoomK+'\','+it.id+')">🗑 Gỡ khỏi bảng</button>':'';
   var box=document.getElementById("zbox");
   if(it.type==="photo"){
     box.innerHTML='<img src="'+it.src+'"><div class="zcap">'+(it.by?'📷 '+escHtml(it.by)+'<br>':'')+del+'</div>';
   }else{
     box.innerHTML='<div class="znote '+(it.color||"nc0")+'">'+escHtml(it.text)+'</div><div class="zcap">'+(it.by?'— '+escHtml(it.by)+'<br>':'')+del+'</div>';
   }
-  om("mzoom");
+  var multi=_zoomList.length>1;
+  document.getElementById("zprev").style.display=multi?"flex":"none";
+  document.getElementById("znext").style.display=multi?"flex":"none";
+  document.getElementById("zcount").textContent=multi?(_zoomIdx+1)+" / "+_zoomList.length:"";
 }
+function zoomNav(d){
+  if(_zoomList.length<2)return;
+  _zoomIdx=(_zoomIdx+d+_zoomList.length)%_zoomList.length;
+  renderZoom();
+}
+document.addEventListener("keydown",function(e){
+  if(!document.getElementById("mzoom").classList.contains("on"))return;
+  if(e.key==="ArrowLeft")zoomNav(-1);
+  else if(e.key==="ArrowRight")zoomNav(1);
+  else if(e.key==="Escape")cm("mzoom");
+});
+(function(){
+  var zm=document.getElementById("mzoom"),sx=0;if(!zm)return;
+  zm.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;},{passive:true});
+  zm.addEventListener("touchend",function(e){
+    var dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>40)zoomNav(dx<0?1:-1);
+  },{passive:true});
+})();
 function delGal(k,id){
   if(!isAdmin)return reqAdmin();
   if(!confirm("Gỡ mục này khỏi bảng?"))return;
