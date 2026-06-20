@@ -1820,8 +1820,8 @@ function od(){var l=document.getElementById("dlink").value.trim();if(!S.cfg)S.cf
 
 // ===== SUPABASE REALTIME (tuy chon) =====
 // >>> Dan PROJECT URL + ANON PUBLIC KEY cua Supabase vao 2 dong duoi de bat realtime nhieu may <<<
-var SUPA_URL="";   // vd: https://abcxyz.supabase.co
-var SUPA_KEY="";   // anon public key
+var SUPA_URL="https://yncksjmovgfsyvhkztgw.supabase.co";   // tks-web project
+var SUPA_KEY="sb_publishable_SGSemc2Ra1W-_TudgQ9JMw_eLp2zyVh";   // publishable (an toan nhung web)
 var sb=null,CID=(Date.now().toString(36)+Math.random().toString(36).slice(2,8)),_pushT=null,_supaOn=false;
 function supaReady(){return !!(SUPA_URL&&SUPA_KEY&&window.supabase&&window.supabase.createClient);}
 function mergeById(localArr,remoteArr){
