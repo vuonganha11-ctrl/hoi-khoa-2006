@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Hội khóa 20 năm về lại trường xưa 🎓</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--navy:#1A3A5C;--gold:#F5A623;--gl:#FFF3D4;--soft:#E8F4FD;--tx:#2D2D2D;--mu:#6B7280;--ac:#FF6B6B;--gr:#10B981;--bdr:#E5E7EB;--nh:64px;--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:Inter,sans-serif;background:var(--soft);color:var(--tx);display:flex;flex-direction:column}
+#hdr{background:var(--navy);padding:14px 16px 12px;padding-top:calc(14px + env(safe-area-inset-top,0));display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.2);z-index:50}
+.hy{font-family:"Playfair Display",serif;font-size:28px;font-weight:900;color:var(--gold);margin-right:10px}
+.hi .t{font-size:13px;font-weight:700;color:#fff}.hi .s{font-size:11px;color:rgba(255,255,255,.5);margin-top:1px}
+.hcd{display:flex;gap:8px}.hc{text-align:center}
+.hcn{font-family:"Playfair Display",serif;font-size:18px;font-weight:900;color:var(--gold);line-height:1}
+.hcl{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase}
+#sa{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nh) + var(--sb) + 8px);-webkit-overflow-scrolling:touch}
+#bn{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nh) + var(--sb));background:#fff;border-top:1px solid var(--bdr);display:flex;align-items:flex-start;box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:100;padding-bottom:var(--sb)}
+.nt{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;gap:3px;color:var(--mu);min-height:var(--nh);border:none;background:none;font-family:Inter,sans-serif;transition:color .2s}
+.nt.on{color:var(--navy)}.ni{font-size:20px;line-height:1}.nl{font-size:10px;font-weight:600}
+.nind{position:absolute;top:0;height:2px;background:var(--gold);border-radius:0 0 2px 2px;transition:left .25s,width .25s}
+.pg{display:none;padding:14px;animation:fi .25s ease}.pg.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ptit{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.psub{font-size:13px;color:var(--mu);margin-bottom:14px}
+.stit{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07),0 2px 10px rgba(0,0,0,.04);margin-bottom:12px}
+.csm{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* HERO */
+#hero{background:linear-gradient(135deg,var(--navy),#0F2540);border-radius:16px;padding:20px 16px;color:#fff;text-align:center;position:relative;overflow:hidden;margin-bottom:12px}
+#hero::before{content:"20";position:absolute;bottom:-30px;right:-10px;font-family:"Playfair Display",serif;font-size:130px;font-weight:900;color:rgba(245,166,35,.07);pointer-events:none}
+.htit{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;margin-bottom:4px}
+.hsub{font-size:12px;color:rgba(255,255,255,.55);margin-bottom:16px}
+.cdb{display:flex;justify-content:center;gap:10px}.cbox{text-align:center}
+.cnum{width:58px;height:58px;background:rgba(245,166,35,.15);border:2px solid rgba(245,166,35,.4);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-size:26px;font-weight:900;color:var(--gold)}
+.clbl{font-size:10px;color:rgba(255,255,255,.45);margin-top:5px;text-transform:uppercase;letter-spacing:.5px}
+.hdate{margin-top:14px;font-size:12px;color:rgba(255,255,255,.6)}.hdate strong{color:var(--gold)}
+/* KPI */
+.kpi{text-align:center}.kv{font-family:"Playfair Display",serif;font-size:28px;font-weight:900;color:var(--navy);line-height:1}
+.kl{font-size:11px;color:var(--mu);font-weight:500;margin-top:3px}
+.bdg{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:4px}
+.bg{background:#D1FAE5;color:#065F46}.bo{background:var(--gl);color:#92400E}
+/* QA */
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.qab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 8px;border-radius:14px;border:none;cursor:pointer;font-family:Inter,sans-serif;font-size:12px;font-weight:600;transition:transform .15s}
+.qab:active{transform:scale(.97)}.qai{font-size:24px}
+.qp{background:var(--navy);color:#fff}.qg{background:var(--gold);color:#fff}
+.qgr{background:#ECFDF5;color:#065F46;border:1.5px solid #A7F3D0}.qpu{background:#F5F3FF;color:#5B21B6;border:1.5px solid #DDD6FE}
+/* MEMBER */
+.mlist{display:flex;flex-direction:column;gap:8px}
+.mrow{background:#fff;border-radius:12px;padding:13px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:4px solid var(--bdr);transition:border-color .2s}
+.mrow.c{border-left-color:var(--gr)}.mrow.d{border-left-color:var(--ac)}.mrow.p{border-left-color:var(--gold)}
+.av{width:44px;height:44px;border-radius:50%;flex-shrink:0;font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.mi{flex:1;min-width:0}.mn{font-size:14px;font-weight:600}.md{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mb{flex-shrink:0;font-size:20px}
+.sb2{display:flex;gap:8px;margin-bottom:12px}
+.sb2 input{flex:1;padding:10px 14px;border:2px solid var(--bdr);border-radius:10px;font-size:14px;font-family:Inter,sans-serif;outline:none}
+.sb2 input:focus{border-color:var(--navy)}
+.sb2 select{padding:10px;border:2px solid var(--bdr);border-radius:10px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:#fff}
+/* FAB */
+.fab{position:fixed;right:16px;bottom:calc(var(--nh) + var(--sb) + 14px);width:52px;height:52px;border-radius:50%;background:var(--navy);color:#fff;font-size:22px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(26,58,92,.4);z-index:90;transition:transform .15s}
+.fab:active{transform:scale(.92)}.fabg{background:var(--gold)}
+/* FINANCE */
+.fc{border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.fc.in{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border:1px solid #A7F3D0}
+.fc.ex{background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:1px solid #FED7AA}
+.fc.ba{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1px solid #BFDBFE}
+.fi{font-size:28px;flex-shrink:0}
+.fa{font-family:"Playfair Display",serif;font-size:22px;font-weight:900}
+.fc.in .fa{color:#065F46}.fc.ex .fa{color:#C2410C}.fc.ba .fa{color:#1E40AF}
+.fl{font-size:11px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.txr{background:#fff;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:8px}
+.txd{width:10px;height:10px;border-radius:50%;flex-shrink:0}.txi{background:var(--gr)}.txo{background:var(--ac)}
+.txi2{flex:1;min-width:0}.txd2{font-size:13.5px;font-weight:600}.txm{font-size:11px;color:var(--mu)}
+.txa{font-size:14px;font-weight:700;flex-shrink:0}.txa.i{color:var(--gr)}.txa.o{color:var(--ac)}
+/* FORM */
+.fg{margin-bottom:12px}
+label{font-size:11px;font-weight:700;color:var(--mu);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;padding:12px 14px;border:2px solid var(--bdr);border-radius:10px;font-family:Inter,sans-serif;font-size:15px;outline:none;transition:border .15s;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--navy)}
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:13px 20px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:transform .15s;width:100%;font-family:Inter,sans-serif}
+.btn:active{transform:scale(.98)}.bp{background:var(--navy);color:#fff}.bg2{background:var(--gold);color:#fff}
+.bo2{background:transparent;color:var(--navy);border:2px solid var(--navy)}.bsm{padding:10px 16px;font-size:13px;width:auto;display:inline-flex}
+/* TIMELINE */
+.tl{position:relative}.tl::before{content:"";position:absolute;left:36px;top:0;bottom:0;width:2px;background:var(--bdr)}
+.tli{display:flex;gap:10px;margin-bottom:14px;position:relative}
+.tlt{width:32px;text-align:right;font-size:10px;font-weight:700;color:var(--gold);padding-top:10px;flex-shrink:0;line-height:1.2}
+.tld{width:14px;height:14px;border-radius:50%;background:var(--navy);border:3px solid #fff;box-shadow:0 0 0 2px var(--navy);margin-top:12px;flex-shrink:0;z-index:1}
+.tld.g{background:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.tlc{flex:1;background:#fff;border-radius:12px;padding:11px 13px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.tlti{font-weight:700;font-size:13.5px;color:var(--navy)}.tlde{font-size:12px;color:var(--mu);margin-top:3px;line-height:1.5}
+.tltg{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:5px}
+/* GAME */
+.gr2{background:#fff;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:10px;border:2px solid transparent;transition:border-color .15s}
+.gr2:active{border-color:var(--gold)}.gem{font-size:34px;width:44px;text-align:center;flex-shrink:0}
+.gti{font-size:14px;font-weight:700;color:var(--navy)}.gde{font-size:12px;color:var(--mu);margin-top:2px}
+.gpl{font-size:11px;color:var(--gr);font-weight:600;margin-top:3px}.gar{font-size:20px;color:#D1D5DB;flex-shrink:0}
+/* POLL */
+.pc{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.pq{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.por{display:flex;justify-content:space-between;margin-bottom:4px}.pon{font-size:13px;font-weight:500}.pop{font-size:12px;color:var(--mu)}
+.pbw{height:8px;background:var(--bdr);border-radius:4px;overflow:hidden;margin-bottom:8px}.pbb{height:100%;background:var(--gold);border-radius:4px;transition:width .5s}
+.vcs{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.vc{padding:7px 12px;border-radius:20px;border:2px solid var(--bdr);cursor:pointer;font-size:12px;font-weight:600;font-family:Inter,sans-serif;background:#fff;transition:all .15s}
+.vc.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+/* PHOTO */
+.phg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.phi{aspect-ratio:1;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:34px;overflow:hidden}
+.phu{border:2px dashed var(--bdr);background:#FAFAFA;flex-direction:column;gap:4px;font-size:28px}
+.phu span{font-size:11px;color:var(--mu)}
+/* ===== BANG KY NIEM (CHALKBOARD GALLERY) ===== */
+#boards{margin-bottom:14px}
+.board{position:relative;border:8px solid #7a4f2c;border-top-color:#8a5c34;border-bottom-color:#5e3a1d;border-radius:14px;padding:0;margin-bottom:18px;box-shadow:0 8px 22px rgba(0,0,0,.22),inset 0 0 0 2px rgba(0,0,0,.15)}
+.bsurf{position:relative;border-radius:6px;min-height:150px;padding:46px 12px 14px;background:radial-gradient(circle at 22% 24%,rgba(255,255,255,.05),transparent 55%),linear-gradient(180deg,#2f4a39,#22362a);box-shadow:inset 0 0 46px rgba(0,0,0,.5);overflow:hidden}
+.bhead{position:absolute;top:10px;left:14px;color:#fdf6e3;font-family:'Patrick Hand','Playfair Display',serif;font-size:21px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.45);z-index:2;line-height:1}
+.bhead .chk{font-size:11px;font-weight:400;color:rgba(255,255,255,.55);display:block;letter-spacing:1px;margin-top:2px;font-family:Inter,sans-serif}
+.btag{position:absolute;top:9px;right:11px;background:linear-gradient(180deg,#fcefc7,#f3d98a);color:#5a3a22;border-radius:7px;padding:5px 11px;font-weight:800;font-size:13px;box-shadow:0 3px 7px rgba(0,0,0,.35);transform:rotate(2.5deg);z-index:3;text-align:center;line-height:1.15}
+.btag .bs{display:block;font-size:9.5px;font-weight:700;color:#9a6a35;text-transform:uppercase;letter-spacing:.4px}
+.pins{display:flex;flex-wrap:wrap;gap:14px 11px;align-items:flex-start;padding-top:6px}
+.pinitem{cursor:pointer;transition:transform .15s}
+.pinitem:active{transform:scale(.95)!important}
+.pin-wrap{position:relative;background:#fff;padding:5px 5px 15px;border-radius:2px;box-shadow:0 4px 9px rgba(0,0,0,.45)}
+.pin-photo{display:block;width:92px;height:92px;object-fit:cover;border-radius:1px}
+.pin-pin{position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#ffb3b3,#d32f2f);box-shadow:0 2px 4px rgba(0,0,0,.45),inset 0 -2px 3px rgba(0,0,0,.3);z-index:2}
+.pin-note{position:relative;width:106px;min-height:88px;padding:11px 10px 8px;border-radius:2px;box-shadow:0 4px 9px rgba(0,0,0,.35);font-size:13px;line-height:1.42;color:#3a2e12;word-break:break-word;font-family:'Patrick Hand',Inter,sans-serif}
+.pin-note .pn-by{display:block;margin-top:7px;font-size:10.5px;color:rgba(0,0,0,.45);font-weight:700;font-family:Inter,sans-serif}
+.nc0{background:#fff59d}.nc1{background:#a5f0c5}.nc2{background:#ffd0a6}.nc3{background:#bfe0ff}.nc4{background:#f8c8dc}.nc5{background:#ddd0ff}
+.bempty{color:rgba(255,255,255,.5);font-size:12.5px;font-style:italic;padding:16px 4px;font-family:'Patrick Hand',Inter,sans-serif}
+.bbtns{display:flex;gap:8px;padding:10px 10px 11px;background:linear-gradient(180deg,#6f4626,#5e3a1d)}
+.bbtn{flex:1;border:none;border-radius:9px;padding:9px 6px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;background:rgba(255,255,255,.94);color:#3a5a45;transition:transform .12s}
+.bbtn:active{transform:scale(.96)}
+.ncpick{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
+.ncchip{width:32px;height:32px;border-radius:8px;cursor:pointer;border:3px solid transparent;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.ncchip.on{border-color:var(--navy)}
+.zmo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;align-items:center;justify-content:center;padding:22px}
+.zmo.on{display:flex}
+.zbox{max-width:94vw;max-height:90vh;text-align:center}
+.zbox img{max-width:92vw;max-height:72vh;border-radius:5px;background:#fff;padding:9px 9px 30px;box-shadow:0 12px 44px rgba(0,0,0,.6)}
+.znote{display:inline-block;max-width:84vw;padding:26px 22px;border-radius:5px;font-size:19px;line-height:1.6;color:#3a2e12;box-shadow:0 12px 44px rgba(0,0,0,.6);white-space:pre-wrap;text-align:left;font-family:'Patrick Hand',Inter,sans-serif}
+.zcap{color:#fff;margin-top:14px;font-size:13.5px}
+.zclose{position:fixed;top:15px;right:17px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;border:none;font-size:23px;cursor:pointer;z-index:301}
+.zdel{display:inline-block;margin-top:13px;background:#fee2e2;color:#b91c1c;border:none;border-radius:9px;padding:9px 18px;font-weight:700;font-size:13px;cursor:pointer}
+.rtbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-bottom:12px}
+.rton{background:#D1FAE5;color:#065F46}.rtoff{background:#F3F4F6;color:#6B7280}
+
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
+.mo.on{display:flex}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:12px 16px 24px;width:100%;max-height:92vh;overflow-y:auto;padding-bottom:calc(24px + var(--sb));animation:su .28s ease}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mh{width:40px;height:4px;background:var(--bdr);border-radius:2px;margin:0 auto 16px}
+.mtr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mt{font-family:"Playfair Display",serif;font-size:20px;color:var(--navy);font-weight:700}
+.mc{width:32px;height:32px;border-radius:8px;background:#F3F4F6;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+/* QUIZ */
+.qq{font-size:16px;font-weight:700;color:var(--navy);line-height:1.5;margin-bottom:14px}
+.qo{display:flex;flex-direction:column;gap:8px}
+.qob{padding:13px 16px;border-radius:12px;border:2px solid var(--bdr);cursor:pointer;font-size:14px;text-align:left;font-family:Inter,sans-serif;background:#fff;width:100%;transition:all .15s}
+.qob.ok{border-color:var(--gr);background:#D1FAE5;color:#065F46;font-weight:700}
+.qob.no{border-color:var(--ac);background:#FEE2E2;color:#991B1B}
+.pb{height:5px;background:var(--bdr);border-radius:3px;margin-bottom:14px}
+.pf{height:100%;background:var(--gold);border-radius:3px;transition:width .3s}
+/* BINGO */
+.bg3{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.bc{border:1.5px solid var(--bdr);border-radius:6px;padding:3px 2px;text-align:center;font-size:9px;cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;line-height:1.3;transition:all .15s;font-family:Inter,sans-serif;background:#fff}
+.bc.on{background:var(--gold);color:#fff;border-color:var(--gold);font-weight:700}
+/* MEM */
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mc2{aspect-ratio:1;border-radius:10px;background:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:26px;border:none;font-family:Inter,sans-serif;transition:all .2s}
+.mc2.fl{background:var(--gl);border:2px solid var(--gold)}.mc2.sl{background:#D1FAE5;border:2px solid var(--gr)}
+/* PLAYLIST */
+.sr{background:#fff;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:8px}
+.srk{font-family:"Playfair Display",serif;font-size:20px;font-weight:900;color:var(--gold);width:28px;text-align:center;flex-shrink:0}
+.si2{flex:1;min-width:0}.st{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sa{font-size:12px;color:var(--mu)}
+.sv{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.svb{background:var(--soft);border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:16px;font-family:Inter,sans-serif;transition:transform .15s}
+.svb:active{transform:scale(.9)}.sc{font-size:12px;font-weight:700;color:var(--navy);min-width:20px;text-align:center}
+.ets{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.ets::-webkit-scrollbar{display:none}
+.et{padding:6px 14px;border-radius:20px;border:2px solid var(--bdr);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:Inter,sans-serif;background:#fff;transition:all .15s;flex-shrink:0}
+.et.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.np{background:linear-gradient(135deg,var(--navy),#0F2540);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:12px;color:#fff}
+.npd{width:48px;height:48px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;animation:sp 4s linear infinite;animation-play-state:paused}
+.npd.pl{animation-play-state:running}
+@keyframes sp{to{transform:rotate(360deg)}}
+.npi{flex:1;min-width:0}.npt{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.npa{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+.npb{background:rgba(255,255,255,.15);border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:18px;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* LETTERS */
+.lc{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:10px;border-left:4px solid var(--gold);cursor:pointer;position:relative}
+.lc.nr{border-left-color:var(--ac)}
+.lfr{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.lto{font-size:11px;color:var(--mu);margin-bottom:8px}
+.lpv{font-size:13px;color:var(--tx);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ldt{font-size:11px;color:var(--mu);margin-top:8px}
+.lfull{font-size:14px;line-height:1.8;color:var(--tx);white-space:pre-wrap;padding:14px;background:var(--soft);border-radius:12px;margin-bottom:12px}
+/* AWARDS */
+.ac2{background:#fff;border-radius:16px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:10px}
+.ah{display:flex;align-items:center;gap:10px;margin-bottom:12px}.atr{font-size:32px;flex-shrink:0}
+.an{font-size:15px;font-weight:700;color:var(--navy)}.ade{font-size:12px;color:var(--mu);margin-top:1px}
+.cands{display:flex;flex-direction:column;gap:6px}
+.cr{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;border:2px solid var(--bdr);cursor:pointer;transition:all .15s;background:#fff;font-family:Inter,sans-serif;width:100%}
+.cr:active{transform:scale(.98)}.cr.ld{border-color:var(--gr);background:#ECFDF5}
+.cav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.cnm{flex:1;text-align:left;font-size:13px;font-weight:600;color:var(--tx)}
+.cbw{width:60px;height:6px;background:var(--bdr);border-radius:3px;overflow:hidden}
+.cbb{height:100%;background:var(--gold);border-radius:3px;transition:width .4s}
+.cct{font-size:12px;font-weight:700;color:var(--mu);min-width:20px;text-align:right}
+.awn{display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(135deg,#FFF3D4,#FEF3C7);border-radius:10px;border:1.5px solid var(--gold);margin-top:10px}
+.awnc{font-size:20px}.awnn{font-size:13px;font-weight:700;color:#92400E}
+/* MAP */
+.ctr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bdr)}
+.cf{font-size:20px;flex-shrink:0;width:30px;text-align:center}.cn{flex:1}
+.cnm2{font-size:13px;font-weight:600}.cmb{font-size:11px;color:var(--mu)}
+.ccb{height:6px;background:var(--bdr);border-radius:3px;overflow:hidden;margin-top:3px}
+.ccf{height:100%;background:var(--gold);border-radius:3px;transition:width .5s}
+.cnum2{font-family:"Playfair Display",serif;font-size:18px;font-weight:900;color:var(--navy);flex-shrink:0}
+/* DESKTOP */
+@media(min-width:768px){
+  body{flex-direction:row}
+  #hdr,#bn,.fab{display:none}
+  #sdb{width:220px;background:var(--navy);display:flex;flex-direction:column;height:100vh;flex-shrink:0;overflow-y:auto}
+  .sdl{padding:24px 20px 18px;border-bottom:1px solid rgba(245,166,35,.25);background:linear-gradient(135deg,#0F2540,var(--navy))}
+  .sdy{font-family:"Playfair Display",serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1}
+  .sdlb{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+  .sdc{font-size:13px;color:rgba(255,255,255,.8);margin-top:6px;font-weight:500}
+  .sdn{flex:1;padding:12px 0}
+  .sds{padding:16px 16px 6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase}
+  .sdi{display:flex;align-items:center;gap:10px;padding:11px 20px;color:rgba(255,255,255,.7);font-size:13.5px;font-weight:500;cursor:pointer;border-left:3px solid transparent;transition:all .2s}
+  .sdi:hover{background:rgba(255,255,255,.07);color:#fff}
+  .sdi.on{background:rgba(245,166,35,.15);color:var(--gold);border-left-color:var(--gold);font-weight:600}
+  .sdf{padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center}
+  .sdfl{font-size:11px;color:rgba(255,255,255,.4)}.sdfd{font-size:13px;color:var(--gold);margin-top:2px;font-weight:600}
+  #sa{padding-bottom:24px}.pg{padding:24px}
+  .qa{grid-template-columns:repeat(4,1fr)}
+  .fcrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}.fc{margin-bottom:0}
+  .mo{align-items:center}.modal{border-radius:20px;max-width:560px;padding:24px;max-height:85vh}.mh{display:none}
+  .mlist{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .glist{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .pwrap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .phg{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+@media(max-width:767px){
+  #sdb{display:none}.fcrow{display:block}.pwrap{display:block}.glist{display:block}
+}
+</style>
+</head>
+<body>
+<!-- DESKTOP SIDEBAR -->
+<aside id="sdb">
+  <div class="sdl">
+    <div class="sdy">20</div><div class="sdlb">Năm Hội Ngộ</div>
+    <div class="sdc" id="sdcls">Lớp 12A — THPT ...</div>
+  </div>
+  <nav class="sdn">
+    <div class="sds">Tổng quan</div>
+    <div class="sdi on" onclick="sp('home',this)">🏠 Trang chủ</div>
+    <div class="sdi" onclick="sp('checkin',this)">✅ Check-in</div>
+    <div class="sdi" onclick="sp('members',this)">👥 Thành viên</div>
+    <div class="sdi" onclick="sp('guests',this)">🎓 Đại biểu / Khách mời</div>
+    <div class="sdi" onclick="sp('program',this)">🗓️ Timeline</div>
+    <div class="sds">Tính năng</div>
+    <div class="sdi" onclick="sp('games',this)">🎮 Trò chơi</div>
+    <div class="sdi" onclick="sp('polls',this)">🏆 Danh hiệu thầy cô</div>
+    <div class="sdi" onclick="sp('awards',this)">🎓 Danh hiệu học sinh</div>
+    <div class="sdi" onclick="sp('music',this)">🎤 Đăng ký văn nghệ</div>
+    <div class="sdi" onclick="sp('letters',this)">📬 Góc nhắn nhủ</div>
+    <div class="sdi" onclick="sp('photos',this)">📸 Ảnh</div>
+    <div class="sdi" onclick="sp('map',this)">📍 Bản đồ lớp</div>
+    <div class="sds">Quản trị</div>
+    <div class="sdi" onclick="sp('gantt',this)">📊 Tiến độ dự án</div>
+    <div class="sdi" onclick="sp('finance',this)">💰 Tài chính</div>
+    <div class="sdi" onclick="sp('admin',this)"><span class="adminbadge">🔐 Quản trị</span></div>
+  </nav>
+  <div class="sdf"><div class="sdfl">Ngày hội ngộ</div><div class="sdfd" id="sddate">Chưa cài đặt</div></div>
+</aside>
+<!-- MOBILE HEADER -->
+<div id="hdr">
+  <div style="display:flex;align-items:center">
+    <div class="hy">20</div>
+    <div class="hi"><div class="t" id="mcls">Họp Lớp 20 Năm</div><div class="s" id="mdate">Chưa cài đặt ngày</div></div>
+  </div>
+  <div class="hcd">
+    <div class="hc"><div class="hcn" id="hd">--</div><div class="hcl">ngày</div></div>
+    <div class="hc"><div class="hcn" id="hh">--</div><div class="hcl">giờ</div></div>
+    <div class="hc"><div class="hcn" id="hm">--</div><div class="hcl">phút</div></div>
+  </div>
+</div>
+<!-- SCROLL AREA -->
+<div id="sa">
+
+<!-- HOME -->
+<div class="pg on" id="pg-home">
+  <div id="hero">
+    <div class="htit">🎓 Hội khóa 20 năm về lại trường xưa</div>
+    <div class="hsub">Hai mươi năm — một hành trình — vô vàn kỷ niệm</div>
+    <div class="cdb">
+      <div class="cbox"><div class="cnum" id="cd">--</div><div class="clbl">Ngày</div></div>
+      <div class="cbox"><div class="cnum" id="ch">--</div><div class="clbl">Giờ</div></div>
+      <div class="cbox"><div class="cnum" id="cm">--</div><div class="clbl">Phút</div></div>
+      <div class="cbox"><div class="cnum" id="cs">--</div><div class="clbl">Giây</div></div>
+    </div>
+    <div class="hdate">📅 <strong id="hdate">Chưa cài đặt</strong><br>📍 <span id="hloc">Chưa cài đặt địa điểm</span></div>
+  </div>
+  <div class="g2 g4" style="margin-bottom:12px">
+    <div class="csm kpi"><div class="kv" id="st">0</div><div class="kl">Thành viên</div></div>
+    <div class="csm kpi"><div class="kv" id="sc">0</div><div class="kl">Xác nhận</div><div class="bdg bg">✓</div></div>
+    <div class="csm kpi"><div class="kv" id="sp2">0</div><div class="kl">Đóng phí</div><div class="bdg bo">💰</div></div>
+    <div class="csm kpi"><div class="kv" id="sb2">0 VND</div><div class="kl">Tồn quỹ</div></div>
+  </div>
+  <button class="btn" style="width:100%;justify-content:center;background:var(--gr);color:#fff;margin-bottom:12px;font-size:15px;padding:14px" onclick="sp('checkin')">✅ Check-in sự kiện</button>
+  <div class="stit" style="margin-bottom:10px">✨ Khám phá</div>
+  <div class="qa">
+    <button class="qab qp" onclick="sp('members')"><span class="qai">👥</span>Thành viên</button>
+    <button class="qab qgr" onclick="sp('program')"><span class="qai">🗓️</span>Timeline</button>
+    <button class="qab qg" onclick="sp('games')"><span class="qai">🎮</span>Trò chơi</button>
+    <button class="qab qpu" onclick="sp('polls')"><span class="qai">🏆</span>DH thầy cô</button>
+    <button class="qab qgr" onclick="sp('photos')"><span class="qai">📸</span>Ảnh kỷ niệm</button>
+    <button class="qab qpu" onclick="sp('music')"><span class="qai">🎤</span>Đăng ký văn nghệ</button>
+    <button class="qab qp" onclick="sp('letters')"><span class="qai">📬</span>Góc nhắn nhủ</button>
+    <button class="qab qg" onclick="sp('awards')"><span class="qai">🎓</span>DH học sinh</button>
+    <button class="qab qpu" onclick="sp('map')"><span class="qai">📍</span>Bản đồ lớp</button>
+    <button class="qab qgr" onclick="sp('gantt')"><span class="qai">📊</span>Tiến độ dự án</button>
+    <button class="qab" onclick="sp('admin')" style="background:var(--navy);color:#fff"><span class="qai">🔐</span>Quản trị</button>
+  </div>
+  <button class="btn bo2 bsm" style="width:100%;justify-content:center" onclick="sp('admin')"><span class="adminbadge">🔐 Quản trị</span> · Cài đặt · Thu/chi · Thêm thành viên</button>
+</div>
+
+<!-- MEMBERS -->
+<div class="pg" id="pg-members">
+  <div class="ptit">👥 Thành viên</div>
+  <div class="psub">Quản trị viên bấm ✏️ Sửa để chỉnh thông tin & trạng thái</div>
+  <div class="sb2">
+    <input type="text" placeholder="🔍 Tìm tên..." id="msrc" oninput="rm()">
+    <select id="mfcls" onchange="rm()"><option value="">Tất cả lớp</option><option value="12A1">12A1</option><option value="12A2">12A2</option><option value="12A3">12A3</option><option value="12A4">12A4</option></select>
+    <select id="mflt" onchange="rm()"><option value="">Tất cả</option><option value="c">✅ Tham dự</option><option value="p">⏳ Chờ</option><option value="d">❌ Vắng</option></select>
+  </div>
+  <div class="mlist" id="mlist"></div>
+</div>
+
+<!-- CHECK-IN -->
+<div class="pg" id="pg-checkin">
+  <div class="ptit">✅ Check-in sự kiện</div>
+  <div class="psub">Tìm tên bạn và bấm “Check-in” khi đã đến. Khách mời chưa có tên thì thêm nhanh bên dưới.</div>
+  <div id="cistat" style="margin-bottom:10px"></div>
+  <div class="card" style="margin-bottom:12px">
+    <div class="stit">➕ Khách mời mới đến (thêm nhanh)</div>
+    <div class="fg"><label>Họ tên khách mời / đại biểu *</label><input type="text" id="wkname" placeholder="VD: Thầy Nguyễn Văn Lực"></div>
+    <div class="fg"><label>Đơn vị / vai trò</label><input type="text" id="wkorg" placeholder="VD: GVCN 12A1, Đại biểu, BGH..."></div>
+    <button class="btn bg2" onclick="addWalkin()">✅ Thêm & Check-in</button>
+  </div>
+  <div class="sb2" style="margin-bottom:12px">
+    <select id="ciflt" onchange="rci()"><option value="">Tất cả trạng thái</option><option value="out">⏳ Chưa đến</option><option value="in">✓ Đã đến</option></select>
+  </div>
+  <div class="pwrap">
+    <div class="card">
+      <div class="stit">🎓 Học sinh <span style="color:var(--mu);font-weight:400;font-size:12px">(<span id="ciCountM">0</span>)</span></div>
+      <div class="sb2"><input type="text" placeholder="🔍 Tìm học sinh..." id="cisrcM" oninput="rci()"></div>
+      <div class="mlist" id="cilistM"></div>
+    </div>
+    <div class="card">
+      <div class="stit">🎤 Khách mời / Đại biểu <span style="color:var(--mu);font-weight:400;font-size:12px">(<span id="ciCountG">0</span>)</span></div>
+      <div class="sb2"><input type="text" placeholder="🔍 Tìm khách mời..." id="cisrcG" oninput="rci()"></div>
+      <div class="mlist" id="cilistG"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GUESTS -->
+<div class="pg" id="pg-guests">
+  <div class="ptit">🎓 Đại biểu / Khách mời</div>
+  <div class="psub">Thông tin chi tiết thầy cô, đại biểu — Quản trị viên bấm ✏️ để sửa</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+    <button class="btn bp bsm" onclick="og2()">➕ Thêm đại biểu / khách mời</button>
+    <button class="btn bo2 bsm" onclick="loadGuests()">📥 Nạp DS thầy cô (32)</button>
+  </div>
+  <div class="sb2">
+    <input type="text" placeholder="🔍 Tìm tên..." id="gsrc" oninput="rgl()">
+    <select id="gflt" onchange="rgl()"><option value="">Tất cả vai trò</option><option>Đại biểu</option><option>Ban Giám hiệu</option><option>GV chủ nhiệm</option><option>GV bộ môn</option><option>Khách mời khác</option></select>
+  </div>
+  <div class="mlist" id="glist"></div>
+</div>
+
+<!-- GANTT -->
+<div class="pg" id="pg-gantt">
+  <div class="ptit">📊 Tiến độ dự án</div>
+  <div class="psub">Theo dõi nhiệm vụ theo thời gian. Người phụ trách đăng nhập PIN để cập nhật % việc của mình.</div>
+  <div class="card" id="ganttLogin" style="margin-bottom:12px"></div>
+  <div id="ganttChart"></div>
+</div>
+
+<!-- FINANCE -->
+<div class="pg" id="pg-finance">
+  <div class="ptit">💰 Tài chính</div>
+  <div class="psub">Theo dõi thu chi và quỹ sự kiện</div>
+  <div class="fcrow">
+    <div class="fc in"><div class="fi">💚</div><div><div class="fl">Tổng thu</div><div class="fa" id="finc">0 VND</div></div></div>
+    <div class="fc ex"><div class="fi">🔴</div><div><div class="fl">Tổng chi</div><div class="fa" id="fexp">0 VND</div></div></div>
+    <div class="fc ba"><div class="fi">🔵</div><div><div class="fl">Tồn quỹ</div><div class="fa" id="fbal">0 VND</div></div></div>
+  </div>
+  <div class="card"><div class="stit">📊 Nguồn thu</div><div id="fsrc"></div></div>
+  <div class="card"><div class="stit">🏅 Vinh danh nhà tài trợ</div><div id="fspon"></div></div>
+  <div class="card"><div class="stit">📋 Lịch sử giao dịch</div><div id="txlist"></div></div>
+</div>
+
+<!-- PROGRAM -->
+<div class="pg" id="pg-program">
+  <div class="ptit">🗓️ Timeline chương trình</div>
+  <div class="psub">Mốc thời gian buổi lễ. Quản trị viên có thể thêm / sửa / xoá.</div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="btn bp bsm" onclick="openProg()">➕ Thêm mốc</button>
+    <button class="btn bo2 bsm" onclick="ldp()">📄 Nạp mẫu</button>
+  </div>
+  <div class="card"><div class="tl" id="tllist"></div></div>
+</div>
+
+<!-- GAMES -->
+<div class="pg" id="pg-games">
+  <div class="ptit">🎮 Trò chơi</div>
+  <div class="psub">Mini-game vui nhộn cho buổi họp lớp</div>
+  <div class="glist">
+    <div class="gr2" onclick="og('tinhhuong')"><div class="gem">🎭</div><div><div class="gti">Game tình huống</div><div class="gde">Học trò gặp sự cố — chọn cách xử lý hài hước</div><div class="gpl">👥 1+ người</div></div><div class="gar">›</div></div>
+    <div class="gr2" onclick="og('quiz')"><div class="gem">🧠</div><div><div class="gti">Quiz "Bạn nhớ gì về lớp?"</div><div class="gde">Câu hỏi về kỷ niệm thời học sinh</div><div class="gpl">👥 2–30 người</div></div><div class="gar">›</div></div>
+    <div class="gr2" onclick="og('wheel')"><div class="gem">🎡</div><div><div class="gti">Vòng quay may mắn</div><div class="gde">Chọn ngẫu nhiên người lên chia sẻ</div><div class="gpl">👥 Không giới hạn</div></div><div class="gar">›</div></div>
+    <div class="gr2" onclick="og('truth')"><div class="gem">🎴</div><div><div class="gti">Thật hay Thách</div><div class="gde">Truth or Dare phiên bản họp lớp</div><div class="gpl">👥 3–20 người</div></div><div class="gar">›</div></div>
+    <div class="gr2" onclick="og('bingo')"><div class="gem">🎯</div><div><div class="gti">Bingo 20 năm</div><div class="gde">Tìm bạn phù hợp với từng ô</div><div class="gpl">👥 10+ người</div></div><div class="gar">›</div></div>
+    <div class="gr2" onclick="og('memory')"><div class="gem">🃏</div><div><div class="gti">Lật ảnh ký ức</div><div class="gde">Ghép đôi thẻ nhanh nhất</div><div class="gpl">👥 1–4 người</div></div><div class="gar">›</div></div>
+    <div class="gr2" onclick="og('sentence')"><div class="gem">✍️</div><div><div class="gti">Hoàn thành câu</div><div class="gde">Điền câu hài hước thời học sinh</div><div class="gpl">👥 Nhóm</div></div><div class="gar">›</div></div>
+  </div>
+</div>
+
+<!-- POLLS -->
+<div class="pg" id="pg-polls">
+  <div class="ptit">🏆 Danh hiệu vui cho thầy cô</div>
+  <div class="psub">Bình chọn danh hiệu đáng yêu cho quý thầy cô</div>
+  <div class="pwrap" id="pwrap"></div>
+</div>
+
+<!-- PHOTOS -->
+<div class="pg" id="pg-photos">
+  <div class="ptit">📸 Bảng kỷ niệm</div>
+  <div class="psub">Mỗi lớp một tấm bảng phấn. Ghim ảnh hoặc dán giấy note — bấm vào để xem lớn.</div>
+  <div id="rtwrap"></div>
+  <div id="boards"></div>
+  <div class="card">
+    <div class="stit">📂 Album Google Drive chung</div>
+    <div class="fg"><label>Link Drive / Album</label><input type="text" id="dlink" placeholder="Dán link Google Drive..."></div>
+    <button class="btn bo2" onclick="od()">📂 Mở Drive chung</button>
+  </div>
+  <input type="file" id="pinp" accept="image/*" multiple style="display:none" onchange="hp(this)">
+</div>
+
+<!-- MODAL: NOTE -->
+<div class="mo" id="mnote" onclick="cbg(event,'mnote')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt">📝 Dán giấy note</div><button class="mc" onclick="cm('mnote')">✕</button></div>
+    <div class="fg"><label>Nội dung</label><textarea id="ntxt" rows="3" placeholder="Viết lời nhắn, kỷ niệm..."></textarea></div>
+    <div class="fg"><label>Người viết</label><input type="text" id="nby" placeholder="Tên bạn"></div>
+    <label>Màu giấy</label>
+    <div class="ncpick" id="ncpick"></div>
+    <button class="btn bp" onclick="saveNote()">📌 Ghim lên bảng</button>
+  </div>
+</div>
+
+<!-- MODAL: ZOOM -->
+<div class="zmo" id="mzoom" onclick="cbg(event,'mzoom')">
+  <button class="zclose" onclick="cm('mzoom')">✕</button>
+  <div class="zbox" id="zbox"></div>
+</div>
+
+<!-- MUSIC -->
+<div class="pg" id="pg-music">
+  <div class="ptit">🎤 Đăng ký văn nghệ</div>
+  <div class="psub">Đăng ký tiết mục cho buổi lễ. Chỉ người đã check-in mới đăng ký được.</div>
+  <div class="card">
+    <div class="stit">➕ Đăng ký tiết mục</div>
+    <div id="vngate"></div>
+    <div class="fg"><label>Người đăng ký (đã check-in) *</label><select id="vnby" onchange="vnPick()"></select></div>
+    <div class="fg"><label>Tên bài *</label><input type="text" id="vnsong" placeholder="VD: Nối Vòng Tay Lớn"></div>
+    <div class="fg"><label>Ca sĩ (bản gốc)</label><input type="text" id="vnartist" placeholder="VD: Trịnh Công Sơn"></div>
+    <div class="fg"><label>Người trình bày *</label><input type="text" id="vnperf" placeholder="VD: Tập thể 12A1"></div>
+    <div class="fg"><label>Lớp</label>
+      <select id="vncls"><option value="">— Chọn lớp —</option><option>12A1</option><option>12A2</option><option>12A3</option><option>12A4</option><option>Khác</option></select>
+    </div>
+    <div class="fg"><label>Link YouTube (nếu có)</label><input type="url" id="vnyt" placeholder="https://youtu.be/..."></div>
+    <button class="btn bp" onclick="addAct()">🎤 Đăng ký tiết mục</button>
+  </div>
+  <div class="card"><div class="stit">📋 Tiết mục đã đăng ký (<span id="vncount">0</span>)</div><div id="vnlist"></div></div>
+</div>
+
+<!-- LETTERS -->
+<div class="pg" id="pg-letters">
+  <div class="ptit">📬 Góc nhắn nhủ</div>
+  <div class="psub">Viết thư gửi bạn bè sau 20 năm</div>
+  <button class="btn bp bsm" onclick="om('mletter')" style="margin-bottom:12px">✍️ Viết thư mới</button>
+  <div id="llist"></div>
+</div>
+
+<!-- AWARDS -->
+<div class="pg" id="pg-awards">
+  <div class="ptit">🎓 Danh hiệu vui học sinh</div>
+  <div class="psub">Bình chọn danh hiệu đặc biệt cho các thành viên lớp sau 20 năm</div>
+  <div id="alist"></div>
+</div>
+
+<!-- MAP -->
+<div class="pg" id="pg-map">
+  <div class="ptit">📍 Bản đồ lớp</div>
+  <div class="psub">Các bạn hiện đang sống ở đâu</div>
+  <div class="card" style="margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px">
+      <div class="stit" style="margin:0">🗺 Bản đồ Việt Nam</div>
+      <select id="mapcls" onchange="rma()" style="max-width:150px"><option value="">Tất cả lớp</option><option value="12A1">12A1</option><option value="12A2">12A2</option><option value="12A3">12A3</option><option value="12A4">12A4</option></select>
+    </div>
+    <div id="vnmap"></div>
+    <div id="mapoff" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
+  </div>
+  <div class="card" style="margin-bottom:12px"><div class="stit">📊 Phân bố theo địa điểm</div><div id="cstats"></div></div>
+  <div class="card">
+    <div class="stit">➕ Thêm vị trí của bạn</div>
+    <div class="fg"><label>Tỉnh / Thành phố</label>
+      <select id="mcity">
+        <option value="">-- Chọn thành phố --</option>
+        <option>Hà Nội</option><option>TP. HCM</option><option>Đà Nẵng</option><option>Cần Thơ</option>
+        <option>Hải Phòng</option><option>Nha Trang</option><option>Huế</option><option>Biên Hòa</option>
+        <option>Bình Dương</option><option>Vũng Tàu</option><option>Đà Lạt</option><option>Buôn Ma Thuột</option>
+        <option>Quy Nhơn</option><option>Vinh</option><option>Pleiku</option><option>An Khê</option><option>Nước ngoài 🌏</option><option>Khác</option>
+      </select>
+    </div>
+    <div class="fg"><label>Tên của bạn</label><input type="text" id="mname" placeholder="Nguyễn Văn A"></div>
+    <button class="btn bp" onclick="amm()">📍 Đánh dấu vị trí</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="pg" id="pg-admin">
+  <div class="ptit">🔐 Quản trị</div>
+  <div class="psub">Khu vực dành cho ban tổ chức (Cài đặt · Thu/chi · Thành viên)</div>
+
+  <!-- Hiện khi CHƯA đăng nhập -->
+  <div class="card" id="adminLogin" style="text-align:center">
+    <div style="font-size:44px;margin-bottom:6px">🔒</div>
+    <div class="stit">Đăng nhập quản trị</div>
+    <div style="color:var(--mu);font-size:13px;margin:6px 0 14px">Chỉ ban tổ chức mới có quyền chỉnh sửa Cài đặt sự kiện, Thu/chi và Thành viên. Các tính năng khác mọi người đều xem được ở Trang chủ.</div>
+    <button class="btn bp" onclick="adminLogin()">🔐 Đăng nhập</button>
+  </div>
+
+  <!-- Hiện khi ĐÃ đăng nhập -->
+  <div class="adminPanel" style="display:none">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div class="stit" style="margin:0">✅ Đang đăng nhập quản trị</div>
+      <button class="btn bo2 bsm" onclick="adminLogout()" style="white-space:nowrap">↪ Đăng xuất</button>
+    </div>
+    <div class="card">
+      <div class="stit">⚙️ Cài đặt sự kiện</div>
+      <div class="fg"><label>Tên lớp / trường</label><input type="text" id="ccls2" placeholder="VD: Khóa 2003–2006 · THPT Nguyễn Trãi" oninput="svc2()"></div>
+      <div class="fg"><label>Ngày hội ngộ</label><input type="date" id="cdate2" oninput="svc2()"></div>
+      <div class="fg"><label>Địa điểm</label><input type="text" id="cloc2" placeholder="VD: Trường THPT Nguyễn Trãi" oninput="svc2()"></div>
+      <div class="fg"><label>Chi phí / người (VNĐ)</label><input type="number" id="cfee2" placeholder="700000" oninput="svc2()"></div>
+    </div>
+    <div class="card">
+      <div class="stit">👥 Quản lý thành viên</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn bp bsm" onclick="oam()">➕ Thêm thành viên</button>
+        <button class="btn bo2 bsm" onclick="sp('members')">📋 Xem & sửa danh sách</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="stit">🎓 Đại biểu / Khách mời (<span class="gcount">0</span>)</div>
+      <div style="color:var(--mu);font-size:12px;margin-bottom:8px">Nhập trước danh sách thầy cô, đại biểu (kèm thông tin chi tiết) để check-in nhanh tại sự kiện.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn bp bsm" onclick="og2()">➕ Thêm</button>
+        <button class="btn bo2 bsm" onclick="sp('guests')">📋 Quản lý chi tiết</button>
+        <button class="btn bo2 bsm" onclick="loadGuests()">📥 Nạp DS đại biểu</button>
+      </div>
+      <div id="gadmin"></div>
+    </div>
+    <div class="card">
+      <div class="stit">💰 Thu / Chi quỹ</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn bp bsm" onclick="oaf()">💸 Ghi giao dịch</button>
+        <button class="btn bo2 bsm" onclick="sp('finance')">📊 Sổ quỹ & lịch sử</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /sa -->
+
+<!-- BOTTOM NAV -->
+<nav id="bn">
+  <div class="nind" id="nind"></div>
+  <button class="nt on" onclick="sp('home',this)" id="tn-home"><span class="ni">🏠</span><span class="nl">Trang chủ</span></button>
+  <button class="nt" onclick="sp('members',this)" id="tn-members"><span class="ni">👥</span><span class="nl">Thành viên</span></button>
+  <button class="nt" onclick="sp('games',this)" id="tn-games"><span class="ni">🎮</span><span class="nl">Trò chơi</span></button>
+  <button class="nt" onclick="sp('checkin',this)" id="tn-checkin"><span class="ni">✅</span><span class="nl">Check-in</span></button>
+  <button class="nt" onclick="sp('admin',this)" id="tn-admin"><span class="ni">🔐</span><span class="nl">Quản trị</span></button>
+</nav>
+
+<!-- FABs -->
+<button class="fab" id="fabm" onclick="oam()" style="display:none">➕</button>
+<button class="fab fabg" id="fabf" onclick="oaf()" style="display:none">💸</button>
+
+<!-- MODAL: MEMBER -->
+<div class="mo" id="mm" onclick="cbg(event,'mm')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt" id="mmTitle">👤 Thêm thành viên</div><button class="mc" onclick="cm('mm')">✕</button></div>
+    <div class="fg"><label>Họ và tên *</label><input type="text" id="mnam" placeholder="Nguyễn Văn A"></div>
+    <div class="fg"><label>Lớp</label>
+      <select id="mcls"><option value="12A1">12A1</option><option value="12A2">12A2</option><option value="12A3">12A3</option><option value="12A4">12A4</option></select>
+    </div>
+    <div class="fg"><label>Biệt danh</label><input type="text" id="mnick" placeholder="VD: Minh Béo"></div>
+    <div class="fg"><label>Công việc</label><input type="text" id="mjob" placeholder="VD: Kỹ sư, Giáo viên..."></div>
+    <div class="fg"><label>Nơi sống hiện tại <span style="color:var(--mu);font-weight:400">(dùng cho Bản đồ lớp)</span></label>
+      <select id="mres">
+        <option value="">-- Chọn tỉnh / thành --</option>
+        <option>Hà Nội</option><option>TP. HCM</option><option>Đà Nẵng</option><option>Cần Thơ</option>
+        <option>Hải Phòng</option><option>Nha Trang</option><option>Huế</option><option>Biên Hòa</option>
+        <option>Bình Dương</option><option>Vũng Tàu</option><option>Đà Lạt</option><option>Buôn Ma Thuột</option>
+        <option>Quy Nhơn</option><option>Vinh</option><option>Pleiku</option><option>An Khê</option>
+        <option>Nước ngoài 🌏</option><option>Khác</option>
+      </select>
+    </div>
+    <div class="fg"><label>Tham dự</label>
+      <select id="mst"><option value="p">⏳ Chờ xác nhận</option><option value="c">✅ Tham dự</option><option value="d">❌ Không tham dự</option></select>
+    </div>
+    <div class="fg"><label>Đóng phí</label>
+      <select id="mpd"><option value="no">❌ Chưa</option><option value="yes">✅ Đã đóng</option></select>
+    </div>
+    <button class="btn bp" id="mmSave" onclick="svm()">💾 Lưu thành viên</button>
+    <button class="btn" id="mmDel" onclick="delM()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xóa thành viên</button>
+  </div>
+</div>
+
+<!-- MODAL: GUEST -->
+<div class="mo" id="mg" onclick="cbg(event,'mg')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt" id="mgTitle">🎓 Thêm đại biểu / khách mời</div><button class="mc" onclick="cm('mg')">✕</button></div>
+    <div class="fg"><label>Họ tên *</label><input type="text" id="gname" placeholder="VD: Thầy Nguyễn Văn Lực"></div>
+    <div class="fg"><label>Vai trò</label>
+      <select id="grole"><option>Đại biểu</option><option>Ban Giám hiệu</option><option>GV chủ nhiệm</option><option>GV bộ môn</option><option>Khách mời khác</option></select>
+    </div>
+    <div class="fg"><label>Đơn vị / nơi công tác</label><input type="text" id="gorg" placeholder="VD: THPT Nguyễn Trãi"></div>
+    <div class="fg"><label>Môn dạy / lớp chủ nhiệm</label><input type="text" id="gsubj" placeholder="VD: Toán, CN 12A1"></div>
+    <div class="fg"><label>Số điện thoại</label><input type="tel" id="gphone" placeholder="VD: 0912 345 678"></div>
+    <div class="fg"><label>Trạng thái mời</label>
+      <select id="ginv"><option value="chua">⏳ Chưa mời</option><option value="moi">✉️ Đã gửi thư mời</option><option value="xacnhan">✅ Đã xác nhận tham dự</option></select>
+    </div>
+    <div class="fg"><label>Có bài phát biểu?</label>
+      <select id="gspeech"><option value="no">Không</option><option value="yes">🎤 Có – cần báo trước</option></select>
+    </div>
+    <div class="fg"><label>Ghi chú</label><textarea id="gnote" rows="2" placeholder="VD: Đã nghỉ hưu, hoàn cảnh khó khăn, cần đưa đón..."></textarea></div>
+    <button class="btn bp" id="mgSave" onclick="saveGuest()">💾 Lưu đại biểu</button>
+    <button class="btn" id="mgDel" onclick="delGmodal()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xóa đại biểu</button>
+  </div>
+</div>
+
+<!-- MODAL: TASK -->
+<div class="mo" id="mtask" onclick="cbg(event,'mtask')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt" id="tkTitle">➕ Thêm nhiệm vụ</div><button class="mc" onclick="cm('mtask')">✕</button></div>
+    <div class="fg"><label>Tên nhiệm vụ *</label><input type="text" id="tktitle" placeholder="VD: In giấy mời"></div>
+    <div class="fg"><label>Người phụ trách <span style="color:var(--mu);font-weight:400">(để trống hoặc gõ tên)</span></label><input type="text" id="tkowner" list="tkowners" placeholder="Để trống hoặc nhập tên"><datalist id="tkowners"></datalist></div>
+    <div class="fg"><label>Nhóm (đầu mục)</label><input type="text" id="tkgroup" list="tkgroups" placeholder="VD: Tài chính"><datalist id="tkgroups"></datalist></div>
+    <div class="g2">
+      <div class="fg"><label>Bắt đầu</label><input type="date" id="tkstart"></div>
+      <div class="fg"><label>Kết thúc</label><input type="date" id="tkend"></div>
+    </div>
+    <div class="fg"><label>Tiến độ (%)</label><input type="number" id="tkprog" min="0" max="100" placeholder="0"></div>
+    <div class="fg"><label>Ghi chú</label><input type="text" id="tknote" placeholder="VD: nhà cung cấp, lưu ý..."></div>
+    <button class="btn bp" onclick="saveTask()">💾 Lưu nhiệm vụ</button>
+    <button class="btn" id="tkDel" onclick="delTask()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xóa nhiệm vụ</button>
+  </div>
+</div>
+
+<!-- MODAL: TEAM PIN -->
+<div class="mo" id="mteam" onclick="cbg(event,'mteam')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt">🔑 Mã PIN người phụ trách</div><button class="mc" onclick="cm('mteam')">✕</button></div>
+    <div style="color:var(--mu);font-size:12px;margin-bottom:8px">Mỗi người dùng PIN để đăng nhập cập nhật việc của mình. Sửa PIN trực tiếp rồi báo cho từng người.</div>
+    <div id="teamlist"></div>
+    <div style="display:flex;gap:8px;margin-top:12px;border-top:1px solid var(--bdr);padding-top:12px">
+      <input type="text" id="tmname" placeholder="Tên người" style="flex:1">
+      <input type="text" id="tmpin" placeholder="PIN" style="width:90px">
+      <button class="btn bp bsm" onclick="addTeam()">➕</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: FINANCE -->
+<div class="mo" id="mf" onclick="cbg(event,'mf')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt">💸 Ghi giao dịch</div><button class="mc" onclick="cm('mf')">✕</button></div>
+    <div class="fg"><label>Loại</label><select id="ttype"><option value="income">💚 Thu tiền</option><option value="expense">🔴 Chi tiêu</option></select></div>
+    <div class="fg"><label>Danh mục</label>
+      <select id="tcat"><option>Đóng phí thành viên</option><option>Tài trợ / Hảo tâm</option><option>Thuê địa điểm</option><option>Trang trí</option><option>Ăn uống / Tiệc</option><option>Âm thanh / Ánh sáng</option><option>MC / Chương trình</option><option>Quà tặng / Kỷ niệm</option><option>In ấn / Banner</option><option>Khác</option></select>
+    </div>
+    <div class="fg"><label>Diễn giải *</label><input type="text" id="tdesc" placeholder="VD: Anh Minh đóng phí"></div>
+    <div class="fg"><label>Số tiền *</label><input type="number" id="tamt" placeholder="500000" inputmode="numeric"></div>
+    <div class="fg"><label>Ngày</label><input type="date" id="tdate"></div>
+    <div class="fg"><label>Người nộp/nhận (hoặc tên nhà tài trợ)</label><input type="text" id="tper" placeholder="Tên người / đơn vị tài trợ"></div>
+    <div class="fg"><label>Lời cảm ơn (nếu là tài trợ)</label><input type="text" id="tspmsg" placeholder="VD: Cảm ơn nhà tài trợ đã đồng hành cùng khóa!"></div>
+    <button class="btn bp" onclick="at()">💾 Lưu giao dịch</button>
+  </div>
+</div>
+
+<!-- MODAL: PROGRAM -->
+<div class="mo" id="mprog" onclick="cbg(event,'mprog')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt" id="mpTitle">➕ Thêm mốc</div><button class="mc" onclick="cm('mprog')">✕</button></div>
+    <div class="fg"><label>Giờ</label><input type="text" id="ptime" placeholder="17:00"></div>
+    <div class="fg"><label>Tên tiết mục</label><input type="text" id="ptit2" placeholder="VD: Khai mạc..."></div>
+    <div class="fg"><label>Mô tả</label><textarea id="pdesc" rows="2" placeholder="Nội dung..."></textarea></div>
+    <div class="fg"><label>Nhãn</label>
+      <select id="ptag"><option value="Chính thức">📌 Chính thức</option><option value="Giải trí">🎭 Giải trí</option><option value="Ăn uống">🍽 Ăn uống</option><option value="Games">🎮 Games</option><option value="Trao giải">🏆 Trao giải</option></select>
+    </div>
+    <button class="btn bp" onclick="saveProg()">💾 Lưu</button>
+    <button class="btn" id="mpDel" onclick="delProg()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá mốc</button>
+  </div>
+</div>
+
+<!-- MODAL: GAME -->
+<div class="mo" id="mgame" onclick="cbg(event,'mgame')">
+  <div class="modal" style="max-height:92vh">
+    <div class="mh"></div>
+    <div style="position:absolute;top:12px;right:12px"><button class="mc" onclick="cm('mgame')">✕</button></div>
+    <div id="gcont"></div>
+  </div>
+</div>
+
+<!-- MODAL: WRITE LETTER -->
+<div class="mo" id="mletter" onclick="cbg(event,'mletter')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt">✍️ Viết thư nhắn nhủ</div><button class="mc" onclick="cm('mletter')">✕</button></div>
+    <div class="fg"><label>Từ (tên bạn)</label><input type="text" id="lfrom" placeholder="Nguyễn Văn A"></div>
+    <div class="fg"><label>Gửi đến</label>
+      <select id="lto"><option value="Cả lớp">💌 Cả lớp</option><option value="Ban tổ chức">🎉 Ban tổ chức</option><option value="Thầy cô">👨‍🏫 Thầy cô</option><option value="Bạn thân">👫 Bạn thân</option></select>
+    </div>
+    <div class="fg"><label>Nội dung thư *</label><textarea id="lbody" rows="5" placeholder="Kính gửi cả lớp 12A thân mến..."></textarea></div>
+    <div class="fg"><label>Tâm trạng</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="mpicks">
+        <button class="vc" onclick="pm(this,'😊')">😊 Vui</button>
+        <button class="vc" onclick="pm(this,'🥹')">🥹 Xúc động</button>
+        <button class="vc" onclick="pm(this,'🤩')">🤩 Phấn khích</button>
+        <button class="vc" onclick="pm(this,'🥲')">🥲 Hoài niệm</button>
+        <button class="vc" onclick="pm(this,'❤️')">❤️ Biết ơn</button>
+      </div>
+    </div>
+    <button class="btn bp" onclick="svl()">📬 Gửi thư</button>
+  </div>
+</div>
+
+<!-- MODAL: READ LETTER -->
+<div class="mo" id="mread" onclick="cbg(event,'mread')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt" id="rltit">📬 Thư</div><button class="mc" onclick="cm('mread')">✕</button></div>
+    <div id="rlbody"></div>
+  </div>
+</div>
+
+<script>
+var S={cfg:{cls:"Khóa 2003–2006 · THPT Nguyễn Trãi",date:"2026-07-12",loc:"Trường THPT Nguyễn Trãi, An Khê, Gia Lai",fee:700000},members:[],txs:[],
+  prog:[
+    {time:"07:30",title:"Chụp hình lớp",desc:"Đón tiếp cựu học sinh, quý thầy cô; chụp ảnh lưu niệm theo lớp.",tag:"Chính thức"},
+    {time:"08:00",title:"Trò chơi kết nối",desc:"Khóa 06 chia đội, chơi các trò chơi mang tính kết nối.",tag:"Games"},
+    {time:"09:30",title:"Free time",desc:"Giao lưu tự do, gặp gỡ bạn bè.",tag:"Giải trí"},
+    {time:"10:00",title:"Chương trình tri ân thầy cô",desc:"Văn nghệ, phát biểu, nghi thức tri ân thầy cô, trao học bổng, chụp ảnh lưu niệm.",tag:"Chính thức"},
+    {time:"10:30",title:"Nhập tiệc",desc:"Liên hoan (tiệc mặn).",tag:"Ăn uống"}
+  ],
+  polls:{
+    location:{q:"Địa điểm tổ chức",opts:["Nhà hàng sang trọng","Resort ngoại thành","Quán quen thời học sinh","Homestay/villa"],v:[0,0,0,0]},
+    menu:{q:"Menu tiệc",opts:["Buffet","Set menu cao cấp","BBQ tự nướng","Lẩu thập cẩm"],v:[0,0,0,0]},
+    time:{q:"Chọn ngày tổ chức (chốt trước 5/5/2026)",opts:["Chủ nhật 12/7/2026","Chủ nhật 19/7/2026"],v:[0,0]},
+    gift:{q:"Quà kỷ niệm",opts:["Sách ảnh lớp","Ly/mug in hình","Khung ảnh","Không cần quà"],v:[0,0,0,0]}
+  },
+  songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[]
+};
+function sv(){try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}try{supaPush();}catch(e){}}
+function ld(){try{var d=localStorage.getItem("r20");if(d)S=JSON.parse(d);}catch(e){}}
+
+// ===== ADMIN / ĐĂNG NHẬP =====
+var ADMINPW="hoikhoa2006";
+var isAdmin=false;
+function ldAdmin(){try{isAdmin=localStorage.getItem("r20admin")==="1";}catch(e){isAdmin=false;}}
+function adminLogin(){
+  var p=prompt("🔐 Nhập mật khẩu quản trị:");
+  if(p===null)return;
+  if(p===ADMINPW){isAdmin=true;try{localStorage.setItem("r20admin","1");}catch(e){}applyAdmin();alert("✅ Đã đăng nhập quản trị!");}
+  else alert("❌ Sai mật khẩu!");
+}
+function adminLogout(){isAdmin=false;try{localStorage.removeItem("r20admin");}catch(e){}applyAdmin();sp("home");}
+function applyAdmin(){
+  var login=document.getElementById("adminLogin");
+  if(login)login.style.display=isAdmin?"none":"";
+  document.querySelectorAll(".adminPanel").forEach(function(p){p.style.display=isAdmin?"":"none";});
+  document.querySelectorAll(".adminbadge").forEach(function(b){b.textContent=isAdmin?"🔓 Quản trị":"🔐 Quản trị";});
+  if(isAdmin){ss2();rgadmin();}
+}
+function reqAdmin(){alert("🔒 Khu vực quản trị. Vào mục Quản trị để đăng nhập trước.");}
+
+// NAV
+function sp(id,el){
+  // gate khu vực quản trị
+  if(id==="finance"&&!isAdmin){id="admin";el=null;}
+  document.querySelectorAll(".pg").forEach(function(p){p.classList.remove("on");});
+  var pg=document.getElementById("pg-"+id);if(pg)pg.classList.add("on");
+  document.querySelectorAll(".nt,.sdi").forEach(function(t){t.classList.remove("on");});
+  if(el)el.classList.add("on");
+  // sync sidebar
+  document.querySelectorAll(".sdi").forEach(function(t){
+    var oc=t.getAttribute("onclick")||"";
+    if(oc.indexOf("'"+id+"'")>=0||oc.indexOf('"'+id+'"')>=0)t.classList.add("on");
+  });
+  // update indicator
+  var tab=document.getElementById("tn-"+id);
+  if(tab){var ind=document.getElementById("nind");if(ind){ind.style.left=tab.offsetLeft+"px";ind.style.width=tab.offsetWidth+"px";}}
+  // FABs
+  document.getElementById("fabm").style.display="none";
+  document.getElementById("fabf").style.display="none";
+  if(id==="members"&&isAdmin)document.getElementById("fabm").style.display="flex";
+  if(id==="finance"&&isAdmin)document.getElementById("fabf").style.display="flex";
+  document.getElementById("sa").scrollTo(0,0);
+  if(id==="members")rm();
+  if(id==="checkin")rci();
+  if(id==="guests")rgl();
+  if(id==="gantt")rgantt();
+  if(id==="finance")rf();
+  if(id==="admin")applyAdmin();
+  if(id==="program")rpr();
+  if(id==="polls")rta();
+  if(id==="music")rvn();
+  if(id==="letters")rl2();
+  if(id==="awards")raw();
+  if(id==="map")rma();
+  if(id==="photos")rgal();
+  us();
+}
+function om(id){document.getElementById(id).classList.add("on");}
+function cm(id){document.getElementById(id).classList.remove("on");}
+function cbg(e,id){if(e.target===e.currentTarget)cm(id);}
+
+// CONFIG
+function svc(){
+  S.cfg.cls=document.getElementById("ccls").value;
+  S.cfg.date=document.getElementById("cdate").value;
+  S.cfg.loc=document.getElementById("cloc").value;
+  S.cfg.fee=parseInt(document.getElementById("cfee").value)||500000;
+  uh();sv();
+}
+function svc2(){
+  S.cfg.cls=document.getElementById("ccls2").value;
+  S.cfg.date=document.getElementById("cdate2").value;
+  S.cfg.loc=document.getElementById("cloc2").value;
+  S.cfg.fee=parseInt(document.getElementById("cfee2").value)||500000;
+  uh();sv();
+}
+function ss2(){
+  document.getElementById("ccls2").value=S.cfg.cls||"";
+  document.getElementById("cdate2").value=S.cfg.date||"";
+  document.getElementById("cloc2").value=S.cfg.loc||"";
+  document.getElementById("cfee2").value=S.cfg.fee||"";
+}
+function uh(){
+  var d=S.cfg.date?new Date(S.cfg.date):null;
+  var fmt=d?d.toLocaleDateString("vi-VN",{day:"numeric",month:"long",year:"numeric"}):"Chưa cài đặt ngày";
+  var nm=S.cfg.cls||"Họp Lớp 20 Năm";
+  document.getElementById("mcls").textContent=nm;
+  document.getElementById("mdate").textContent=fmt;
+  document.getElementById("sdcls").textContent=nm;
+  document.getElementById("sddate").textContent=fmt;
+  document.getElementById("hdate").textContent=fmt;
+  document.getElementById("hloc").textContent=S.cfg.loc||"Chưa cài đặt địa điểm";
+}
+function lc2(){ uh(); }
+
+// COUNTDOWN
+function tick(){
+  if(!S.cfg.date)return;
+  var diff=new Date(S.cfg.date+"T07:30:00")-new Date();
+  if(diff<0){["cd","ch","cm","cs"].forEach(function(i){document.getElementById(i).textContent="🎉";});return;}
+  var p=function(n){return String(n).padStart(2,"0");};
+  var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s2=Math.floor((diff%60000)/1000);
+  document.getElementById("cd").textContent=p(d);document.getElementById("ch").textContent=p(h);
+  document.getElementById("cm").textContent=p(m);document.getElementById("cs").textContent=p(s2);
+  document.getElementById("hd").textContent=p(d);document.getElementById("hh").textContent=p(h);document.getElementById("hm").textContent=p(m);
+}
+
+// STATS
+function us(){
+  var ms=S.members;
+  document.getElementById("st").textContent=ms.length;
+  document.getElementById("sc").textContent=ms.filter(function(m){return m.s==="c";}).length;
+  document.getElementById("sp2").textContent=ms.filter(function(m){return m.pd==="yes";}).length;
+  var inc=S.txs.filter(function(t){return t.tp==="income";}).reduce(function(a,t){return a+t.amt;},0);
+  var exp=S.txs.filter(function(t){return t.tp==="expense";}).reduce(function(a,t){return a+t.amt;},0);
+  document.getElementById("sb2").textContent=fs(inc-exp);
+}
+function ff(n){return (n||0).toLocaleString("vi-VN")+" VND";}
+function fs(n){return (n||0).toLocaleString("vi-VN")+" VND";}
+
+// MEMBERS
+var COLS=["#1A3A5C","#F5A623","#10B981","#FF6B6B","#8B5CF6","#EC4899","#F59E0B","#3B82F6"];
+function gi(n){return n.trim().split(" ").map(function(w){return w[0];}).slice(-2).join("").toUpperCase();}
+var editingId=null;
+function oam(){
+  if(!isAdmin)return reqAdmin();
+  editingId=null;
+  ["mnam","mnick","mjob"].forEach(function(id){document.getElementById(id).value="";});
+  document.getElementById("mcls").value="12A1";document.getElementById("mres").value="";
+  document.getElementById("mst").value="p";document.getElementById("mpd").value="no";
+  document.getElementById("mmTitle").textContent="👤 Thêm thành viên";
+  document.getElementById("mmSave").textContent="💾 Lưu thành viên";
+  document.getElementById("mmDel").style.display="none";
+  om("mm");
+}
+function editM(ev,id){
+  if(ev&&ev.stopPropagation)ev.stopPropagation();
+  if(!isAdmin)return reqAdmin();
+  var m=S.members.find(function(x){return x.id===id;});if(!m)return;
+  editingId=id;
+  document.getElementById("mnam").value=m.name||"";
+  document.getElementById("mcls").value=m.cls||"12A1";
+  document.getElementById("mnick").value=m.nick||"";
+  document.getElementById("mjob").value=m.job||"";
+  document.getElementById("mres").value=m.city||"";
+  document.getElementById("mst").value=m.s||"p";
+  document.getElementById("mpd").value=m.pd||"no";
+  document.getElementById("mmTitle").textContent="✏️ Sửa thành viên";
+  document.getElementById("mmSave").textContent="💾 Lưu thay đổi";
+  document.getElementById("mmDel").style.display="block";
+  om("mm");
+}
+function delM(){
+  if(!isAdmin)return reqAdmin();
+  if(editingId==null)return;
+  if(!confirm("Xóa thành viên này khỏi danh sách?"))return;
+  S.members=S.members.filter(function(m){return m.id!==editingId;});
+  editingId=null;sv();cm("mm");rm();us();rma();
+}
+function svm(){
+  if(!isAdmin)return reqAdmin();
+  var name=document.getElementById("mnam").value.trim();
+  if(!name)return alert("Vui lòng nhập họ tên!");
+  var data={name:name,cls:document.getElementById("mcls").value,nick:document.getElementById("mnick").value,job:document.getElementById("mjob").value,city:document.getElementById("mres").value,s:document.getElementById("mst").value,pd:document.getElementById("mpd").value};
+  if(editingId!=null){
+    var m=S.members.find(function(x){return x.id===editingId;});
+    if(m){for(var k in data)m[k]=data[k];}
+    editingId=null;
+  }else{
+    data.id=Date.now();data.col=COLS[S.members.length%COLS.length];
+    S.members.push(data);
+  }
+  sv();cm("mm");rm();us();rma();
+}
+function rm(){
+  var src=(document.getElementById("msrc").value||"").toLowerCase();
+  var flt=document.getElementById("mflt").value;
+  var fclsEl=document.getElementById("mfcls");var fcls=fclsEl?fclsEl.value:"";
+  var list=S.members.filter(function(m){
+    if(flt&&m.s!==flt)return false;
+    if(fcls&&m.cls!==fcls)return false;
+    if(src&&m.name.toLowerCase().indexOf(src)<0&&(m.nick||"").toLowerCase().indexOf(src)<0)return false;
+    return true;
+  });
+  var g=document.getElementById("mlist");
+  if(!list.length){g.innerHTML="<div style='color:var(--mu);padding:20px;text-align:center'>Không có thành viên nào</div>";return;}
+  var si={c:"✅",p:"⏳",d:"❌"};
+  g.innerHTML=list.map(function(m){
+    var meta=[];
+    if(m.cls)meta.push(m.cls);
+    if(m.job)meta.push(m.job);
+    if(m.city)meta.push("📍 "+m.city);
+    if(m.pd==="yes")meta.push("💰 Đã đóng");
+    var editBtn=isAdmin?'<button onclick="editM(event,'+m.id+')" style="margin-left:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:5px 9px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0">✏️ Sửa</button>':'';
+    return '<div class="mrow '+m.s+'"><div class="av" style="background:'+m.col+'">'+gi(m.name)+'</div><div class="mi"><div class="mn">'+m.name+(m.nick?' <span style="color:var(--mu);font-size:12px">('+m.nick+')</span>':'')+'</div><div class="md">'+(meta.join(" · ")||"Chưa cập nhật")+'</div></div><span class="mb">'+(si[m.s]||"⏳")+'</span>'+editBtn+'</div>';
+  }).join("");
+}
+function cm2(id){
+  if(!isAdmin)return reqAdmin();
+  var m=S.members.find(function(m){return m.id===id;});if(!m)return;
+  var cy={p:"c",c:"d",d:"p"};m.s=cy[m.s];sv();rm();us();
+}
+
+// ===== CHECK-IN =====
+function ciTime(ts){var d=new Date(ts);var p=function(n){return ('0'+n).slice(-2);};return p(d.getDate())+'/'+p(d.getMonth()+1)+' '+p(d.getHours())+':'+p(d.getMinutes());}
+function ciPool(){ // danh sách người ĐÃ check-in (tên) — cấp cho vòng quay
+  var a=[];
+  (S.members||[]).forEach(function(m){if(m.ci)a.push(m.name);});
+  (S.guests||[]).forEach(function(g){if(g.ci)a.push(g.name+(g.org?" ("+g.org+")":""));});
+  return a;
+}
+function ciMember(id){
+  var m=S.members.find(function(x){return x.id===id;});if(!m)return;
+  if(m.ci){if(!confirm("Huỷ check-in của "+m.name+"?"))return;m.ci=null;}
+  else{m.ci=Date.now();if(m.s!=="c")m.s="c";}
+  sv();rci();us();
+}
+function ciGuest(id){
+  if(!S.guests)S.guests=[];
+  var g=S.guests.find(function(x){return x.id===id;});if(!g)return;
+  if(g.ci){if(!confirm("Huỷ check-in của "+g.name+"?"))return;g.ci=null;}
+  else g.ci=Date.now();
+  sv();rci();
+}
+function addWalkin(){
+  if(!S.guests)S.guests=[];
+  var nm=document.getElementById("wkname").value.trim();
+  if(!nm)return alert("Nhập tên khách mời!");
+  S.guests.push({id:Date.now(),name:nm,org:document.getElementById("wkorg").value.trim(),ci:Date.now()});
+  document.getElementById("wkname").value="";document.getElementById("wkorg").value="";
+  sv();rci();
+}
+// ===== QUẢN LÝ ĐẠI BIỂU / KHÁCH MỜI (chi tiết) =====
+var GINV={chua:"⏳ Chưa mời",moi:"✉️ Đã mời",xacnhan:"✅ Đã xác nhận"};
+var editingGid=null;
+function gfill(g){
+  document.getElementById("gname").value=g?g.name:"";
+  document.getElementById("grole").value=g&&g.role?g.role:"Đại biểu";
+  document.getElementById("gorg").value=g?g.org||"":"";
+  document.getElementById("gsubj").value=g?g.subj||"":"";
+  document.getElementById("gphone").value=g?g.phone||"":"";
+  document.getElementById("ginv").value=g&&g.inv?g.inv:"chua";
+  document.getElementById("gspeech").value=g&&g.speech?g.speech:"no";
+  document.getElementById("gnote").value=g?g.note||"":"";
+}
+function og2(){
+  if(!isAdmin)return reqAdmin();
+  editingGid=null;gfill(null);
+  document.getElementById("mgTitle").textContent="🎓 Thêm đại biểu / khách mời";
+  document.getElementById("mgSave").textContent="💾 Lưu đại biểu";
+  document.getElementById("mgDel").style.display="none";
+  om("mg");
+}
+function editG(id){
+  if(!isAdmin)return reqAdmin();
+  var g=(S.guests||[]).find(function(x){return x.id===id;});if(!g)return;
+  editingGid=id;gfill(g);
+  document.getElementById("mgTitle").textContent="✏️ Sửa đại biểu";
+  document.getElementById("mgSave").textContent="💾 Lưu thay đổi";
+  document.getElementById("mgDel").style.display="block";
+  om("mg");
+}
+function saveGuest(){
+  if(!isAdmin)return reqAdmin();
+  if(!S.guests)S.guests=[];
+  var nm=document.getElementById("gname").value.trim();
+  if(!nm)return alert("Nhập họ tên đại biểu / khách mời!");
+  var data={name:nm,role:document.getElementById("grole").value,org:document.getElementById("gorg").value.trim(),subj:document.getElementById("gsubj").value.trim(),phone:document.getElementById("gphone").value.trim(),inv:document.getElementById("ginv").value,speech:document.getElementById("gspeech").value,note:document.getElementById("gnote").value.trim()};
+  if(editingGid!=null){
+    var g=S.guests.find(function(x){return x.id===editingGid;});
+    if(g){for(var k in data)g[k]=data[k];}
+    editingGid=null;
+  }else{ data.id=Date.now();data.ci=null;S.guests.push(data); }
+  sv();cm("mg");rgadmin();rgl();rci();
+}
+function delGmodal(){if(editingGid!=null){var id=editingGid;editingGid=null;delGuest(id,true);cm("mg");}}
+function delGuest(id,skipConfirm){
+  if(!isAdmin)return reqAdmin();
+  if(!skipConfirm&&!confirm("Xoá đại biểu / khách mời này?"))return;
+  S.guests=(S.guests||[]).filter(function(g){return g.id!==id;});
+  sv();rgadmin();rgl();rci();
+}
+function rgadmin(){
+  var el=document.getElementById("gadmin");if(!el)return;
+  var gs=S.guests||[];
+  document.querySelectorAll(".gcount").forEach(function(e){e.textContent=gs.length;});
+  if(!gs.length){el.innerHTML='<div style="color:var(--mu);font-size:13px;text-align:center;padding:8px">Chưa có đại biểu / khách mời nào.</div>';return;}
+  el.innerHTML=gs.slice(0,4).map(function(g){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--bdr)"><div class="av" style="width:30px;height:30px;font-size:12px;background:#8B5CF6">'+gi(g.name)+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">'+g.name+'</div><div style="font-size:11px;color:var(--mu)">'+(g.role||"Khách mời")+(g.org?" · "+g.org:"")+'</div></div></div>';
+  }).join("")+(gs.length>4?'<div style="font-size:12px;color:var(--mu);padding-top:6px">… và '+(gs.length-4)+' người khác</div>':"");
+}
+// che 6 số cuối của (các) số điện thoại
+function maskPhone(s){if(!s)return s;return s.replace(/\d+/g,function(d){return d.length<=6?"XXXXXX":d.slice(0,d.length-6)+"XXXXXX";});}
+// Trang danh sách đại biểu / khách mời
+function rgl(){
+  var el=document.getElementById("glist");if(!el)return;
+  var src=(document.getElementById("gsrc")?document.getElementById("gsrc").value:"").toLowerCase();
+  var fEl=document.getElementById("gflt");var flt=fEl?fEl.value:"";
+  var gs=(S.guests||[]).filter(function(g){
+    if(flt&&g.role!==flt)return false;
+    if(src&&g.name.toLowerCase().indexOf(src)<0)return false;
+    return true;
+  });
+  if(!gs.length){el.innerHTML="<div style='color:var(--mu);padding:20px;text-align:center;font-size:13px'>Chưa có đại biểu / khách mời. Bấm “➕ Thêm khách mời”.</div>";return;}
+  el.innerHTML=gs.map(function(g){
+    var line2=[];if(g.org)line2.push(g.org);if(g.subj)line2.push(g.subj);
+    var tags='<span style="background:#F5F3FF;color:#5B21B6;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:600">'+(g.role||"Khách mời")+'</span>';
+    tags+=' <span style="font-size:11px;color:var(--mu)">'+(GINV[g.inv]||"⏳ Chưa mời")+'</span>';
+    if(g.speech==="yes")tags+=' <span style="background:#FEF3C7;color:#92400E;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:600">🎤 Phát biểu</span>';
+    if(g.ci)tags+=' <span style="background:#D1FAE5;color:#065F46;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:600">✓ '+ciTime(g.ci)+'</span>';
+    var edit=isAdmin?'<button onclick="editG('+g.id+')" style="flex-shrink:0;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:5px 9px;font-size:13px;font-weight:600;cursor:pointer">✏️ Sửa</button>':'';
+    return '<div class="mrow" style="align-items:flex-start"><div class="av" style="background:#8B5CF6">'+gi(g.name)+'</div><div class="mi"><div class="mn">'+g.name+'</div>'+
+      (line2.length?'<div class="md">'+line2.join(" · ")+'</div>':'')+
+      (g.phone?'<div class="md">📞 '+maskPhone(g.phone)+'</div>':'')+
+      '<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;align-items:center">'+tags+'</div>'+
+      (g.note?'<div style="font-size:12px;color:var(--mu);margin-top:4px;font-style:italic">📝 '+g.note+'</div>':'')+
+      '</div>'+edit+'</div>';
+  }).join("");
+}
+// Danh sách đại biểu thật (DS Thầy cô 2003–2006) — [tên, môn, SĐT, nơi công tác, ghi chú, vai trò?]
+var DGRAW=[
+ ["Thầy Đào Duy Lực","","0357580777","THPT Quang Trung","Nguyên Hiệu Phó","Ban Giám hiệu"],
+ ["Cô Văn Thị Thu Vân","Tiếng Anh","0976869279","THPT Nguyễn Trãi","",""],
+ ["Cô Lê Thị Thanh","","0905012588","","Hiện ở Mỹ",""],
+ ["Cô Võ Thị Lài","","0934961169","THPT Nguyễn Trãi","",""],
+ ["Thầy Trần Văn Út","","","THPT Quang Trung","",""],
+ ["Cô Nguyễn Thị Thu Bằng","Toán","0919144019","THPT Nguyễn Trãi","",""],
+ ["Cô Lê Thị Tuyết Vân","","","THPT Nguyễn Chí Thanh – Pleiku","",""],
+ ["Cô Huỳnh Thị Sự","","0985576270","THPT Quang Trung","",""],
+ ["Thầy Phùng Văn Trọng","","0905207520","THPT Nguyễn Trãi","",""],
+ ["Cô Nguyễn Thanh Diễm","","0914433365","THPT Nguyễn Trãi","",""],
+ ["Cô Trần Thị Thanh Trực","","","THPT Nguyễn Trãi","Bổ sung",""],
+ ["Thầy Võ Đăng Phước","","0978420402","THPT DTNT Đông Gia Lai","",""],
+ ["Thầy Hồ Trọng Hải","Vật Lý","0906043777 / 0982532527","THPT Nguyễn Trãi","",""],
+ ["Thầy Nguyễn Văn Hán","","0905336749","","Đã nghỉ hưu",""],
+ ["Cô Phan Thị Thanh Kiều","","0384829092","THPT Nguyễn Trãi","",""],
+ ["Thầy Nguyễn Văn Hiền","Hóa","0985973728","THPT Nguyễn Trãi","",""],
+ ["Cô Võ Thị Mộng Hoa","","0905302738","THPT Nguyễn Trãi","",""],
+ ["Cô Lê Thị Ngò","","0975362567","THPT Nguyễn Trãi","",""],
+ ["Thầy Trần Công Thường","Văn","0984021369","THPT DTNT Đông Gia Lai","",""],
+ ["Thầy Nguyễn Xuân Thành","","0905072565 / 0967265476","Trường Y Đôn","",""],
+ ["Thầy Trần Văn Đấu","","0349166892","","Đã nghỉ hưu",""],
+ ["Cô Nguyễn Thị Thanh Quý","","","THPT Quang Trung","",""],
+ ["Cô Nguyễn Thị Trọng","Sinh","0983540357","THPT Phan Bội Châu Pleiku","",""],
+ ["Thầy Nguyễn Thanh Long","Kỹ Thuật","0984860040","THPT Nguyễn Trãi","",""],
+ ["Cô Đặng Thị Quý","","0983570499","THPT Y Đôn","",""],
+ ["Thầy Nguyễn Văn Nguyên","Lịch Sử","0984860506","THPT Nguyễn Trãi","",""],
+ ["Cô Trần Thị Mai Trâm","Địa Lý","0982641744","THPT Nguyễn Trãi","",""],
+ ["Cô Cao Thị Ái Nhã","","","","Hiện ở Hà Nội",""],
+ ["Cô Nguyễn Thị Hồng Thắm","GDCD","0378985076","THPT DTNT Đông Gia Lai","",""],
+ ["Thầy Hồ Đình Nam","","0988309039","THPT Nguyễn Trãi","",""],
+ ["Cô Lê Thị Kiều Anh","Thể Dục","0968017788","THPT Nguyễn Trãi","",""],
+ ["Chú Chín","","","","Bảo vệ – đã nghỉ hưu","Khách mời khác"]
+];
+function defaultGuests(){return DGRAW.map(function(r,i){return {id:2001+i,name:r[0],role:r[5]||"GV bộ môn",subj:r[1],phone:r[2],org:r[3],note:r[4],inv:"chua",speech:"no",ci:null};});}
+function loadGuests(){
+  if(!isAdmin)return reqAdmin();
+  if(!confirm("Nạp danh sách "+DGRAW.length+" đại biểu (thầy/cô)? Thao tác này sẽ THAY THẾ danh sách khách mời hiện tại."))return;
+  S.guests=defaultGuests();
+  sv();rgadmin();rgl();rci();
+  alert("✅ Đã nạp "+S.guests.length+" đại biểu.");
+}
+
+// ===== ĐĂNG KÝ VĂN NGHỆ =====
+function ciPeople(){var a=[];(S.members||[]).forEach(function(m){if(m.ci)a.push({name:m.name,cls:m.cls||""});});(S.guests||[]).forEach(function(g){if(g.ci)a.push({name:g.name,cls:""});});return a;}
+function vnPick(){
+  var nm=document.getElementById("vnby").value;var p=ciPeople().find(function(x){return x.name===nm;});
+  if(p){if(!document.getElementById("vnperf").value)document.getElementById("vnperf").value=nm;if(p.cls)document.getElementById("vncls").value=p.cls;}
+}
+function addAct(){
+  if(!S.acts)S.acts=[];
+  if(!ciPeople().length)return alert("⚠️ Chưa có ai check-in. Hãy check-in trước khi đăng ký văn nghệ.");
+  var by=document.getElementById("vnby").value;if(!by)return alert("Chọn người đăng ký (đã check-in)!");
+  var song=document.getElementById("vnsong").value.trim();if(!song)return alert("Nhập tên bài!");
+  var perf=document.getElementById("vnperf").value.trim();if(!perf)return alert("Nhập người trình bày!");
+  S.acts.push({id:Date.now(),song:song,artist:document.getElementById("vnartist").value.trim(),perf:perf,cls:document.getElementById("vncls").value,yt:document.getElementById("vnyt").value.trim(),by:by,ts:Date.now()});
+  ["vnsong","vnartist","vnperf","vnyt"].forEach(function(id){document.getElementById(id).value="";});document.getElementById("vncls").value="";
+  sv();rvn();alert("✅ Đã đăng ký tiết mục!");
+}
+function delAct(id){if(!isAdmin)return reqAdmin();if(!confirm("Xoá tiết mục này?"))return;S.acts=(S.acts||[]).filter(function(a){return a.id!==id;});sv();rvn();}
+function rvn(){
+  if(!S.acts)S.acts=[];
+  var pool=ciPeople();
+  var sel=document.getElementById("vnby");
+  if(sel){var cur=sel.value;sel.innerHTML=pool.length?pool.map(function(p){return '<option>'+p.name+'</option>';}).join(""):'<option value="">(chưa có ai check-in)</option>';if(cur)sel.value=cur;}
+  var gate=document.getElementById("vngate");
+  if(gate)gate.innerHTML=pool.length?"":'<div style="background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;border-radius:10px;padding:8px 10px;font-size:13px;margin-bottom:10px">⚠️ Chưa có ai check-in. Vào trang ✅ Check-in trước, rồi quay lại đăng ký.</div>';
+  var cnt=document.getElementById("vncount");if(cnt)cnt.textContent=(S.acts||[]).length;
+  var el=document.getElementById("vnlist");if(!el)return;
+  var list=(S.acts||[]).slice().sort(function(a,b){return a.ts-b.ts;});
+  if(!list.length){el.innerHTML="<div style='color:var(--mu);padding:18px;text-align:center;font-size:13px'>Chưa có tiết mục nào đăng ký.</div>";return;}
+  el.innerHTML=list.map(function(a,i){
+    var sub=[];if(a.perf)sub.push("🎤 "+a.perf);if(a.cls)sub.push(a.cls);if(a.artist)sub.push("bản gốc: "+a.artist);
+    var yt=a.yt?'<a href="'+a.yt+'" target="_blank" rel="noopener" style="flex-shrink:0;background:#FEE2E2;color:#B91C1C;border-radius:10px;padding:6px 10px;font-size:12px;font-weight:700;text-decoration:none">▶ YouTube</a>':'';
+    var del=isAdmin?'<button onclick="delAct('+a.id+')" style="flex-shrink:0;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;border-radius:8px;padding:5px 8px;font-size:12px;cursor:pointer;margin-left:6px">🗑</button>':'';
+    return '<div class="mrow"><div style="width:26px;text-align:center;font-weight:800;color:var(--gold)">'+(i+1)+'</div><div class="mi"><div class="mn">'+a.song+'</div><div class="md">'+sub.join(" · ")+'</div><div class="md">🕒 '+ciTime(a.ts)+' · ĐK: '+a.by+'</div></div>'+yt+del+'</div>';
+  }).join("");
+}
+
+// ===== GANTT / TIẾN ĐỘ DỰ ÁN =====
+var meUser=null;
+function ldMe(){try{meUser=localStorage.getItem("r20me")||null;}catch(e){meUser=null;}}
+function defaultTeam(){return [
+  {id:3001,name:"Hồng",pin:"1001"},{id:3002,name:"Vương Anh",pin:"1002"},
+  {id:3003,name:"Trần Bích Hảo",pin:"1003"},{id:3004,name:"Phương Uyên",pin:"1004"},
+  {id:3005,name:"Kim Duyên",pin:"1005"},{id:3006,name:"Huy",pin:"1006"},
+  {id:3007,name:"Quang Nguyễn",pin:"1007"},{id:3008,name:"Trúc Phương",pin:"1008"}
+];}
+var GORDER=["Đối ngoại & Mời","Tài chính","Danh sách & Nội dung","Truyền thông & In ấn","Hậu cần & Cung cấp","Tiệc liên hoan","Lễ tân & Đón tiếp","Quà tặng","Truyền thông Media"];
+function defaultTasks(){return [
+  {id:4001,group:"Đối ngoại & Mời",title:"Liên hệ & chốt ngày với BGH",owner:"Hồng",start:"2026-06-06",end:"2026-06-18",prog:100,note:"Đã chốt 12/07"},
+  {id:4009,group:"Đối ngoại & Mời",title:"Mời 32 đại biểu (giấy mời + gọi điện)",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
+  {id:4002,group:"Tài chính",title:"Giữ tổng quỹ & thu tiền các lớp",owner:"Vương Anh",start:"2026-06-10",end:"2026-07-05",prog:40,note:""},
+  {id:4007,group:"Tài chính",title:"Vận động tài trợ quà tặng",owner:"Kim Duyên",start:"2026-06-12",end:"2026-07-05",prog:25,note:""},
+  {id:4010,group:"Danh sách & Nội dung",title:"Chốt danh sách HS lớp A4",owner:"Trúc Phương",start:"2026-06-10",end:"2026-06-18",prog:100,note:"16 bạn"},
+  {id:4011,group:"Danh sách & Nội dung",title:"Chốt danh sách HS các lớp A1/A2/A3",owner:"Quang Nguyễn",start:"2026-06-20",end:"2026-06-30",prog:20,note:""},
+  {id:4013,group:"Danh sách & Nội dung",title:"Tổng duyệt chương trình & kịch bản/MC",owner:"Vương Anh",start:"2026-07-05",end:"2026-07-11",prog:0,note:""},
+  {id:4004,group:"Truyền thông & In ấn",title:"In phông nền & giấy mời",owner:"Trần Bích Hảo",start:"2026-06-20",end:"2026-07-02",prog:10,note:""},
+  {id:4005,group:"Truyền thông & In ấn",title:"Thiết kế & in băng rôn (5,5×2,8m)",owner:"Phương Uyên",start:"2026-06-20",end:"2026-07-02",prog:20,note:""},
+  {id:4006,group:"Truyền thông & In ấn",title:"Quản trị Fanpage & truyền thông",owner:"Kim Duyên",start:"2026-06-12",end:"2026-07-12",prog:30,note:""},
+  {id:4012,group:"Truyền thông & In ấn",title:"Đặt áo đồng phục khóa",owner:"Vương Anh",start:"2026-06-22",end:"2026-07-02",prog:0,note:""},
+  {id:4003,group:"Hậu cần & Cung cấp",title:"Chốt nhà cung cấp (tiệc, âm thanh, MC)",owner:"Vương Anh",start:"2026-06-15",end:"2026-06-30",prog:50,note:"Hạnh Huệ, Sao Mai, MC HCM"},
+  {id:4008,group:"Hậu cần & Cung cấp",title:"Thuê & đưa đón MC (HCM)",owner:"Huy",start:"2026-06-18",end:"2026-07-10",prog:30,note:""},
+  {id:4014,group:"Hậu cần & Cung cấp",title:"Trang trí & dựng rạp tại trường",owner:"Trần Bích Hảo",start:"2026-07-11",end:"2026-07-12",prog:0,note:""}
+];}
+// Nhiệm vụ bổ sung theo File kế hoạch phân công (8 tiểu ban)
+function extraTasks(){return [
+  {id:4101,group:"Đối ngoại & Mời",title:"Rà soát & cập nhật danh sách CHS 4 lớp + CGV",owner:"",start:"2026-06-20",end:"2026-07-01",prog:0,note:""},
+  {id:4103,group:"Tài chính",title:"Lập dự toán chi tiết & quản lý thu chi",owner:"Vương Anh",start:"2026-06-20",end:"2026-06-28",prog:0,note:""},
+  {id:4105,group:"Danh sách & Nội dung",title:"Xây dựng kịch bản chi tiết buổi lễ",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
+  {id:4106,group:"Danh sách & Nội dung",title:"Chuẩn bị bài phát biểu & mời MC",owner:"Huy",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
+  {id:4107,group:"Danh sách & Nội dung",title:"Tổ chức văn nghệ (mỗi lớp 2 tiết mục)",owner:"",start:"2026-06-25",end:"2026-07-10",prog:0,note:""},
+  {id:4108,group:"Danh sách & Nội dung",title:"Sản xuất video clip kỷ niệm",owner:"Phương Uyên",start:"2026-06-25",end:"2026-07-10",prog:0,note:""},
+  {id:4109,group:"Hậu cần & Cung cấp",title:"Phối hợp nhà trường (sân, bàn ghế, điện nước, an ninh)",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
+  {id:4110,group:"Hậu cần & Cung cấp",title:"Sơ đồ bố trí sân khấu & backdrop",owner:"",start:"2026-06-28",end:"2026-07-06",prog:0,note:""},
+  {id:4113,group:"Tiệc liên hoan",title:"Chốt thực đơn & số bàn tiệc",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-05",prog:0,note:"Hạnh Huệ 1,4tr/bàn"},
+  {id:4114,group:"Lễ tân & Đón tiếp",title:"Chuẩn bị khu đón tiếp (check-in, bảng tên, hoa cài áo)",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:""},
+  {id:4115,group:"Lễ tân & Đón tiếp",title:"Phân công đón tiếp thầy cô",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:""},
+  {id:4116,group:"Quà tặng",title:"Chuẩn bị quà tri ân thầy cô (32 phần)",owner:"Kim Duyên",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
+  {id:4117,group:"Quà tặng",title:"Quà lưu niệm cho nhà trường",owner:"Kim Duyên",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
+  {id:4118,group:"Truyền thông Media",title:"Chụp ảnh & quay phim Lễ + Tiệc",owner:"",start:"2026-07-12",end:"2026-07-12",prog:0,note:""},
+  {id:4120,group:"Truyền thông Media",title:"Biên tập & chia sẻ ảnh/video sau sự kiện",owner:"Phương Uyên",start:"2026-07-12",end:"2026-07-20",prog:0,note:""}
+];}
+function gmap(){var m={};defaultTasks().concat(extraTasks()).forEach(function(t){m[t.title]=t.group;});return m;}
+function dms(s){return s?new Date(s+"T00:00:00").getTime():0;}
+function fmtD(s){if(!s)return"";var d=new Date(s+"T00:00:00");return d.getDate()+"/"+(d.getMonth()+1);}
+function tstat(t){var now=Date.now();var p=t.prog||0;
+  if(p>=100)return {label:"✅ Hoàn thành",c:"#10B981"};
+  if(t.end&&dms(t.end)<now)return {label:"⚠️ Trễ hạn",c:"#EF4444"};
+  if(p>0)return {label:"🔵 Đang làm",c:"#F5A623"};
+  return {label:"⏳ Chưa bắt đầu",c:"#9CA3AF"};}
+function gT0T1(){var ds=[];(S.tasks||[]).forEach(function(t){if(t.start)ds.push(dms(t.start));if(t.end)ds.push(dms(t.end));});
+  var ev=(S.cfg&&S.cfg.date)?dms(S.cfg.date):dms("2026-07-12");ds.push(ev);ds.push(Date.now());
+  var t0=Math.min.apply(null,ds),t1=Math.max.apply(null,ds);if(t1<=t0)t1=t0+2592000000;return [t0,t1];}
+function gpos(ms,t0,t1){return ((ms-t0)/(t1-t0))*100;}
+function meLogin(){
+  var nm=document.getElementById("meSel").value;var pin=document.getElementById("mePin").value.trim();
+  var t=(S.team||[]).find(function(x){return x.name===nm&&String(x.pin)===pin;});
+  if(!t)return alert("❌ Sai tên hoặc mã PIN!");
+  meUser=nm;try{localStorage.setItem("r20me",nm);}catch(e){}
+  document.getElementById("mePin").value="";rgantt();alert("👋 Xin chào "+nm+"! Bạn có thể cập nhật việc của mình.");
+}
+function meLogout(){meUser=null;try{localStorage.removeItem("r20me");}catch(e){}rgantt();}
+function setProg(id,val){
+  var t=(S.tasks||[]).find(function(x){return x.id===id;});if(!t)return;
+  if(!(isAdmin||(meUser&&meUser===t.owner))){alert("🔒 Chỉ người phụ trách (đăng nhập PIN) hoặc quản trị mới cập nhật được.");rgantt();return;}
+  var p=parseInt(val);if(isNaN(p))p=0;t.prog=Math.max(0,Math.min(100,p));
+  sv();rgantt();
+}
+function rgantt(){
+  // thanh đăng nhập
+  var lb=document.getElementById("ganttLogin");
+  if(lb){
+    if(isAdmin){
+      lb.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><div style="font-size:13px"><b>🔓 Quản trị</b> — sửa mọi nhiệm vụ</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn bp bsm" onclick="openTask()">➕ Nhiệm vụ</button><button class="btn bo2 bsm" onclick="openTeam()">🔑 PIN</button></div></div>';
+    }else if(meUser){
+      lb.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="font-size:13px">👋 Bạn: <b>'+meUser+'</b> — cập nhật việc của bạn bên dưới</div><button class="btn bo2 bsm" onclick="meLogout()">↪ Đăng xuất</button></div>';
+    }else{
+      var opts=(S.team||[]).map(function(m){return '<option>'+m.name+'</option>';}).join("");
+      lb.innerHTML='<div style="font-size:13px;font-weight:600;margin-bottom:8px">🔑 Đăng nhập để cập nhật tiến độ việc của bạn</div>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap"><select id="meSel" style="flex:1;min-width:120px">'+opts+'</select>'+
+        '<input id="mePin" type="password" inputmode="numeric" placeholder="Mã PIN" style="width:110px">'+
+        '<button class="btn bp bsm" onclick="meLogin()">Đăng nhập</button></div>';
+    }
+  }
+  var el=document.getElementById("ganttChart");if(!el)return;
+  var tasks=(S.tasks||[]).slice();
+  if(!tasks.length){el.innerHTML='<div style="color:var(--mu);text-align:center;padding:20px;font-size:13px">Chưa có nhiệm vụ nào.'+(isAdmin?' Bấm “➕ Nhiệm vụ”.':'')+'</div>';return;}
+  tasks.sort(function(a,b){return dms(a.start)-dms(b.start);});
+  var tt=gT0T1(),t0=tt[0],t1=tt[1],todayX=gpos(Date.now(),t0,t1);
+  // trục thời gian
+  var axis='<div style="position:relative;height:16px;margin:2px 0 8px;border-bottom:1px solid var(--bdr)">';
+  for(var i=0;i<=4;i++){var f=i/4;var ms=t0+(t1-t0)*f;var d=new Date(ms);axis+='<span style="position:absolute;left:'+(f*100)+'%;font-size:10px;color:var(--mu);transform:translateX(-50%)">'+d.getDate()+'/'+(d.getMonth()+1)+'</span>';}
+  axis+='<div style="position:absolute;left:'+todayX+'%;top:0;bottom:-4px;width:2px;background:#EF4444"></div></div>';
+  // tiến độ tổng
+  var done=tasks.filter(function(t){return (t.prog||0)>=100;}).length;
+  var avg=Math.round(tasks.reduce(function(a,t){return a+(t.prog||0);},0)/tasks.length);
+  var late=tasks.filter(function(t){return (t.prog||0)<100&&t.end&&dms(t.end)<Date.now();}).length;
+  var head='<div class="g2 g4" style="margin-bottom:10px"><div class="csm kpi"><div class="kv">'+avg+'%</div><div class="kl">Trung bình</div></div><div class="csm kpi"><div class="kv">'+done+'/'+tasks.length+'</div><div class="kl">Hoàn thành</div></div><div class="csm kpi"><div class="kv" style="color:'+(late?"#EF4444":"inherit")+'">'+late+'</div><div class="kl">Trễ hạn</div></div><div class="csm kpi"><div class="kv">'+fmtD((S.cfg&&S.cfg.date)||"2026-07-12")+'</div><div class="kl">Ngày sự kiện</div></div></div>';
+  function rowHtml(t){
+    var st=tstat(t),p=t.prog||0;
+    var left=gpos(dms(t.start),t0,t1),right=gpos(dms(t.end),t0,t1);var w=Math.max(2,right-left);
+    var canEdit=isAdmin||(meUser&&meUser===t.owner);
+    var ctrl=canEdit?'<div style="display:flex;align-items:center;gap:8px;margin-top:6px"><input type="range" min="0" max="100" step="5" value="'+p+'" oninput="setProg('+t.id+',this.value)" style="flex:1"><span style="font-size:12px;font-weight:700;width:38px;text-align:right">'+p+'%</span></div>':'';
+    var edit=isAdmin?'<button onclick="openTask('+t.id+')" style="flex-shrink:0;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:4px 8px;font-size:12px;font-weight:600;cursor:pointer;margin-left:6px">✏️</button>':'';
+    return '<div style="background:#fff;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);margin-bottom:10px;border-left:4px solid '+st.c+'">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600">'+t.title+'</div>'+
+      '<div style="font-size:12px;color:var(--mu);margin-top:2px">👤 '+(t.owner||"—")+' · '+st.label+(t.note?' · '+t.note:'')+'</div></div><div style="font-size:13px;font-weight:700;color:'+st.c+'">'+p+'%</div>'+edit+'</div>'+
+      '<div style="font-size:11px;color:var(--mu);margin-top:6px">'+fmtD(t.start)+' → '+fmtD(t.end)+'</div>'+
+      '<div style="position:relative;height:16px;background:#EEF2F7;border-radius:8px;margin-top:4px;overflow:hidden">'+
+        '<div style="position:absolute;left:'+left+'%;width:'+w+'%;top:0;bottom:0;background:'+st.c+'33;border-radius:8px"><div style="position:absolute;left:0;top:0;bottom:0;width:'+p+'%;background:'+st.c+';border-radius:8px"></div></div>'+
+        '<div style="position:absolute;left:'+todayX+'%;top:-2px;bottom:-2px;width:2px;background:#EF4444"></div>'+
+      '</div>'+ctrl+'</div>';
+  }
+  // gom theo nhóm (đầu mục)
+  var groups={};tasks.forEach(function(t){var g=t.group||"Chưa phân nhóm";(groups[g]=groups[g]||[]).push(t);});
+  var order=(typeof GORDER!=="undefined"?GORDER:[]).filter(function(g){return groups[g];}).concat(Object.keys(groups).filter(function(g){return (typeof GORDER==="undefined"||GORDER.indexOf(g)<0);}));
+  var body=order.map(function(g){
+    var arr=groups[g];
+    var gavg=Math.round(arr.reduce(function(a,t){return a+(t.prog||0);},0)/arr.length);
+    var gdone=arr.filter(function(t){return (t.prog||0)>=100;}).length;
+    var hdr='<div style="display:flex;align-items:center;gap:8px;margin:16px 0 8px"><div style="font-size:14px;font-weight:800;color:var(--navy);white-space:nowrap">📂 '+g+'</div>'+
+      '<div style="flex:1;height:7px;background:#E5E7EB;border-radius:6px;overflow:hidden"><div style="height:100%;width:'+gavg+'%;background:var(--gold)"></div></div>'+
+      '<div style="font-size:12px;color:var(--mu);white-space:nowrap">'+gdone+'/'+arr.length+' · '+gavg+'%</div></div>';
+    return hdr+arr.map(rowHtml).join("");
+  }).join("");
+  el.innerHTML=head+'<div style="font-size:11px;color:var(--mu);margin-bottom:4px">🔴 vạch đỏ = hôm nay</div>'+axis+body;
+}
+// --- Admin: quản lý nhiệm vụ ---
+var editingTid=null;
+function openTask(id){
+  if(!isAdmin)return reqAdmin();
+  document.getElementById("tkowners").innerHTML=(S.team||[]).map(function(m){return '<option value="'+m.name+'">';}).join("");
+  var gset={};(typeof GORDER!=="undefined"?GORDER:[]).forEach(function(g){gset[g]=1;});(S.tasks||[]).forEach(function(t){if(t.group)gset[t.group]=1;});
+  document.getElementById("tkgroups").innerHTML=Object.keys(gset).map(function(g){return '<option value="'+g+'">';}).join("");
+  if(id){
+    var t=(S.tasks||[]).find(function(x){return x.id===id;});if(!t)return;editingTid=id;
+    document.getElementById("tkgroup").value=t.group||"";
+    document.getElementById("tktitle").value=t.title||"";document.getElementById("tkowner").value=t.owner||"";
+    document.getElementById("tkstart").value=t.start||"";document.getElementById("tkend").value=t.end||"";
+    document.getElementById("tkprog").value=t.prog||0;document.getElementById("tknote").value=t.note||"";
+    document.getElementById("tkTitle").textContent="✏️ Sửa nhiệm vụ";document.getElementById("tkDel").style.display="block";
+  }else{
+    editingTid=null;document.getElementById("tktitle").value="";document.getElementById("tkowner").value="";document.getElementById("tkgroup").value="";
+    document.getElementById("tkstart").value=new Date().toISOString().slice(0,10);
+    document.getElementById("tkend").value=(S.cfg&&S.cfg.date)||"2026-07-12";
+    document.getElementById("tkprog").value=0;document.getElementById("tknote").value="";
+    document.getElementById("tkTitle").textContent="➕ Thêm nhiệm vụ";document.getElementById("tkDel").style.display="none";
+  }
+  om("mtask");
+}
+function saveTask(){
+  if(!isAdmin)return reqAdmin();if(!S.tasks)S.tasks=[];
+  var title=document.getElementById("tktitle").value.trim();if(!title)return alert("Nhập tên nhiệm vụ!");
+  var data={title:title,group:document.getElementById("tkgroup").value.trim()||"Chưa phân nhóm",owner:document.getElementById("tkowner").value.trim(),start:document.getElementById("tkstart").value,end:document.getElementById("tkend").value,prog:Math.max(0,Math.min(100,parseInt(document.getElementById("tkprog").value)||0)),note:document.getElementById("tknote").value.trim()};
+  if(editingTid!=null){var t=S.tasks.find(function(x){return x.id===editingTid;});if(t){for(var k in data)t[k]=data[k];}editingTid=null;}
+  else{data.id=Date.now();S.tasks.push(data);}
+  sv();cm("mtask");rgantt();
+}
+function delTask(){if(!isAdmin)return reqAdmin();if(editingTid==null)return;if(!confirm("Xoá nhiệm vụ này?"))return;S.tasks=(S.tasks||[]).filter(function(t){return t.id!==editingTid;});editingTid=null;sv();cm("mtask");rgantt();}
+// --- Admin: quản lý PIN nhóm phụ trách ---
+function openTeam(){if(!isAdmin)return reqAdmin();rteam();om("mteam");}
+function rteam(){
+  var el=document.getElementById("teamlist");if(!el)return;
+  el.innerHTML=(S.team||[]).map(function(m){
+    return '<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--bdr)"><div style="flex:1;font-size:14px;font-weight:600">'+m.name+'</div><input value="'+(m.pin||"")+'" onchange="setPin('+m.id+',this.value)" style="width:90px" placeholder="PIN"><button onclick="delTeam('+m.id+')" style="background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;border-radius:8px;padding:5px 9px;font-size:13px;cursor:pointer">🗑</button></div>';
+  }).join("");
+}
+function setPin(id,v){var m=(S.team||[]).find(function(x){return x.id===id;});if(m){m.pin=String(v).trim();sv();}}
+function addTeam(){
+  if(!isAdmin)return reqAdmin();if(!S.team)S.team=[];
+  var nm=document.getElementById("tmname").value.trim(),pin=document.getElementById("tmpin").value.trim();
+  if(!nm||!pin)return alert("Nhập tên và PIN!");
+  S.team.push({id:Date.now(),name:nm,pin:pin});
+  document.getElementById("tmname").value="";document.getElementById("tmpin").value="";
+  sv();rteam();rgantt();
+}
+function delTeam(id){if(!isAdmin)return reqAdmin();if(!confirm("Xoá người này khỏi nhóm phụ trách?"))return;S.team=(S.team||[]).filter(function(m){return m.id!==id;});sv();rteam();rgantt();}
+function rci(){
+  if(!S.guests)S.guests=[];
+  var srcM=(document.getElementById("cisrcM")?document.getElementById("cisrcM").value:"").toLowerCase();
+  var srcG=(document.getElementById("cisrcG")?document.getElementById("cisrcG").value:"").toLowerCase();
+  var fEl=document.getElementById("ciflt");var flt=fEl?fEl.value:"";
+  var mem=(S.members||[]).map(function(m){return {type:"m",id:m.id,name:m.name,sub:((m.cls||"")+(m.job?" · "+m.job:""))||"Học sinh",ci:m.ci,col:m.col};});
+  var gst=(S.guests||[]).map(function(g){return {type:"g",id:g.id,name:g.name,sub:"Khách mời"+(g.org?" · "+g.org:""),ci:g.ci,col:"#8B5CF6"};});
+  // thống kê (gộp cả hai)
+  var all=mem.concat(gst);
+  var tot=all.length, came=all.filter(function(r){return r.ci;}).length;
+  var stEl=document.getElementById("cistat");
+  if(stEl)stEl.innerHTML='<div class="g2 g4"><div class="csm kpi"><div class="kv">'+came+'</div><div class="kl">Đã đến</div></div>'+
+    '<div class="csm kpi"><div class="kv">'+(tot-came)+'</div><div class="kl">Chưa đến</div></div>'+
+    '<div class="csm kpi"><div class="kv">'+tot+'</div><div class="kl">Tổng</div></div>'+
+    '<div class="csm kpi"><div class="kv">'+(tot?Math.round(came/tot*100):0)+'%</div><div class="kl">Tỉ lệ</div></div></div>';
+  function passFilter(r,src){
+    if(flt==="in"&&!r.ci)return false;
+    if(flt==="out"&&r.ci)return false;
+    if(src&&r.name.toLowerCase().indexOf(src)<0)return false;
+    return true;
+  }
+  function rowHtml(r){
+    var fn=r.type==="m"?"ciMember":"ciGuest";
+    var btn=r.ci
+      ? '<button onclick="'+fn+'('+r.id+')" style="flex-shrink:0;background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;border-radius:10px;padding:7px 11px;font-size:13px;font-weight:700;cursor:pointer">✓ '+ciTime(r.ci)+'</button>'
+      : '<button onclick="'+fn+'('+r.id+')" style="flex-shrink:0;background:var(--gr);color:#fff;border:none;border-radius:10px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer">Check-in</button>';
+    return '<div class="mrow'+(r.ci?" c":"")+'"><div class="av" style="background:'+(r.col||"#1A3A5C")+'">'+gi(r.name)+'</div><div class="mi"><div class="mn">'+r.name+'</div><div class="md">'+r.sub+'</div></div>'+btn+'</div>';
+  }
+  function renderCol(listId,countId,rows,src,emptyMsg){
+    var list=rows.filter(function(r){return passFilter(r,src);});
+    list.sort(function(a,b){return (a.ci?1:0)-(b.ci?1:0);});
+    var ce=document.getElementById(countId);if(ce)ce.textContent=list.length;
+    var el=document.getElementById(listId);if(!el)return;
+    el.innerHTML=list.length?list.map(rowHtml).join(""):"<div style='color:var(--mu);padding:18px;text-align:center;font-size:13px'>"+emptyMsg+"</div>";
+  }
+  renderCol("cilistM","ciCountM",mem,srcM,"Chưa có học sinh phù hợp.");
+  renderCol("cilistG","ciCountG",gst,srcG,"Chưa có khách mời phù hợp.");
+}
+
+// FINANCE
+function oaf(){if(!isAdmin)return reqAdmin();document.getElementById("tdate").valueAsDate=new Date();om("mf");}
+function at(){
+  if(!isAdmin)return reqAdmin();
+  var desc=document.getElementById("tdesc").value.trim();
+  var amt=parseInt(document.getElementById("tamt").value)||0;
+  if(!desc||!amt)return alert("Vui lòng điền đầy đủ!");
+  S.txs.unshift({id:Date.now(),tp:document.getElementById("ttype").value,cat:document.getElementById("tcat").value,desc:desc,amt:amt,date:document.getElementById("tdate").value,per:document.getElementById("tper").value,spmsg:document.getElementById("tspmsg").value.trim()});
+  ["tdesc","tamt","tper","tspmsg"].forEach(function(id){document.getElementById(id).value="";});
+  sv();cm("mf");rf();us();
+}
+function isSpon(t){return t.cat==="Tài trợ / Hảo tâm";}
+function rf(){
+  var inc=S.txs.filter(function(t){return t.tp==="income";}).reduce(function(a,t){return a+t.amt;},0);
+  var exp=S.txs.filter(function(t){return t.tp==="expense";}).reduce(function(a,t){return a+t.amt;},0);
+  document.getElementById("finc").textContent=ff(inc);
+  document.getElementById("fexp").textContent=ff(exp);
+  document.getElementById("fbal").textContent=ff(inc-exp);
+  // Nguồn thu: phí tham dự vs tài trợ
+  var phi=S.txs.filter(function(t){return t.tp==="income"&&!isSpon(t);}).reduce(function(a,t){return a+t.amt;},0);
+  var taitro=S.txs.filter(function(t){return t.tp==="income"&&isSpon(t);}).reduce(function(a,t){return a+t.amt;},0);
+  var src=document.getElementById("fsrc");
+  if(src)src.innerHTML=
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--bdr)"><span style="font-size:13.5px;color:var(--tx)">🎟️ Thu phí tham dự</span><span style="font-size:14px;font-weight:700;color:var(--navy)">'+ff(phi)+'</span></div>'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0"><span style="font-size:13.5px;color:var(--tx)">🎁 Tài trợ / Hảo tâm</span><span style="font-size:14px;font-weight:700;color:var(--gold)">'+ff(taitro)+'</span></div>';
+  // Vinh danh nhà tài trợ
+  var spon=S.txs.filter(function(t){return t.tp==="income"&&isSpon(t);});
+  var sp=document.getElementById("fspon");
+  if(sp){
+    if(!spon.length)sp.innerHTML='<div style="color:var(--mu);font-size:13px;text-align:center;padding:14px">Chưa có nhà tài trợ. Thêm giao dịch với danh mục “Tài trợ / Hảo tâm” để vinh danh.</div>';
+    else sp.innerHTML=spon.map(function(t,i){
+      var nm=(t.per||t.desc||"Nhà hảo tâm");
+      var msg=t.spmsg||(t.per?t.desc:"");
+      return '<div style="display:flex;align-items:center;gap:11px;padding:11px 0'+(i?';border-top:1px solid var(--bdr)':'')+'">'+
+        '<div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#E8920E);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0">'+gi(nm)+'</div>'+
+        '<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:var(--navy)">🏅 '+nm+'</div>'+(msg?'<div style="font-size:12px;color:var(--mu);font-style:italic;margin-top:2px">“'+msg+'”</div>':'')+'</div>'+
+        '<div style="font-size:14px;font-weight:800;color:var(--gold);flex-shrink:0">'+ff(t.amt)+'</div></div>';
+    }).join("");
+  }
+  // Lịch sử giao dịch
+  var el=document.getElementById("txlist");
+  if(!S.txs.length){el.innerHTML="<div style='color:var(--mu);padding:16px;text-align:center'>Chưa có giao dịch nào</div>";return;}
+  el.innerHTML=S.txs.map(function(t){return '<div class="txr"><div class="txd '+(t.tp==="income"?"txi":"txo")+'"></div><div class="txi2"><div class="txd2">'+t.desc+'</div><div class="txm">'+t.cat+' · '+(t.date||"--")+(t.per?" · "+t.per:"")+'</div></div><div class="txa '+(t.tp==="income"?"i":"o")+'">'+(t.tp==="income"?"+":"-")+fs(t.amt)+'</div></div>';}).join("");
+}
+
+// PROGRAM
+var TC={"Chính thức":"#1A3A5C","Giải trí":"#8B5CF6","Ăn uống":"#F59E0B","Games":"#10B981","Trao giải":"#F5A623"};
+function ldp(){
+  if(!isAdmin)return reqAdmin();
+  S.prog=[
+    {time:"07:30",title:"Chụp hình lớp",desc:"Đón tiếp cựu học sinh, quý thầy cô; chụp ảnh lưu niệm theo lớp.",tag:"Chính thức"},
+    {time:"08:00",title:"Trò chơi kết nối",desc:"Khóa 06 chia đội, chơi các trò chơi mang tính kết nối.",tag:"Games"},
+    {time:"09:30",title:"Free time",desc:"Giao lưu tự do, gặp gỡ bạn bè.",tag:"Giải trí"},
+    {time:"10:00",title:"Chương trình tri ân thầy cô",desc:"Văn nghệ, phát biểu, nghi thức tri ân thầy cô, trao học bổng, chụp ảnh lưu niệm.",tag:"Chính thức"},
+    {time:"10:30",title:"Nhập tiệc",desc:"Liên hoan (tiệc mặn).",tag:"Ăn uống"},
+  ];
+  sv();rpr();
+}
+var editingPidx=-1;
+function openProg(idx){
+  if(!isAdmin)return reqAdmin();
+  if(typeof idx==="number"&&S.prog[idx]){var p=S.prog[idx];editingPidx=idx;
+    document.getElementById("ptime").value=p.time||"";document.getElementById("ptit2").value=p.title||"";
+    document.getElementById("pdesc").value=p.desc||"";document.getElementById("ptag").value=p.tag||"Chính thức";
+    document.getElementById("mpTitle").textContent="✏️ Sửa mốc";document.getElementById("mpDel").style.display="block";
+  }else{editingPidx=-1;
+    document.getElementById("ptime").value="";document.getElementById("ptit2").value="";document.getElementById("pdesc").value="";document.getElementById("ptag").selectedIndex=0;
+    document.getElementById("mpTitle").textContent="➕ Thêm mốc";document.getElementById("mpDel").style.display="none";
+  }
+  om("mprog");
+}
+function saveProg(){
+  if(!isAdmin)return reqAdmin();
+  var time=document.getElementById("ptime").value.trim();var title=document.getElementById("ptit2").value.trim();
+  if(!time||!title)return alert("Điền giờ và tên mốc!");
+  var data={time:time,title:title,desc:document.getElementById("pdesc").value.trim(),tag:document.getElementById("ptag").value};
+  if(editingPidx>=0&&S.prog[editingPidx]){S.prog[editingPidx]=data;editingPidx=-1;}else{S.prog.push(data);}
+  S.prog.sort(function(a,b){return a.time.localeCompare(b.time);});
+  sv();cm("mprog");rpr();
+}
+function delProg(){
+  if(!isAdmin)return reqAdmin();if(editingPidx<0)return;if(!confirm("Xoá mốc này?"))return;
+  S.prog.splice(editingPidx,1);editingPidx=-1;sv();cm("mprog");rpr();
+}
+function rpr(){
+  var el=document.getElementById("tllist");
+  if(!S.prog.length){el.innerHTML="<div style='color:var(--mu);padding:12px;text-align:center;font-size:13px'>Nhấn &ldquo;Nạp mẫu&rdquo; hoặc &ldquo;Thêm mốc&rdquo; để bắt đầu!</div>";return;}
+  el.innerHTML=S.prog.map(function(p,i){var ed=isAdmin?'<button onclick="openProg('+i+')" style="position:absolute;top:8px;right:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:3px 7px;font-size:12px;cursor:pointer">✏️</button>':'';return '<div class="tli"><div class="tlt">'+p.time+'</div><div class="tld'+(i===0?" g":"")+'"></div><div class="tlc" style="position:relative">'+ed+'<div class="tlti">'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span></div></div>';}).join("");
+}
+
+// POLLS
+function rpo(){
+  var wrap=document.getElementById("pwrap");
+  wrap.innerHTML=Object.keys(S.polls).map(function(key){
+    var poll=S.polls[key];
+    var total=poll.v.reduce(function(a,b){return a+b;},0)||1;
+    return '<div class="pc"><div class="pq">'+poll.q+'</div>'+
+      poll.opts.map(function(opt,i){return '<div><div class="por"><span class="pon">'+opt+'</span><span class="pop">'+poll.v[i]+' phiếu · '+Math.round(poll.v[i]/total*100)+'%</span></div><div class="pbw"><div class="pbb" style="width:'+poll.v[i]/total*100+'%"></div></div></div>';}).join("")+
+      '<div class="vcs">'+poll.opts.map(function(opt,i){return '<button class="vc" onclick="pv(&#39;"+key+"&#39;,'+i+')">'+opt+'</button>';}).join("")+'</div></div>';
+  }).join("");
+}
+function pv(key,idx){S.polls[key].v[idx]++;sv();rpo();}
+
+// GAMES
+var QQ=[
+  {q:"Câu cả lớp hay nói nhất khi vào lớp?",opts:["Hôm nay có kiểm tra không?","Ôn bài chưa?","Sáng nay ăn gì?","Thầy/cô đến chưa?"],a:0},
+  {q:"Ai thường bị gọi lên bảng nhiều nhất?",opts:["Người ngồi bàn đầu","Người hay mất tập trung","Người học giỏi","Người hay vắng"],a:1},
+  {q:"Môn học nào khiến cả lớp ngủ gật nhất?",opts:["Toán","Văn","Sử","Địa"],a:2},
+  {q:"Khi sắp tan học, cả lớp làm gì đầu tiên?",opts:["Dọn sách sẵn","Nhìn đồng hồ liên tục","Vẫn chăm chú nghe","Ngủ gật"],a:0},
+  {q:"Câu nói của thầy/cô mà bạn nhớ mãi?",opts:['"Không học thì về nuôi heo"','"Lớp này tệ nhất"','"Các em giỏi lắm!"','"Hôm nay về sớm"'],a:0},
+];
+var TD=[
+  {t:"truth",tx:"Ai là người bạn thích nhất trong lớp hồi đó? 😄"},
+  {t:"dare",tx:"Hát 1 đoạn bài hát yêu thích thời học sinh!"},
+  {t:"truth",tx:"Kể kỷ niệm xấu hổ nhất thời học sinh?"},
+  {t:"dare",tx:"Nhắn tin cho 1 bạn thân cũ lâu chưa liên lạc ngay bây giờ!"},
+  {t:"truth",tx:"Nếu quay về lớp 12, bạn muốn thay đổi điều gì?"},
+  {t:"dare",tx:"Biểu diễn 1 động tác nhảy trong 15 giây!"},
+];
+var SE=["Hồi đó tôi hay trốn học vì ___","Người mà cả lớp ai cũng biết là ___","Câu thầy/cô hay nói nhất là ___","Kỷ niệm buồn cười nhất là ___","Nếu có thể quay lại, tôi sẽ ___","20 năm qua điều tôi tự hào nhất là ___"];
+var BI=["Có 2+ con","Đi làm nước ngoài","Đã kết hôn","Có xe hơi","Khởi nghiệp","Vẫn độc thân","Học Thạc sĩ","Thay đổi ngành","Sống ở TPHCM","Hay tập gym","🌟 FREE","Nuôi chó/mèo","Có nhà riêng","Làm nhà nước","Hay du lịch","Đổi nghề","Liên lạc thầy cô","Đã có cháu","Chơi nhạc cụ","Hay nấu ăn","Làm kinh doanh","Sở thích mới","Sống gần nhà","Hay đọc sách","Học tiếng Anh"];
+var bingo=new Array(25).fill(false);
+var qst={q:0,sc:0,ans:false};
+var wn=[],wa=0,ws=false;
+var mc=[],mf2=[],ms2=[],ml=false;
+var ME=["🏫","📚","🎓","✏️","📝","🎒","⭐","🔔","📐","🎨","🏆","🎯"];
+
+function og(type){
+  var gc=document.getElementById("gcont");
+  if(type==="quiz"){qst={q:0,sc:0,ans:false};gc.innerHTML=bq();}
+  else if(type==="wheel"){gc.innerHTML=bw();setTimeout(function(){dw(wa);},60);}
+  else if(type==="truth")gc.innerHTML=bt();
+  else if(type==="bingo"){bingo=new Array(25).fill(false);gc.innerHTML=bb();}
+  else if(type==="memory")gc.innerHTML=bm();
+  else if(type==="sentence")gc.innerHTML=bse();
+  else if(type==="tinhhuong")gc.innerHTML=bsi();
+  om("mgame");
+}
+function bq(){
+  var q=QQ[qst.q];
+  return '<div style="font-size:12px;color:var(--mu);margin-bottom:8px">Câu '+(qst.q+1)+'/'+QQ.length+' · Điểm: '+qst.sc+' ⭐</div>'+
+    '<div class="pb"><div class="pf" style="width:'+(qst.q/QQ.length*100)+'%"></div></div>'+
+    '<div class="qq">'+q.q+'</div>'+
+    '<div class="qo">'+q.opts.map(function(o,i){return '<button class="qob" onclick="aq('+i+')" id="qo'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>';}).join("")+'</div>';
+}
+function aq(idx){
+  if(qst.ans)return;qst.ans=true;
+  var q=QQ[qst.q];
+  document.getElementById("qo"+idx).classList.add(idx===q.a?"ok":"no");
+  document.getElementById("qo"+q.a).classList.add("ok");
+  if(idx===q.a)qst.sc++;
+  setTimeout(function(){
+    qst.q++;
+    if(qst.q>=QQ.length){
+      document.getElementById("gcont").innerHTML='<div style="text-align:center;padding:20px"><div style="font-size:56px;margin-bottom:12px">'+(qst.sc>=4?"🏆":qst.sc>=2?"😊":"😅")+'</div><div style="font-family:Playfair Display,serif;font-size:48px;font-weight:900;color:var(--gold)">'+qst.sc+'/'+QQ.length+'</div><div style="font-size:14px;margin:10px 0;color:var(--mu)">'+(qst.sc>=4?"Xuất sắc!":qst.sc>=2?"Khá tốt!":"Cần ôn lại rồi!")+'</div><button class="btn bg2" style="margin-top:8px" onclick="og(&#39;quiz&#39;)">🔄 Chơi lại</button></div>';
+    }else{qst.ans=false;document.getElementById("gcont").innerHTML=bq();}
+  },1200);
+}
+function bw(){
+  var names=ciPool(); // ưu tiên người đã check-in (TV + khách mời)
+  if(!names.length)names=S.members.filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
+  wn=names.length?names:["Bạn A","Bạn B","Bạn C","Bạn D","Bạn E","Bạn F"];
+  var sz=Math.min(window.innerWidth-80,280);
+  return '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:2px">🎡 Vòng quay may mắn</div>'+
+    '<div style="font-size:12px;color:var(--mu);margin-bottom:10px">Quay trong '+wn.length+' người'+(ciPool().length?' đã check-in':'')+'</div>'+
+    '<div style="position:relative;display:flex;justify-content:center;align-items:center"><canvas id="wc" width="'+sz+'" height="'+sz+'"></canvas>'+
+    '<div style="position:absolute;right:calc(50% - '+Math.floor(sz/2+2)+'px);width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:20px solid var(--ac)"></div></div>'+
+    '<div id="wres" style="text-align:center;min-height:38px;margin-top:10px"></div>'+
+    '<button class="btn bg2" onclick="sw2()" id="spbtn" style="margin-top:8px">🎡 Quay ngay!</button>';
+}
+function dw(angle){
+  var c=document.getElementById("wc");if(!c)return;
+  var ctx=c.getContext("2d"),n=wn.length,r=c.width/2-4,cx=c.width/2,cy=c.height/2;
+  ctx.clearRect(0,0,c.width,c.height);
+  var cols=["#1A3A5C","#F5A623","#10B981","#FF6B6B","#8B5CF6","#EC4899","#F59E0B","#3B82F6"];
+  for(var i=0;i<n;i++){
+    var a1=angle+i*(2*Math.PI/n),a2=a1+2*Math.PI/n;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a1,a2);ctx.fillStyle=cols[i%cols.length];ctx.fill();
+    ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(a1+(a2-a1)/2);ctx.textAlign="right";ctx.fillStyle="#fff";
+    ctx.font="bold "+Math.max(9,Math.floor(r/8))+"px Inter";ctx.fillText(wn[i].split(" ").pop(),r-6,4);ctx.restore();
+  }
+  ctx.beginPath();ctx.arc(cx,cy,14,0,2*Math.PI);ctx.fillStyle="#fff";ctx.fill();
+}
+function sw2(){
+  if(ws)return;ws=true;document.getElementById("spbtn").disabled=true;document.getElementById("wres").innerHTML="";
+  var sp=0.25+Math.random()*0.2,tot=0,min=Math.PI*8+Math.random()*Math.PI*6;
+  function a(){wa+=sp;tot+=sp;sp*=0.987;dw(wa);
+    if(tot<min||sp>0.01)requestAnimationFrame(a);
+    else{ws=false;document.getElementById("spbtn").disabled=false;
+      var idx=Math.floor((((-wa)%(2*Math.PI)+2*Math.PI)%(2*Math.PI))/(2*Math.PI/wn.length))%wn.length;
+      document.getElementById("wres").innerHTML='<div style="font-size:17px;font-weight:700;color:var(--navy)">🎉 '+wn[idx]+'!</div>';
+    }}
+  requestAnimationFrame(a);
+}
+function bt(){
+  var item=TD[Math.floor(Math.random()*TD.length)];
+  return '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:14px">🎴 Thật hay Thách</div>'+
+    '<div style="padding:18px;background:'+(item.t==="truth"?"#EFF6FF":"#FFF7ED")+';border-radius:14px;border:2px solid '+(item.t==="truth"?"#BFDBFE":"#FED7AA")+';margin-bottom:14px">'+
+    '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:'+(item.t==="truth"?"#1E40AF":"#C2410C")+';margin-bottom:10px">'+(item.t==="truth"?"💬 SỰ THẬT":"🔥 THÁCH THỨC")+'</div>'+
+    '<div style="font-size:16px;font-weight:600;line-height:1.5">'+item.tx+'</div></div>'+
+    '<button class="btn bg2" onclick="document.getElementById(&#39;gcont&#39;).innerHTML=bt()">🔀 Câu tiếp theo</button>';
+}
+function bb(){
+  return '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px">🎯 Bingo 20 năm</div>'+
+    '<div style="font-size:12px;color:var(--mu);margin-bottom:12px">Tìm bạn phù hợp mỗi ô, đánh dấu. Hoàn thành 1 hàng thì thắng!</div>'+
+    '<div class="bg3">'+BI.map(function(c,i){return '<button class="bc" onclick="tb('+i+')" id="bc'+i+'">'+c+'</button>';}).join("")+'</div>';
+}
+function tb(i){
+  bingo[i]=!bingo[i];document.getElementById("bc"+i).classList.toggle("on",bingo[i]);
+  var W=[[0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],[0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],[0,6,12,18,24],[4,8,12,16,20]];
+  if(W.some(function(l){return l.every(function(i){return bingo[i];});}))setTimeout(function(){alert("🎉 BINGO!");},100);
+}
+function bm(){
+  var em=[].concat(ME,ME).sort(function(){return Math.random()-.5;});
+  mc=em;mf2=[];ms2=[];ml=false;
+  return '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px">🃏 Lật ảnh ký ức</div>'+
+    '<div style="font-size:12px;color:var(--mu);margin-bottom:12px">Lật 2 thẻ giống nhau để ghép đôi!</div>'+
+    '<div class="mg">'+em.map(function(_,i){return '<button class="mc2" onclick="fc('+i+')" id="mc'+i+'">❓</button>';}).join("")+'</div>';
+}
+function fc(i){
+  if(ml||mf2.indexOf(i)>=0||ms2.indexOf(i)>=0)return;
+  var el=document.getElementById("mc"+i);el.textContent=mc[i];el.classList.add("fl");mf2.push(i);
+  if(mf2.length===2){
+    ml=true;
+    if(mc[mf2[0]]===mc[mf2[1]]){
+      ms2=ms2.concat(mf2);mf2.forEach(function(j){document.getElementById("mc"+j).classList.add("sl");});mf2=[];ml=false;
+      if(ms2.length===mc.length)setTimeout(function(){alert("🎉 Tuyệt vời! Ghép hết rồi!");},100);
+    }else{setTimeout(function(){mf2.forEach(function(j){var e=document.getElementById("mc"+j);e.textContent="❓";e.className="mc2";});mf2=[];ml=false;},900);}
+  }
+}
+function bse(){
+  var s2=SE[Math.floor(Math.random()*SE.length)];
+  return '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:12px">✍️ Hoàn thành câu</div>'+
+    '<div style="padding:14px;background:var(--soft);border-radius:12px;font-size:15px;font-weight:600;color:var(--navy);margin-bottom:14px;line-height:1.5">"'+s2+'"</div>'+
+    '<textarea style="width:100%;padding:12px;border-radius:10px;border:2px solid var(--bdr);font-size:15px;font-family:Inter,sans-serif;outline:none;margin-bottom:12px" rows="3" placeholder="Điền câu trả lời..." id="sans"></textarea>'+
+    '<div style="display:flex;gap:8px"><button class="btn bg2" style="flex:1" onclick="document.getElementById(&#39;gcont&#39;).innerHTML=bse()">🔀 Câu khác</button><button class="btn bp" style="flex:1" onclick="alert(&#39;😄 &#39;+document.getElementById(&#39;sans&#39;).value)">📤 Chia sẻ</button></div>';
+}
+// ═══ GAME TÌNH HUỐNG ═══
+var TH=[
+  {e:"🩴",sit:"Bạn mang dép lê vào trường, thầy phụ trách bắt được ngay ở cổng!",opts:[
+    {c:"Thú nhận luôn",e:"📒",r:"Thầy gật gù khen thật thà... rồi rút sổ đầu bài ghi tên. Bạn được \"vinh danh\" trước cả lớp suốt tuần!"},
+    {c:"Đổi dép với bạn kế bên",e:"🚩",r:"Thầy phát hiện cả hai cùng đi dép. Hai đứa dắt tay nhau lên đứng cột cờ làm gương cho toàn trường!"},
+    {c:"Giả vờ đau chân nên phải đi dép",e:"🤕",r:"Thầy \"thương\" dẫn thẳng xuống phòng y tế băng bó. Nghỉ được 2 tiết nhưng chân quấn băng đi cà nhắc cả ngày!"},
+    {c:"Chạy thẳng vào lớp",e:"🤣",r:"Chạy được 3 bước thì trượt dép té cái \"oạch\" giữa sân. Cả trường đồng loạt vỗ tay tán thưởng!"}
+  ]},
+  {e:"🚪",sit:"Bạn đến trễ, cổng trường đã khóa, bác bảo vệ ngồi nhìn ra.",opts:[
+    {c:"Leo cổng vào",e:"😬",r:"Vừa leo lên đỉnh cổng thì thầy giám thị đứng ngay bên kia mỉm cười: \"Xuống từ từ thôi em.\" Mời lên phòng uống trà luôn!"},
+    {c:"Năn nỉ bác bảo vệ",e:"🎤",r:"Bác kể hồi xưa bác cũng hay trễ, mở cổng cho vào — đổi lại bạn phải hát tặng bác một bài giữa sân!"},
+    {c:"Gọi điện nhờ phụ huynh xác nhận",e:"📞",r:"Bấm nhầm số... thầy chủ nhiệm! Thầy đích thân ra tận cổng mở cửa đón bạn. Quê xệ!"},
+    {c:"Về nhà ngủ tiếp",e:"😴",r:"Hôm sau bị ghi vắng không phép, mẹ phải lên ký cam kết. Kế hoạch thất bại toàn tập!"}
+  ]},
+  {e:"📚",sit:"Còn 5 phút nữa thầy kiểm tra bài tập về nhà mà bạn quên làm!",opts:[
+    {c:"Mượn vở bạn chép vội",e:"😂",r:"Cuống quá chép luôn cả tên bạn vào bài. Thầy đọc xong ngẩng lên: \"Em đổi tên hồi nào?\""},
+    {c:"Nói để quên vở ở nhà",e:"😅",r:"Thầy bảo: \"Gọi ba mẹ chụp gửi lên đi em.\" Bạn đứng hình, mồ hôi vã ra."},
+    {c:"Tự giác lên thú nhận",e:"👍",r:"Thầy cho cơ hội làm lại tại chỗ và khen tinh thần trung thực. Thoát hiểm trong gang tấc!"},
+    {c:"Núp sau lưng bạn to con",e:"🫣",r:"Thầy vẫn gọi trúng phóc tên bạn: \"Trốn đâu cho thoát.\" Cả lớp quay xuống nhìn."}
+  ]},
+  {e:"✏️",sit:"Thầy gọi bạn lên bảng giải bài Toán mà bạn không biết làm.",opts:[
+    {c:"Vẽ con mèo câu giờ",e:"🐱",r:"Cả lớp cười nghiêng ngả. Thầy cũng cười, cho 1 điểm... môn Mỹ thuật!"},
+    {c:"Đứng im chờ bạn nhắc",e:"🙊",r:"Bạn nhắc to quá thầy nghe hết, thế là hai đứa cùng lên bảng \"hợp tác\"."},
+    {c:"Thành thật nói chưa hiểu bài",e:"💡",r:"Thầy giảng lại tận tình, bạn vỡ òa hiểu ra. Hôm đó về làm được hết bài tập!"},
+    {c:"Giả vờ xỉu",e:"😵",r:"Diễn hơi lố, thầy biết tỏng: \"Tỉnh chưa? Ngồi xuống ôn bài.\" Hố to!"}
+  ]},
+  {e:"😪",sit:"Bạn ngủ gật trong giờ học, thầy đang lặng lẽ tiến lại gần.",opts:[
+    {c:"Bật dậy hô \"Có em!\"",e:"🙋",r:"Giữa giờ Toán mà hô như điểm danh thể dục. Cả lớp \"òaaa\" một tràng dài."},
+    {c:"Giả vờ đang cúi đọc sách",e:"💧",r:"Vệt nước dãi loang trên trang sách tố cáo tất cả. Bằng chứng không thể chối!"},
+    {c:"Xin phép đi rửa mặt",e:"👌",r:"Tỉnh táo hẳn, thầy còn khen biết điều. Quay vào học hăng say bất ngờ!"},
+    {c:"Ngủ tiếp luôn",e:"😱",r:"Mơ thấy được điểm 10, tỉnh dậy thấy thầy đứng ngay bên cạnh tự bao giờ!"}
+  ]},
+  {e:"👕",sit:"Áo bạn chưa bỏ vào quần, đội cờ đỏ đang đứng ngay cổng chấm thi đua.",opts:[
+    {c:"Bỏ áo vào vội",e:"🧣",r:"Cuống quá nhét luôn cả khăn quàng đỏ vào quần. Trông còn buồn cười hơn lúc đầu!"},
+    {c:"Cười xòa nhận lỗi",e:"😊",r:"Cờ đỏ cũng phì cười, chỉ trừ nhẹ 1 điểm thi đua. Coi như hòa!"},
+    {c:"Đổ tại gió thổi tung áo",e:"📋",r:"Gió đâu chẳng thấy, chỉ thấy cờ đỏ lạnh lùng mở sổ ghi tên bạn."},
+    {c:"Quay đầu né sang cổng khác",e:"🚧",r:"Cổng nào cũng có cờ đỏ trực sẵn. Thoát kiểu gì cũng không thoát!"}
+  ]},
+  {e:"🤫",sit:"Bạn đang nói chuyện riêng thì bị thầy bắt quả tang.",opts:[
+    {c:"Nói \"em đang hỏi bài bạn\"",e:"😬",r:"Thầy gật: \"Vậy giải giúp thầy bài này.\" Bạn đứng hình, hỏi bài kiểu gì đây?"},
+    {c:"Im thin thít cúi đầu",e:"🤐",r:"Thầy nhìn một lúc rồi cho qua, chỉ nhắc nhở nhẹ. May ơi là may!"},
+    {c:"Đổ cho bạn bắt chuyện trước",e:"😅",r:"Bạn quay sang \"Ủa?\". Tình bạn 12 năm lung lay trong 1 nốt nhạc."},
+    {c:"Xin lỗi thầy luôn",e:"🙏",r:"Thầy gật đầu hài lòng, lớp học tiếp bình thường. Xử lý quá đỉnh!"}
+  ]},
+  {e:"📱",sit:"Bạn lén mang truyện tranh (và điện thoại) vào lớp, thầy nghi nghi.",opts:[
+    {c:"Giấu vào hộc bàn",e:"📦",r:"Thầy đi ngang thò tay \"tịch thu\" gọn gàng. Cuối học kỳ mới được nhận lại!"},
+    {c:"Nộp tự giác",e:"👍",r:"Thầy khen thành thật, giữ giùm tới hết giờ rồi trả. Nhẹ cả người!"},
+    {c:"Nói \"của bạn để quên\"",e:"😶",r:"Bạn chối bay chối biến. Càng gỡ càng rối, cả hai cùng lên bảng tường trình."},
+    {c:"Nhét vào cặp thật nhanh",e:"🔊",r:"Kéo khóa cặp kêu \"rẹttt\" to nhất phòng. Mọi ánh mắt đổ dồn về bạn!"}
+  ]},
+  {e:"🧹",sit:"Tới phiên trực nhật mà bạn quên lau bảng, thầy vừa bước vào lớp.",opts:[
+    {c:"Lau vội bằng tay áo",e:"🤍",r:"Áo trắng tinh thành áo loang lổ bụi phấn. Về nhà mẹ hỏi \"đi học hay đi cày?\""},
+    {c:"Nhờ bạn lau giúp",e:"🙌",r:"Bạn tốt bụng lau sạch bong, thế là bạn ấy được thầy khen... thay cho bạn!"},
+    {c:"Nhận lỗi xin lau lại",e:"😇",r:"Thầy ok, dặn lần sau nhớ. Bạn lau bảng sạch đến mức thầy gật gù khen."},
+    {c:"Giả vờ bảng vẫn sạch",e:"🌀",r:"Thầy cứ thế viết đè lên chữ cũ, chữ chồng chữ rối mù, cả lớp đọc không nổi."}
+  ]}
+];
+var THi=-1;
+function bsi(){
+  var i;do{i=Math.floor(Math.random()*TH.length);}while(i===THi&&TH.length>1);THi=i;
+  var s=TH[i];
+  return '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:2px">🎭 Game tình huống</div>'+
+    '<div style="font-size:12px;color:var(--mu);margin-bottom:12px">Chọn cách xử lý — xem kết cục hài hước!</div>'+
+    '<div style="background:var(--soft);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center"><div style="font-size:34px;margin-bottom:8px">'+s.e+'</div><div style="font-size:15px;font-weight:700;color:var(--navy);line-height:1.5">'+s.sit+'</div></div>'+
+    '<div class="qo">'+s.opts.map(function(o,k){return '<button class="qob" onclick="chi('+k+')">'+o.c+'</button>';}).join("")+'</div>';
+}
+function chi(k){
+  var o=TH[THi].opts[k];
+  document.getElementById("gcont").innerHTML=
+    '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:12px">🎭 Kết cục</div>'+
+    '<div style="text-align:center;font-size:52px;margin-bottom:10px">'+o.e+'</div>'+
+    '<div style="background:var(--gl);border-radius:14px;padding:16px;margin-bottom:8px"><div style="font-size:11px;color:var(--mu);margin-bottom:6px">Bạn chọn: <b>'+o.c+'</b></div><div style="font-size:15px;font-weight:600;color:var(--tx);line-height:1.55">'+o.r+'</div></div>'+
+    '<button class="btn bg2" style="margin-top:10px" onclick="og(&#39;tinhhuong&#39;)">🎲 Tình huống khác</button>';
+}
+
+// ===== BANG KY NIEM (CHALKBOARD GALLERY) =====
+var GBOARDS=[{k:"12A1",n:"Lớp 12A1"},{k:"12A2",n:"Lớp 12A2"},{k:"12A3",n:"Lớp 12A3"},{k:"12A4",n:"Lớp 12A4"},{k:"all",n:"Cả khóa 06"}];
+var NCOLORS=["nc0","nc1","nc2","nc3","nc4","nc5"];
+var _curBoard="12A1",_noteColor="nc0";
+function ensureGallery(){if(!S.gallery||typeof S.gallery!=="object"||Array.isArray(S.gallery))S.gallery={};GBOARDS.forEach(function(b){if(!Array.isArray(S.gallery[b.k]))S.gallery[b.k]=[];});}
+function siso(k){if(k==="all")return (S.members||[]).length;return (S.members||[]).filter(function(m){return m.cls===k;}).length;}
+function escHtml(s){return (s==null?"":String(s)).replace(/[&<>\"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function meName(){try{if(meUser)return meUser;}catch(e){}return "";}
+function rgal(){
+  ensureGallery();
+  var rt=document.getElementById("rtwrap");
+  if(rt)rt.innerHTML=_supaOn?'<div class="rtbadge rton">🟢 Realtime bật — mọi máy thấy chung</div>':'<div class="rtbadge rtoff">⚪ Lưu trên máy này (chưa bật realtime)</div>';
+  var dl=document.getElementById("dlink");if(dl&&S.cfg&&S.cfg.drive&&!dl.value)dl.value=S.cfg.drive;
+  var host=document.getElementById("boards");if(!host)return;
+  host.innerHTML=GBOARDS.map(function(b){
+    var items=S.gallery[b.k]||[];
+    var pins=items.length?items.map(function(it){
+      var rot=((it.id||0)%2?1:-1)*(1+((it.id||0)%4));
+      if(it.type==="photo"){
+        return '<div class="pinitem" onclick="zoomItem(\''+b.k+'\','+it.id+')"><div class="pin-wrap" style="transform:rotate('+rot+'deg)"><span class="pin-pin"></span><img class="pin-photo" src="'+it.src+'" loading="lazy"></div></div>';
+      }
+      return '<div class="pinitem pin-note '+(it.color||"nc0")+'" style="transform:rotate('+rot+'deg)" onclick="zoomItem(\''+b.k+'\','+it.id+')">'+escHtml(it.text)+(it.by?'<span class="pn-by">— '+escHtml(it.by)+'</span>':'')+'</div>';
+    }).join(""):'<div class="bempty">Chưa có gì trên bảng. Ghim ảnh hoặc dán note nào! ✏️</div>';
+    return '<div class="board"><div class="bsurf">'+
+      '<div class="bhead">'+b.n+'<span class="chk">~ bảng kỷ niệm ~</span></div>'+
+      '<div class="btag">'+b.n.replace("Lớp ","")+'<span class="bs">sĩ số '+siso(b.k)+'</span></div>'+
+      '<div class="pins">'+pins+'</div></div>'+
+      '<div class="bbtns"><button class="bbtn" onclick="pinPhoto(\''+b.k+'\')">📌 Ghim ảnh</button>'+
+      '<button class="bbtn" onclick="openNote(\''+b.k+'\')">📝 Dán note</button></div></div>';
+  }).join("");
+}
+function pinPhoto(k){_curBoard=k;var inp=document.getElementById("pinp");inp.value="";inp.click();}
+function hp(input){
+  ensureGallery();
+  var files=Array.from(input.files||[]);if(!files.length)return;
+  var k=_curBoard,left=files.length;
+  files.forEach(function(file){
+    compressImg(file,function(durl){
+      S.gallery[k].push({id:Date.now()+Math.floor(Math.random()*1000),type:"photo",src:durl,by:meName(),ts:Date.now()});
+      left--;if(left<=0){sv();rgal();}
+    });
+  });
+}
+function openNote(k){
+  _curBoard=k;_noteColor="nc0";
+  document.getElementById("ntxt").value="";
+  document.getElementById("nby").value=meName();
+  document.getElementById("ncpick").innerHTML=NCOLORS.map(function(c,i){return '<div class="ncchip '+c+(i===0?' on':'')+'" onclick="pickNoteColor(\''+c+'\',this)"></div>';}).join("");
+  om("mnote");
+}
+function pickNoteColor(c,el){_noteColor=c;document.querySelectorAll("#ncpick .ncchip").forEach(function(x){x.classList.remove("on");});el.classList.add("on");}
+function saveNote(){
+  ensureGallery();
+  var t=document.getElementById("ntxt").value.trim();if(!t)return alert("Viết nội dung note nhé!");
+  var by=document.getElementById("nby").value.trim();
+  S.gallery[_curBoard].push({id:Date.now()+Math.floor(Math.random()*1000),type:"note",text:t,color:_noteColor,by:by,ts:Date.now()});
+  sv();cm("mnote");rgal();
+}
+function zoomItem(k,id){
+  ensureGallery();
+  var it=(S.gallery[k]||[]).find(function(x){return x.id===id;});if(!it)return;
+  var del=isAdmin?'<button class="zdel" onclick="delGal(\''+k+'\','+id+')">🗑 Gỡ khỏi bảng</button>':'';
+  var box=document.getElementById("zbox");
+  if(it.type==="photo"){
+    box.innerHTML='<img src="'+it.src+'"><div class="zcap">'+(it.by?'📷 '+escHtml(it.by)+'<br>':'')+del+'</div>';
+  }else{
+    box.innerHTML='<div class="znote '+(it.color||"nc0")+'">'+escHtml(it.text)+'</div><div class="zcap">'+(it.by?'— '+escHtml(it.by)+'<br>':'')+del+'</div>';
+  }
+  om("mzoom");
+}
+function delGal(k,id){
+  if(!isAdmin)return reqAdmin();
+  if(!confirm("Gỡ mục này khỏi bảng?"))return;
+  ensureGallery();
+  S.gallery[k]=(S.gallery[k]||[]).filter(function(x){return x.id!==id;});
+  sv();cm("mzoom");rgal();
+}
+function compressImg(file,cb){
+  var rd=new FileReader();
+  rd.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var mx=1000,w=img.width,h=img.height;
+      if(w>h&&w>mx){h=Math.round(h*mx/w);w=mx;}else if(h>=w&&h>mx){w=Math.round(w*mx/h);h=mx;}
+      try{var cv=document.createElement("canvas");cv.width=w;cv.height=h;cv.getContext("2d").drawImage(img,0,0,w,h);cb(cv.toDataURL("image/jpeg",0.72));}
+      catch(err){cb(e.target.result);}
+    };
+    img.onerror=function(){cb(e.target.result);};
+    img.src=e.target.result;
+  };
+  rd.readAsDataURL(file);
+}
+function od(){var l=document.getElementById("dlink").value.trim();if(!S.cfg)S.cfg={};S.cfg.drive=l;sv();if(l)window.open(l,"_blank");else alert("Dán link Google Drive trước nhé!");}
+
+// ===== SUPABASE REALTIME (tuy chon) =====
+// >>> Dan PROJECT URL + ANON PUBLIC KEY cua Supabase vao 2 dong duoi de bat realtime nhieu may <<<
+var SUPA_URL="";   // vd: https://abcxyz.supabase.co
+var SUPA_KEY="";   // anon public key
+var sb=null,CID=(Date.now().toString(36)+Math.random().toString(36).slice(2,8)),_pushT=null,_supaOn=false;
+function supaReady(){return !!(SUPA_URL&&SUPA_KEY&&window.supabase&&window.supabase.createClient);}
+function mergeById(localArr,remoteArr){
+  localArr=localArr||[];remoteArr=remoteArr||[];
+  var map={};
+  remoteArr.forEach(function(x){if(x&&x.id!=null)map[x.id]=x;});
+  localArr.forEach(function(x){if(x&&x.id!=null){var r=map[x.id];if(!r)map[x.id]=x;else{var lt=x.ci||x.ts||0,rt=r.ci||r.ts||0;if(lt>rt)map[x.id]=x;}}});
+  return Object.keys(map).map(function(k){return map[k];});
+}
+function applyRemote(data){
+  if(!data)return;
+  try{
+    data.members=mergeById(S.members,data.members);
+    data.guests=mergeById(S.guests,data.guests);
+    if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k]);});}
+    S=data;ensureGallery();
+    try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
+    rerenderCurrent();
+  }catch(e){}
+}
+function supaInit(){
+  if(!supaReady())return;
+  try{
+    sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);_supaOn=true;
+    sb.from("event_state").select("data").eq("id","r20").single().then(function(r){
+      if(r&&r.data&&r.data.data)applyRemote(r.data.data);else supaPush(true);
+      rerenderCurrent();
+    },function(){});
+    sb.channel("rt-r20").on("postgres_changes",{event:"*",schema:"public",table:"event_state",filter:"id=eq.r20"},function(p){
+      var d=p&&p.new&&p.new.data;if(d&&d._cid!==CID)applyRemote(d);
+    }).subscribe();
+  }catch(e){_supaOn=false;}
+}
+function supaPush(force){
+  if(!_supaOn||!sb)return;
+  clearTimeout(_pushT);
+  _pushT=setTimeout(function(){
+    try{S._cid=CID;sb.from("event_state").upsert({id:"r20",data:S,updated_at:new Date().toISOString()}).then(function(){},function(){});}catch(e){}
+  },force?0:700);
+}
+function rerenderCurrent(){
+  var on=document.querySelector(".pg.on");if(!on)return;
+  var id=on.id.replace("pg-","");
+  try{uh();us();}catch(e){}
+  try{
+    if(id==="members")rm();else if(id==="checkin")rci();else if(id==="guests"){rgl();if(typeof rgadmin==="function")rgadmin();}
+    else if(id==="gantt")rgantt();else if(id==="finance")rf();else if(id==="program")rpr();
+    else if(id==="polls")rta();else if(id==="music"){if(typeof rvn==="function")rvn();}else if(id==="letters")rl2();
+    else if(id==="awards")raw();else if(id==="map")rma();else if(id==="photos")rgal();
+  }catch(e){}
+}
+
+// ═══ MUSIC ═══
+var DS=[
+  {id:1,title:"Bông Hồng Cài Áo",artist:"Khánh Ly",era:"Bolero",votes:5},
+  {id:2,title:"Hoa Nở Không Màu",artist:"Hoài Lâm",era:"V-Pop",votes:3},
+  {id:3,title:"Cánh Thiệp Đầu Xuân",artist:"Như Quỳnh",era:"Bolero",votes:4},
+  {id:4,title:"Tình Thôi Xót Xa",artist:"Mỹ Tâm",era:"2000s",votes:8},
+  {id:5,title:"Nhật Ký Của Mẹ",artist:"Hiền Thục",era:"2000s",votes:6},
+  {id:6,title:"Yêu Xa",artist:"Bức Tường",era:"2000s",votes:7},
+  {id:7,title:"Nơi Này Có Anh",artist:"Sơn Tùng M-TP",era:"V-Pop",votes:9},
+  {id:8,title:"Em Gái Mưa",artist:"Hương Tràm",era:"2010s",votes:5},
+  {id:9,title:"Mưa Trên Cuộc Tình",artist:"Đàm Vĩnh Hưng",era:"Bolero",votes:4},
+  {id:10,title:"Đường Đến Ngày Vinh Quang",artist:"Trọng Tấn",era:"2000s",votes:6},
+];
+var curEra="Tất cả",npPlay=false;
+function ims(){if(!S.songs||!S.songs.length)S.songs=DS.map(function(s){return Object.assign({},s);});}
+function rmu(){
+  ims();
+  var eras=["Tất cả"];
+  S.songs.forEach(function(s){if(eras.indexOf(s.era)<0)eras.push(s.era);});
+  document.getElementById("ets").innerHTML=eras.map(function(e){return '<button class="et'+(e===curEra?" on":"")+'" onclick="fe(&#39;"+e+"&#39;)">'+e+'</button>';}).join("");
+  var list=curEra==="Tất cả"?S.songs.slice():S.songs.filter(function(s){return s.era===curEra;});
+  list.sort(function(a,b){return b.votes-a.votes;});
+  document.getElementById("slist").innerHTML=list.map(function(s,i){
+    return '<div class="sr"><div class="srk">'+(i+1)+'</div><div class="si2"><div class="st">'+s.title+'</div><div class="sa">'+s.artist+' · '+s.era+'</div></div>'+
+      '<div class="sv"><button class="svb" onclick="vs('+s.id+')">❤️</button><span class="sc">'+s.votes+'</span><button class="svb" onclick="ps('+s.id+')" style="background:#ECFDF5">▶</button></div></div>';
+  }).join("");
+}
+function fe(era){curEra=era;rmu();}
+function vs(id){var s=S.songs.find(function(s){return s.id===id;});if(!s)return;s.votes++;sv();rmu();}
+function ps(id){
+  var s=S.songs.find(function(s){return s.id===id;});if(!s)return;
+  npPlay=true;
+  document.getElementById("npt").textContent=s.title;
+  document.getElementById("npa").textContent=s.artist+" · "+s.era;
+  document.getElementById("npd").classList.add("pl");
+  document.getElementById("npbtn").textContent="⏸";
+  var em=["🎵","🎶","🎸","🎤","🎹","🎺"];
+  document.getElementById("npd").textContent=em[Math.floor(Math.random()*em.length)];
+}
+function tp(){
+  npPlay=!npPlay;
+  document.getElementById("npd").classList.toggle("pl",npPlay);
+  document.getElementById("npbtn").textContent=npPlay?"⏸":"▶";
+}
+function as(){
+  var title=document.getElementById("sname").value.trim();
+  if(!title)return alert("Vui lòng nhập tên bài hát!");
+  ims();S.songs.push({id:Date.now(),title:title,artist:document.getElementById("sartist").value||"Không rõ",era:document.getElementById("sera").value,votes:1});
+  document.getElementById("sname").value="";document.getElementById("sartist").value="";
+  sv();rmu();
+}
+
+// ═══ LETTERS ═══
+var selMood="😊";
+function pm(btn,mood){
+  document.querySelectorAll("#mpicks .vc").forEach(function(b){b.classList.remove("on");});
+  btn.classList.add("on");selMood=mood;
+}
+function svl(){
+  var from=document.getElementById("lfrom").value.trim();
+  var body=document.getElementById("lbody").value.trim();
+  if(!from||!body)return alert("Vui lòng điền tên và nội dung thư!");
+  if(!S.letters)S.letters=[];
+  S.letters.unshift({id:Date.now(),from:from,to:document.getElementById("lto").value,body:body,mood:selMood,date:new Date().toLocaleDateString("vi-VN"),read:false});
+  document.getElementById("lfrom").value="";document.getElementById("lbody").value="";
+  sv();cm("mletter");rl2();
+}
+function rl2(){
+  if(!S.letters)S.letters=[];
+  var el=document.getElementById("llist");
+  if(!S.letters.length){
+    el.innerHTML='<div style="text-align:center;padding:32px 16px"><div style="font-size:48px;margin-bottom:12px">📬</div><div style="font-size:14px;color:var(--mu)">Chưa có thư nào. Hãy là người đầu tiên viết thư!</div></div>';return;
+  }
+  el.innerHTML=S.letters.map(function(l){
+    return '<div class="lc'+(l.read?"":" nr")+'" onclick="rdl('+l.id+')">'+
+      '<div class="lfr">'+l.mood+' '+l.from+'</div>'+
+      '<div class="lto">Gửi: '+l.to+'</div>'+
+      '<div class="lpv">'+l.body+'</div>'+
+      '<div class="ldt">'+l.date+(!l.read?' <span style="background:var(--ac);color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:700">Mới</span>':'')+'</div>'+
+      '</div>';
+  }).join("");
+}
+function rdl(id){
+  var l=S.letters.find(function(l){return l.id===id;});if(!l)return;
+  l.read=true;sv();rl2();
+  document.getElementById("rltit").textContent=l.mood+" Thư từ "+l.from;
+  document.getElementById("rlbody").innerHTML='<div style="font-size:12px;color:var(--mu);margin-bottom:12px">Gửi đến: <strong>'+l.to+'</strong> · '+l.date+'</div><div class="lfull">'+l.body+'</div><button class="btn bo2" onclick="cm(&#39;mread&#39;)">✕ Đóng thư</button>';
+  om("mread");
+}
+
+// ═══ AWARDS ═══
+var DA=[
+  {id:"change",trophy:"🦋",name:"Thay đổi nhiều nhất",desc:"Người bạn không thể nhận ra sau 20 năm",votes:{}},
+  {id:"young",trophy:"🌱",name:"Trẻ mãi không già",desc:"Người trông như chưa hề có tuổi",votes:{}},
+  {id:"success",trophy:"🚀",name:"Thành công nhất",desc:"Sự nghiệp và cuộc sống thăng hoa",votes:{}},
+  {id:"kids",trophy:"👨‍👩‍👧‍👦",name:"Nhiều con nhất",desc:"Gia đình đông vui, hạnh phúc nhất lớp",votes:{}},
+  {id:"funny",trophy:"😂",name:"Hài hước nhất",desc:"Luôn mang lại tiếng cười cho mọi người",votes:{}},
+  {id:"travel",trophy:"✈️",name:"Đi nhiều nhất",desc:"Đã in dấu chân khắp mọi nơi",votes:{}},
+];
+function iaw(){if(!S.awards||!S.awards.length)S.awards=DA.map(function(a){return {id:a.id,trophy:a.trophy,name:a.name,desc:a.desc,votes:{}};});}
+function raw(){
+  iaw();
+  var members=S.members.filter(function(m){return m.s==="c";});
+  if(!members.length)members=[{name:"Nguyễn Văn A",col:COLS[0]},{name:"Trần Thị B",col:COLS[1]},{name:"Lê Văn C",col:COLS[2]},{name:"Phạm Thị D",col:COLS[3]}];
+  document.getElementById("alist").innerHTML=S.awards.map(function(award){
+    var tv=Object.values(award.votes).reduce(function(a,b){return a+b;},0);
+    var top=null,topN=null;
+    Object.keys(award.votes).forEach(function(k){if(!top||award.votes[k]>top){top=award.votes[k];topN=k;}});
+    var voted=(S.svoted||{})[award.id];
+    return '<div class="ac2"><div class="ah"><div class="atr">'+award.trophy+'</div><div><div class="an">'+award.name+'</div><div class="ade">'+award.desc+'</div></div></div>'+
+      '<div class="cands">'+members.slice(0,5).map(function(m){
+        var vv=award.votes[m.name]||0,pct=tv?Math.round(vv/tv*100):0,isLd=m.name===topN&&vv>0,mine=voted===m.name;
+        return '<button class="cr'+((isLd||mine)?" ld":"")+'"'+(voted?' disabled style="opacity:'+(mine?'1':'.5')+';cursor:default"':'')+' onclick="va2(&#39;'+award.id+'&#39;,&#39;'+m.name+'&#39;)">'+
+          '<div class="cav" style="background:'+(m.col||COLS[0])+'">'+gi(m.name)+'</div>'+
+          '<span class="cnm">'+m.name+(mine?' ✓':'')+'</span>'+
+          '<div class="cbw"><div class="cbb" style="width:'+pct+'%"></div></div>'+
+          '<span class="cct">'+vv+'</span></button>';
+      }).join("")+'</div>'+
+      (voted?'<div style="font-size:12px;color:var(--gr);font-weight:700;margin-top:8px;text-align:center">✅ Bạn đã bình chọn: '+voted+'</div>':'')+
+      (topN&&tv>0?'<div class="awn"><span class="awnc">👑</span><span class="awnn">Đang dẫn: '+topN+' ('+top+' phiếu)</span></div>':'')+
+      '</div>';
+  }).join("");
+}
+function va2(aid,name){
+  iaw();if(!S.svoted)S.svoted={};
+  if(S.svoted[aid]){alert("Bạn đã bình chọn danh hiệu này rồi 🙂\nMỗi thiết bị chỉ được chọn 1 người cho mỗi danh hiệu.");return;}
+  var a=S.awards.find(function(a){return a.id===aid;});if(!a)return;
+  a.votes[name]=(a.votes[name]||0)+1;S.svoted[aid]=name;sv();raw();
+}
+
+// ═══ DANH HIỆU VUI CHO THẦY CÔ ═══
+var DAT=[
+  {id:"tnoi",trophy:"🎤",name:"Câu nói huyền thoại nhất",desc:"Thầy/cô có câu nói cả lớp nhớ mãi 20 năm"},
+  {id:"tcuon",trophy:"📚",name:"Dạy cuốn hút nhất",desc:"Tiết học trôi qua lúc nào không hay"},
+  {id:"ttam",trophy:"💛",name:"Tâm lý, gần gũi học trò nhất",desc:"Luôn lắng nghe và thương học trò"},
+  {id:"tphong",trophy:"😎",name:"Phong độ, trẻ trung nhất",desc:"20 năm rồi vẫn không đổi mấy"},
+  {id:"tnghiem",trophy:"🧲",name:"Nghiêm khắc mà thương trò nhất",desc:"Nghiêm trên lớp, ấm áp trong lòng"},
+  {id:"tnho",trophy:"🌟",name:"Được nhớ nhất sau 20 năm",desc:"Người thầy/cô để lại dấu ấn sâu đậm nhất"}
+];
+function tCands(){
+  var src=(S.guests&&S.guests.length)?S.guests.map(function(g){return g.name;}):DGRAW.map(function(r){return r[0];});
+  return src.filter(function(n){return /^(Thầy|Cô)/.test(n);});
+}
+function tcol(nm){var c=["#1A3A5C","#F5A623","#10B981","#FF6B6B","#8B5CF6","#EC4899","#3B82F6","#F59E0B"];var h=0;for(var i=0;i<nm.length;i++)h=(h+nm.charCodeAt(i))%c.length;return c[h];}
+function itaw(){if(!S.tawards||!S.tawards.length)S.tawards=DAT.map(function(a){return {id:a.id,trophy:a.trophy,name:a.name,desc:a.desc,votes:{}};});}
+function rta(){
+  itaw();
+  var cands=tCands();
+  if(!cands.length)cands=["Thầy A","Cô B","Thầy C"];
+  document.getElementById("pwrap").innerHTML=S.tawards.map(function(award){
+    var tv=Object.values(award.votes).reduce(function(a,b){return a+b;},0);
+    var top=null,topN=null;
+    Object.keys(award.votes).forEach(function(k){if(top===null||award.votes[k]>top){top=award.votes[k];topN=k;}});
+    var voted=(S.tvoted||{})[award.id];
+    return '<div class="ac2"><div class="ah"><div class="atr">'+award.trophy+'</div><div><div class="an">'+award.name+'</div><div class="ade">'+award.desc+'</div></div></div>'+
+      '<div class="cands">'+cands.map(function(nm){
+        var vv=award.votes[nm]||0,pct=tv?Math.round(vv/tv*100):0,isLd=nm===topN&&vv>0,mine=voted===nm;
+        return '<button class="cr'+((isLd||mine)?" ld":"")+'"'+(voted?' disabled style="opacity:'+(mine?'1':'.5')+';cursor:default"':'')+' onclick="vat(&#39;'+award.id+'&#39;,&#39;'+nm+'&#39;)">'+
+          '<div class="cav" style="background:'+tcol(nm)+'">'+gi(nm)+'</div>'+
+          '<span class="cnm">'+nm+(mine?' ✓':'')+'</span>'+
+          '<div class="cbw"><div class="cbb" style="width:'+pct+'%"></div></div>'+
+          '<span class="cct">'+vv+'</span></button>';
+      }).join("")+'</div>'+
+      (voted?'<div style="font-size:12px;color:var(--gr);font-weight:700;margin-top:8px;text-align:center">✅ Bạn đã bình chọn: '+voted+'</div>':'')+
+      (topN&&tv>0?'<div class="awn"><span class="awnc">👑</span><span class="awnn">Đang dẫn: '+topN+' ('+top+' phiếu)</span></div>':'')+
+      '</div>';
+  }).join("");
+}
+function vat(aid,name){
+  itaw();if(!S.tvoted)S.tvoted={};
+  if(S.tvoted[aid]){alert("Bạn đã bình chọn danh hiệu này rồi 🙂\nMỗi thiết bị chỉ được chọn 1 thầy/cô cho mỗi danh hiệu.");return;}
+  var a=S.tawards.find(function(a){return a.id===aid;});if(!a)return;
+  a.votes[name]=(a.votes[name]||0)+1;S.tvoted[aid]=name;sv();rta();
+}
+
+// ═══ MAP ═══
+var CF={"Hà Nội":"🏙","TP. HCM":"🌆","Đà Nẵng":"🌊","Cần Thơ":"🌾","Hải Phòng":"⚓","Nha Trang":"🏖","Huế":"🏯","Biên Hòa":"🏭","Bình Dương":"🏗","Vũng Tàu":"⛱","Đà Lạt":"🌸","Buôn Ma Thuột":"☕","Quy Nhơn":"🌊","Vinh":"🏛","Pleiku":"🌄","An Khê":"⛰","Nước ngoài 🌏":"🌍","Khác":"📍"};
+// Tọa độ [kinh độ, vĩ độ] để định vị trên bản đồ
+var CITYLL={"Hà Nội":[105.85,21.03],"TP. HCM":[106.70,10.78],"Đà Nẵng":[108.22,16.05],"Cần Thơ":[105.78,10.03],"Hải Phòng":[106.68,20.86],"Nha Trang":[109.19,12.24],"Huế":[107.59,16.46],"Biên Hòa":[106.82,10.95],"Bình Dương":[106.65,10.98],"Vũng Tàu":[107.08,10.35],"Đà Lạt":[108.44,11.94],"Buôn Ma Thuột":[108.05,12.67],"Quy Nhơn":[109.22,13.78],"Vinh":[105.68,18.68],"Pleiku":[108.00,13.98],"An Khê":[108.65,13.95]};
+// Đường biên Việt Nam xấp xỉ (kinh độ, vĩ độ) theo chiều kim đồng hồ
+var VNOUT=[[102.1,22.4],[103.0,22.6],[104.0,22.7],[105.3,23.35],[106.0,22.9],[106.7,22.8],[107.0,21.8],[107.95,21.6],[106.9,20.7],[106.2,20.1],[105.9,19.2],[106.3,18.2],[106.6,17.6],[107.1,16.9],[108.2,16.05],[109.2,13.9],[109.45,12.3],[109.0,11.1],[107.8,10.5],[107.0,10.35],[106.7,9.6],[105.1,8.6],[104.75,9.6],[105.05,10.5],[105.0,11.0],[106.0,11.9],[106.5,12.0],[107.5,12.3],[107.55,13.6],[107.35,14.7],[107.3,15.6],[106.6,16.6],[106.1,17.4],[105.3,18.4],[104.6,19.4],[104.1,20.4],[103.2,21.3],[102.6,21.9]];
+function amm(){
+  if(!S.mapMem)S.mapMem=[];
+  var city=document.getElementById("mcity").value;
+  var name=document.getElementById("mname").value.trim();
+  if(!city||!name)return alert("Vui lòng chọn thành phố và nhập tên!");
+  S.mapMem.push({name:name,city:city});
+  document.getElementById("mname").value="";sv();rma();
+}
+// chiếu (kinh độ, vĩ độ) -> tọa độ SVG
+var MAP_LON0=101.6,MAP_LON1=110.7,MAP_LAT0=8.0,MAP_LAT1=23.7,MAP_W=240,MAP_H=440,MAP_PX=24,MAP_PY=18;
+function mproj(lon,lat){
+  return [MAP_PX+(lon-MAP_LON0)/(MAP_LON1-MAP_LON0)*MAP_W, MAP_PY+(MAP_LAT1-lat)/(MAP_LAT1-MAP_LAT0)*MAP_H];
+}
+function rma(){
+  if(!S.mapMem)S.mapMem=[];
+  var fEl=document.getElementById("mapcls");var fcls=fEl?fEl.value:"";
+  // gộp nơi ở từ danh sách thành viên (có lớp) + vị trí tự đánh dấu (không lớp)
+  var people=[];
+  (S.members||[]).forEach(function(m){
+    if(!m.city)return;
+    if(fcls&&m.cls!==fcls)return;
+    people.push({name:m.name+(m.cls?" ("+m.cls+")":""),city:m.city});
+  });
+  if(!fcls)S.mapMem.forEach(function(m){people.push({name:m.name,city:m.city});});
+  var cc={};people.forEach(function(m){cc[m.city]=(cc[m.city]||0)+1;});
+
+  // ----- VẼ BẢN ĐỒ -----
+  var vb_w=MAP_PX*2+MAP_W,vb_h=MAP_PY*2+MAP_H;
+  var path="M";VNOUT.forEach(function(p,i){var xy=mproj(p[0],p[1]);path+=(i?"L":"")+xy[0].toFixed(1)+","+xy[1].toFixed(1)+" ";});path+="Z";
+  var pins="";
+  Object.keys(CITYLL).forEach(function(city){
+    var cnt=cc[city]||0;if(!cnt)return;
+    var ll=CITYLL[city],xy=mproj(ll[0],ll[1]);
+    var r=Math.min(16,7+cnt*2.5);
+    var names=people.filter(function(m){return m.city===city;}).map(function(m){return m.name;}).join(", ");
+    pins+='<g><title>'+city+': '+cnt+' người — '+names+'</title>'+
+      '<circle cx="'+xy[0].toFixed(1)+'" cy="'+xy[1].toFixed(1)+'" r="'+r.toFixed(1)+'" fill="#F5A623" fill-opacity="0.9" stroke="#fff" stroke-width="2"/>'+
+      '<text x="'+xy[0].toFixed(1)+'" y="'+(xy[1]+3.5).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#1A3A5C">'+cnt+'</text>'+
+      '<text x="'+(xy[0]+r+3).toFixed(1)+'" y="'+(xy[1]+3.5).toFixed(1)+'" font-size="10" fill="#1A3A5C">'+city+'</text></g>';
+  });
+  var hasPin=Object.keys(CITYLL).some(function(c){return cc[c];});
+  var svg='<svg viewBox="0 0 '+vb_w+' '+vb_h+'" width="100%" style="max-height:460px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="0" y="0" width="'+vb_w+'" height="'+vb_h+'" fill="#EAF4FB" rx="10"/>'+
+    '<path d="'+path+'" fill="#DCEFE0" stroke="#1A3A5C" stroke-width="1.4" stroke-linejoin="round"/>'+
+    (hasPin?pins:'<text x="'+(vb_w/2)+'" y="'+(vb_h/2)+'" text-anchor="middle" font-size="12" fill="#6B7280">Chưa có vị trí trong nước</text>')+
+    '</svg>';
+  var mapEl=document.getElementById("vnmap");if(mapEl)mapEl.innerHTML=svg;
+
+  // ----- ngoài bản đồ (Nước ngoài / Khác) -----
+  var offEl=document.getElementById("mapoff");
+  if(offEl){
+    var off="";["Nước ngoài 🌏","Khác"].forEach(function(c){if(cc[c])off+='<span style="background:#F5F3FF;color:#5B21B6;border:1px solid #DDD6FE;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600">'+(CF[c]||"📍")+' '+c+': '+cc[c]+'</span>';});
+    offEl.innerHTML=off;
+  }
+
+  // ----- DANH SÁCH PHÂN BỐ -----
+  var el=document.getElementById("cstats");
+  if(!people.length){el.innerHTML='<div style="color:var(--mu);text-align:center;padding:16px;font-size:13px">Chưa có dữ liệu nơi ở. Thêm thành viên (kèm nơi sống) hoặc đánh dấu vị trí bên dưới.</div>';return;}
+  var mx=Math.max.apply(null,Object.values(cc).concat([1]));
+  var sorted=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a];});
+  el.innerHTML=sorted.map(function(city){
+    var cnt=cc[city],flag=CF[city]||"📍";
+    var names=people.filter(function(m){return m.city===city;}).map(function(m){return m.name;}).join(", ");
+    return '<div class="ctr"><div class="cf">'+flag+'</div><div class="cn"><div class="cnm2">'+city+'</div><div class="cmb">'+names+'</div><div class="ccb"><div class="ccf" style="width:'+Math.round(cnt/mx*100)+'%"></div></div></div><div class="cnum2">'+cnt+'</div></div>';
+  }).join("");
+}
+
+// INIT
+ld();ldAdmin();ldMe();lc2();applyAdmin();ensureGallery();
+setInterval(tick,1000);tick();
+us();rm();rf();rpr();rta();
+// seed danh sách đại biểu nếu chưa có
+if(!S.guests||!S.guests.length){S.guests=defaultGuests();sv();}
+// seed nhiệm vụ + nhóm phụ trách nếu chưa có
+if(!S.team||!S.team.length){S.team=defaultTeam();sv();}
+if(!S.tasks||!S.tasks.length){S.tasks=defaultTasks().concat(extraTasks());S.taskv=2;sv();}
+else if(S.taskv!==2){var have={};S.tasks.forEach(function(t){have[t.id]=1;});extraTasks().forEach(function(t){if(!have[t.id])S.tasks.push(t);});S.taskv=2;sv();}
+// gán nhóm cho nhiệm vụ cũ chưa có nhóm
+(function(){var gm=gmap();var ch=false;(S.tasks||[]).forEach(function(t){if(!t.group){t.group=gm[t.title]||"Chưa phân nhóm";ch=true;}});if(ch)sv();})();
+// seed letter nếu chưa có
+if(!S.letters||!S.letters.length){
+  S.letters=[{id:1,from:"Ban tổ chức",to:"Khóa 2003–2006 (A1·A2·A3·A4)",body:"Kính gửi toàn thể cựu học sinh khóa 2003–2006 (A1, A2, A3, A4) thân mến!\n\nSau 20 năm xa mái trường THPT Nguyễn Trãi, ngày chúng ta trở về gặp lại đã đến gần!\n\nBan tổ chức xin gửi lời cảm ơn chân thành đến tất cả các bạn đã nhiệt tình ủng hộ và đồng hành. Hẹn gặp lại trong ngày hội ngộ đáng nhớ này! 🎉",mood:"🤩",date:new Date().toLocaleDateString("vi-VN"),read:true}];sv();
+}
+document.getElementById("tdate").valueAsDate=new Date();
+try{supaInit();}catch(e){}
+setTimeout(function(){var tab=document.getElementById("tn-home");if(tab){var ind=document.getElementById("nind");if(ind){ind.style.left=tab.offsetLeft+"px";ind.style.width=tab.offsetWidth+"px";}}},100);
+</script>
+</body>
+</html>
