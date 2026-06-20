@@ -309,11 +309,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     </div>
     <div class="hdate">📅 <strong id="hdate">Chưa cài đặt</strong><br>📍 <span id="hloc">Chưa cài đặt địa điểm</span></div>
   </div>
-  <div class="g2 g4" style="margin-bottom:12px">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
     <div class="csm kpi"><div class="kv" id="st">0</div><div class="kl">Thành viên</div></div>
     <div class="csm kpi"><div class="kv" id="sc">0</div><div class="kl">Xác nhận</div><div class="bdg bg">✓</div></div>
     <div class="csm kpi"><div class="kv" id="sp2">0</div><div class="kl">Đóng phí</div><div class="bdg bo">💰</div></div>
-    <div class="csm kpi"><div class="kv" id="sb2">0 VND</div><div class="kl">Tồn quỹ</div></div>
+    
   </div>
   <button class="btn" style="width:100%;justify-content:center;background:var(--gr);color:#fff;margin-bottom:12px;font-size:15px;padding:14px" onclick="sp('checkin')">✅ Check-in sự kiện</button>
   <div class="stit" style="margin-bottom:10px">✨ Khám phá</div>
@@ -833,7 +833,7 @@ function reqAdmin(){alert("🔒 Khu vực quản trị. Vào mục Quản trị 
 // NAV
 function sp(id,el){
   // gate khu vực quản trị
-  if(id==="finance"&&!isAdmin){id="admin";el=null;}
+  /* Tài chính: cho phép xem không cần đăng nhập (sửa vẫn cần admin) */
   document.querySelectorAll(".pg").forEach(function(p){p.classList.remove("on");});
   var pg=document.getElementById("pg-"+id);if(pg)pg.classList.add("on");
   document.querySelectorAll(".nt,.sdi").forEach(function(t){t.classList.remove("on");});
@@ -923,9 +923,6 @@ function us(){
   document.getElementById("st").textContent=ms.length;
   document.getElementById("sc").textContent=ms.filter(function(m){return m.s==="c";}).length;
   document.getElementById("sp2").textContent=ms.filter(function(m){return m.pd==="yes";}).length;
-  var inc=S.txs.filter(function(t){return t.tp==="income";}).reduce(function(a,t){return a+t.amt;},0);
-  var exp=S.txs.filter(function(t){return t.tp==="expense";}).reduce(function(a,t){return a+t.amt;},0);
-  document.getElementById("sb2").textContent=fs(inc-exp);
 }
 function ff(n){return (n||0).toLocaleString("vi-VN")+" VND";}
 function fs(n){return (n||0).toLocaleString("vi-VN")+" VND";}
