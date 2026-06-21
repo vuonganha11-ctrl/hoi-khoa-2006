@@ -715,17 +715,22 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 <div class="mo" id="mf" onclick="cbg(event,'mf')">
   <div class="modal">
     <div class="mh"></div>
-    <div class="mtr"><div class="mt">💸 Ghi giao dịch</div><button class="mc" onclick="cm('mf')">✕</button></div>
+    <div class="mtr"><div class="mt" id="mfTitle">💸 Ghi giao dịch</div><button class="mc" onclick="cm('mf')">✕</button></div>
     <div class="fg"><label>Loại</label><select id="ttype"><option value="income">💚 Thu tiền</option><option value="expense">🔴 Chi tiêu</option></select></div>
     <div class="fg"><label>Danh mục</label>
       <select id="tcat"><option>Đóng phí thành viên</option><option>Tài trợ / Hảo tâm</option><option>Thuê địa điểm</option><option>Trang trí</option><option>Ăn uống / Tiệc</option><option>Âm thanh / Ánh sáng</option><option>MC / Chương trình</option><option>Quà tặng / Kỷ niệm</option><option>In ấn / Banner</option><option>Học bổng</option><option>Quà lưu niệm trường</option><option>Khác</option></select>
     </div>
     <div class="fg"><label>Diễn giải *</label><input type="text" id="tdesc" placeholder="VD: Anh Minh đóng phí"></div>
-    <div class="fg"><label>Số tiền *</label><input type="number" id="tamt" placeholder="500000" inputmode="numeric"></div>
+    <div class="fg"><label>Số tiền <span style="color:var(--mu);font-weight:400">(tài trợ có thể để 0 để ghi nhận)</span></label><input type="number" id="tamt" placeholder="500000" inputmode="numeric"></div>
     <div class="fg"><label>Ngày</label><input type="date" id="tdate"></div>
     <div class="fg"><label>Người nộp/nhận (hoặc tên nhà tài trợ)</label><input type="text" id="tper" placeholder="Tên người / đơn vị tài trợ"></div>
     <div class="fg"><label>Lời cảm ơn (nếu là tài trợ)</label><input type="text" id="tspmsg" placeholder="VD: Cảm ơn nhà tài trợ đã đồng hành cùng khóa!"></div>
+    <div class="fg"><label>Hóa đơn / chứng từ (ảnh)</label>
+      <input type="file" accept="image/*" id="tproofInput" onchange="onProofPick(this)" style="font-size:13px">
+      <div id="tproofPrev" style="margin-top:8px"></div>
+    </div>
     <button class="btn bp" onclick="at()">💾 Lưu giao dịch</button>
+    <button class="btn" id="mfDel" onclick="delTx()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá giao dịch</button>
   </div>
 </div>
 
@@ -1420,16 +1425,64 @@ function rci(){
 }
 
 // FINANCE
-function oaf(){if(!isAdmin)return reqAdmin();document.getElementById("tdate").valueAsDate=new Date();om("mf");}
+var editingTx=null,_tproof=null;
+function renderProofPrev(){
+  var el=document.getElementById("tproofPrev");if(!el)return;
+  el.innerHTML=_tproof?'<img src="'+_tproof+'" style="max-width:100%;max-height:160px;border-radius:8px;border:1px solid var(--bdr);display:block">'+
+    '<button onclick="removeProof()" style="margin-top:6px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer">✕ Gỡ ảnh</button>':'';
+}
+function onProofPick(input){
+  var f=(input.files||[])[0];if(!f)return;
+  compressImg(f,function(durl){_tproof=durl;renderProofPrev();});
+}
+function removeProof(){_tproof=null;var i=document.getElementById("tproofInput");if(i)i.value="";renderProofPrev();}
+function txFill(t){
+  document.getElementById("ttype").value=t?t.tp:"income";
+  document.getElementById("tcat").value=t?(t.cat||"Đóng phí thành viên"):"Đóng phí thành viên";
+  document.getElementById("tdesc").value=t?(t.desc||""):"";
+  document.getElementById("tamt").value=t?(t.amt||t.amt===0?t.amt:""):"";
+  if(t&&t.date)document.getElementById("tdate").value=t.date;else document.getElementById("tdate").valueAsDate=new Date();
+  document.getElementById("tper").value=t?(t.per||""):"";
+  document.getElementById("tspmsg").value=t?(t.spmsg||""):"";
+  _tproof=t?(t.proof||null):null;
+  var i=document.getElementById("tproofInput");if(i)i.value="";
+  renderProofPrev();
+}
+function oaf(){if(!isAdmin)return reqAdmin();editingTx=null;txFill(null);document.getElementById("mfTitle").textContent="💸 Ghi giao dịch";document.getElementById("mfDel").style.display="none";om("mf");}
+function editTx(id){
+  if(!isAdmin)return reqAdmin();
+  var t=(S.txs||[]).find(function(x){return x.id===id;});if(!t)return;
+  editingTx=id;txFill(t);document.getElementById("mfTitle").textContent="✏️ Sửa giao dịch";document.getElementById("mfDel").style.display="block";om("mf");
+}
 function at(){
   if(!isAdmin)return reqAdmin();
   var desc=document.getElementById("tdesc").value.trim();
+  var cat=document.getElementById("tcat").value;
   var amt=parseInt(document.getElementById("tamt").value)||0;
-  if(!desc||!amt)return alert("Vui lòng điền đầy đủ!");
-  S.txs.unshift({id:Date.now(),tp:document.getElementById("ttype").value,cat:document.getElementById("tcat").value,desc:desc,amt:amt,date:document.getElementById("tdate").value,per:document.getElementById("tper").value,spmsg:document.getElementById("tspmsg").value.trim()});
-  ["tdesc","tamt","tper","tspmsg"].forEach(function(id){document.getElementById(id).value="";});
+  if(!desc)return alert("Vui lòng nhập diễn giải!");
+  if(amt<=0&&cat!=="Tài trợ / Hảo tâm")return alert("Vui lòng nhập số tiền!");
+  var data={tp:document.getElementById("ttype").value,cat:cat,desc:desc,amt:amt,date:document.getElementById("tdate").value,per:document.getElementById("tper").value,spmsg:document.getElementById("tspmsg").value.trim(),proof:_tproof||""};
+  if(editingTx!=null){var t=S.txs.find(function(x){return x.id===editingTx;});if(t){for(var k in data)t[k]=data[k];}editingTx=null;}
+  else{data.id=Date.now();S.txs.unshift(data);}
+  _tproof=null;
   sv();cm("mf");rf();us();
 }
+function delTx(){
+  if(!isAdmin)return reqAdmin();if(editingTx==null)return;
+  if(!confirm("Xoá giao dịch này?"))return;
+  var id=editingTx;editingTx=null;
+  S.txs=(S.txs||[]).filter(function(x){return x.id!==id;});
+  sv();cm("mf");rf();us();
+}
+function zoomImg(src){
+  _zoomList=[];_zoomK=null;
+  var box=document.getElementById("zbox");if(!box)return;
+  box.innerHTML='<img src="'+src+'">';
+  var p=document.getElementById("zprev"),n=document.getElementById("znext"),c=document.getElementById("zcount");
+  if(p)p.style.display="none";if(n)n.style.display="none";if(c)c.textContent="";
+  om("mzoom");
+}
+function zoomTxProof(id){var t=(S.txs||[]).find(function(x){return x.id===id;});if(t&&t.proof)zoomImg(t.proof);}
 function isSpon(t){return t.cat==="Tài trợ / Hảo tâm";}
 var editingBud=null;
 function defaultBudget(){return [
@@ -1505,13 +1558,17 @@ function rf(){
       return '<div style="display:flex;align-items:center;gap:11px;padding:11px 0'+(i?';border-top:1px solid var(--bdr)':'')+'">'+
         '<div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#E8920E);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">❤️</div>'+
         '<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:var(--navy)">🏅 '+nm+'</div>'+(msg?'<div style="font-size:12px;color:var(--mu);font-style:italic;margin-top:2px">“'+msg+'”</div>':'')+'</div>'+
-        '<div style="font-size:14px;font-weight:800;color:var(--gold);flex-shrink:0">'+ff(t.amt)+'</div></div>';
+        '<div style="font-size:14px;font-weight:800;color:var(--gold);flex-shrink:0">'+(t.amt>0?ff(t.amt):'<span style="color:var(--mu);font-weight:600;font-size:12px">Đồng hành 💛</span>')+'</div></div>';
     }).join("");
   }
   // Lịch sử giao dịch
   var el=document.getElementById("txlist");
   if(!S.txs.length){el.innerHTML="<div style='color:var(--mu);padding:16px;text-align:center'>Chưa có giao dịch nào</div>";return;}
-  el.innerHTML=S.txs.map(function(t){return '<div class="txr"><div class="txd '+(t.tp==="income"?"txi":"txo")+'"></div><div class="txi2"><div class="txd2">'+t.desc+'</div><div class="txm">'+t.cat+' · '+(t.date||"--")+(t.per?" · "+t.per:"")+'</div></div><div class="txa '+(t.tp==="income"?"i":"o")+'">'+(t.tp==="income"?"+":"-")+fs(t.amt)+'</div></div>';}).join("");
+  el.innerHTML=S.txs.map(function(t){
+    var proof=t.proof?' <span onclick="event.stopPropagation();zoomTxProof('+t.id+')" title="Xem chứng từ" style="cursor:pointer">📎</span>':'';
+    var edit=isAdmin?'<button onclick="editTx('+t.id+')" title="Sửa" style="background:none;border:none;cursor:pointer;font-size:14px;margin-left:8px;flex-shrink:0">✏️</button>':'';
+    return '<div class="txr"><div class="txd '+(t.tp==="income"?"txi":"txo")+'"></div><div class="txi2"><div class="txd2">'+t.desc+'</div><div class="txm">'+t.cat+' · '+(t.date||"--")+(t.per?" · "+t.per:"")+proof+'</div></div><div class="txa '+(t.tp==="income"?"i":"o")+'">'+(t.tp==="income"?"+":"-")+fs(t.amt)+'</div>'+edit+'</div>';
+  }).join("");
 }
 
 // PROGRAM
