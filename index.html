@@ -276,7 +276,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="sdi" onclick="sp('awards',this)">🎓 Danh hiệu học sinh</div>
     <div class="sdi" onclick="sp('music',this)">🎤 Đăng ký văn nghệ</div>
     <div class="sdi" onclick="sp('letters',this)">📬 Góc nhắn nhủ</div>
-    <div class="sdi" onclick="sp('photos',this)">📸 Ảnh</div>
+    <div class="sdi" onclick="sp('photos',this)">📸 Bảng kỷ niệm</div>
     <div class="sdi" onclick="sp('map',this)">📍 Bản đồ lớp</div>
     <div class="sds">Quản trị</div>
     <div class="sdi" onclick="sp('gantt',this)">📊 Tiến độ dự án</div>
@@ -1900,6 +1900,7 @@ function delGal(k,id){
   if(!isAdmin)return reqAdmin();
   if(!confirm("Gỡ mục này khỏi bảng?"))return;
   ensureGallery();
+  if(!S.tomb)S.tomb={};S.tomb[id]=Date.now();
   S.gallery[k]=(S.gallery[k]||[]).filter(function(x){return x.id!==id;});
   sv();cm("mzoom");rgal();
 }
@@ -1926,20 +1927,23 @@ var SUPA_URL="https://yncksjmovgfsyvhkztgw.supabase.co";   // tks-web project
 var SUPA_KEY="sb_publishable_SGSemc2Ra1W-_TudgQ9JMw_eLp2zyVh";   // publishable (an toan nhung web)
 var sb=null,CID=(Date.now().toString(36)+Math.random().toString(36).slice(2,8)),_pushT=null,_supaOn=false;
 function supaReady(){return !!(SUPA_URL&&SUPA_KEY&&window.supabase&&window.supabase.createClient);}
-function mergeById(localArr,remoteArr){
-  localArr=localArr||[];remoteArr=remoteArr||[];
+function mergeTomb(a,b){a=a||{};b=b||{};var o={};Object.keys(a).forEach(function(k){o[k]=a[k];});Object.keys(b).forEach(function(k){if(!o[k]||b[k]>o[k])o[k]=b[k];});return o;}
+function mergeById(localArr,remoteArr,tomb){
+  localArr=localArr||[];remoteArr=remoteArr||[];tomb=tomb||{};
   var map={};
   remoteArr.forEach(function(x){if(x&&x.id!=null)map[x.id]=x;});
   localArr.forEach(function(x){if(x&&x.id!=null){var r=map[x.id];if(!r)map[x.id]=x;else{var lt=x.ci||x.ts||0,rt=r.ci||r.ts||0;if(lt>rt)map[x.id]=x;}}});
+  Object.keys(tomb).forEach(function(id){delete map[id];});
   return Object.keys(map).map(function(k){return map[k];});
 }
 function applyRemote(data){
   if(!data)return;
   try{
-    data.members=mergeById(S.members,data.members);
-    data.guests=mergeById(S.guests,data.guests);
-    if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k]);});}
-    S=data;if(!Array.isArray(S.budget))S.budget=[];ensureGallery();
+    var tomb=mergeTomb(S.tomb,data.tomb);data.tomb=tomb;
+    data.members=mergeById(S.members,data.members,tomb);
+    data.guests=mergeById(S.guests,data.guests,tomb);
+    if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});}
+    S=data;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
