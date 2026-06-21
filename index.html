@@ -538,13 +538,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   <div class="card">
     <div class="stit">➕ Thêm vị trí của bạn</div>
     <div class="fg"><label>Tỉnh / Thành phố</label>
-      <select id="mcity">
-        <option value="">-- Chọn thành phố --</option>
-        <option>Hà Nội</option><option>TP. HCM</option><option>Đà Nẵng</option><option>Cần Thơ</option>
-        <option>Hải Phòng</option><option>Nha Trang</option><option>Huế</option><option>Biên Hòa</option>
-        <option>Bình Dương</option><option>Vũng Tàu</option><option>Đà Lạt</option><option>Buôn Ma Thuột</option>
-        <option>Quy Nhơn</option><option>Vinh</option><option>Pleiku</option><option>An Khê</option><option>Nước ngoài 🌏</option><option>Khác</option>
-      </select>
+      <input type="text" id="mcity" list="vnprov" placeholder="Gõ để tìm tỉnh / thành...">
+      <datalist id="vnprov">
+        <option>Hà Nội</option><option>TP. HCM</option><option>Hải Phòng</option><option>Đà Nẵng</option><option>Cần Thơ</option><option>Huế</option>
+        <option>An Giang</option><option>Bắc Ninh</option><option>Cà Mau</option><option>Cao Bằng</option><option>Đắk Lắk</option><option>Điện Biên</option><option>Đồng Nai</option><option>Đồng Tháp</option><option>Gia Lai</option><option>Hà Tĩnh</option><option>Hưng Yên</option><option>Khánh Hòa</option><option>Lai Châu</option><option>Lâm Đồng</option><option>Lạng Sơn</option><option>Lào Cai</option><option>Nghệ An</option><option>Ninh Bình</option><option>Phú Thọ</option><option>Quảng Ngãi</option><option>Quảng Ninh</option><option>Quảng Trị</option><option>Sơn La</option><option>Tây Ninh</option><option>Thái Nguyên</option><option>Thanh Hóa</option><option>Tuyên Quang</option><option>Vĩnh Long</option>
+        <option>Nước ngoài 🌏</option><option>Khác</option>
+      </datalist>
     </div>
     <div class="fg"><label>Tên của bạn</label><input type="text" id="mname" placeholder="Nguyễn Văn A"></div>
     <button class="btn bp" onclick="amm()">📍 Đánh dấu vị trí</button>
@@ -633,14 +632,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="fg"><label>Biệt danh</label><input type="text" id="mnick" placeholder="VD: Minh Béo"></div>
     <div class="fg"><label>Công việc</label><input type="text" id="mjob" placeholder="VD: Kỹ sư, Giáo viên..."></div>
     <div class="fg"><label>Nơi sống hiện tại <span style="color:var(--mu);font-weight:400">(dùng cho Bản đồ lớp)</span></label>
-      <select id="mres">
-        <option value="">-- Chọn tỉnh / thành --</option>
-        <option>Hà Nội</option><option>TP. HCM</option><option>Đà Nẵng</option><option>Cần Thơ</option>
-        <option>Hải Phòng</option><option>Nha Trang</option><option>Huế</option><option>Biên Hòa</option>
-        <option>Bình Dương</option><option>Vũng Tàu</option><option>Đà Lạt</option><option>Buôn Ma Thuột</option>
-        <option>Quy Nhơn</option><option>Vinh</option><option>Pleiku</option><option>An Khê</option>
-        <option>Nước ngoài 🌏</option><option>Khác</option>
-      </select>
+      <input type="text" id="mres" list="vnprov" placeholder="Gõ để tìm tỉnh / thành...">
     </div>
     <div class="fg"><label>Tham dự</label>
       <select id="mst"><option value="p">⏳ Chờ xác nhận</option><option value="c">✅ Tham dự</option><option value="d">❌ Không tham dự</option></select>
@@ -2172,6 +2164,8 @@ function vat(aid,name){
 var CF={"Hà Nội":"🏙","TP. HCM":"🌆","Đà Nẵng":"🌊","Cần Thơ":"🌾","Hải Phòng":"⚓","Nha Trang":"🏖","Huế":"🏯","Biên Hòa":"🏭","Bình Dương":"🏗","Vũng Tàu":"⛱","Đà Lạt":"🌸","Buôn Ma Thuột":"☕","Quy Nhơn":"🌊","Vinh":"🏛","Pleiku":"🌄","An Khê":"⛰","Nước ngoài 🌏":"🌍","Khác":"📍"};
 // Tọa độ [kinh độ, vĩ độ] để định vị trên bản đồ
 var CITYLL={"Hà Nội":[105.85,21.03],"TP. HCM":[106.70,10.78],"Đà Nẵng":[108.22,16.05],"Cần Thơ":[105.78,10.03],"Hải Phòng":[106.68,20.86],"Nha Trang":[109.19,12.24],"Huế":[107.59,16.46],"Biên Hòa":[106.82,10.95],"Bình Dương":[106.65,10.98],"Vũng Tàu":[107.08,10.35],"Đà Lạt":[108.44,11.94],"Buôn Ma Thuột":[108.05,12.67],"Quy Nhơn":[109.22,13.78],"Vinh":[105.68,18.68],"Pleiku":[108.00,13.98],"An Khê":[108.65,13.95]};
+// 34 tỉnh/thành sau sáp nhập 2025 (toạ độ trung tâm hành chính)
+Object.assign(CITYLL,{"An Giang":[105.43,10.39],"Bắc Ninh":[106.08,21.18],"Cà Mau":[105.15,9.18],"Cao Bằng":[106.25,22.67],"Đắk Lắk":[108.05,12.67],"Điện Biên":[103.02,21.39],"Đồng Nai":[106.82,10.95],"Đồng Tháp":[105.63,10.46],"Gia Lai":[108.00,13.98],"Hà Tĩnh":[105.90,18.34],"Hưng Yên":[106.05,20.65],"Khánh Hòa":[109.19,12.24],"Lai Châu":[103.45,22.40],"Lâm Đồng":[108.44,11.94],"Lạng Sơn":[106.76,21.85],"Lào Cai":[103.97,22.48],"Nghệ An":[105.68,18.68],"Ninh Bình":[105.97,20.25],"Phú Thọ":[105.22,21.32],"Quảng Ngãi":[108.80,15.12],"Quảng Ninh":[107.08,20.97],"Quảng Trị":[107.10,16.75],"Sơn La":[103.92,21.33],"Tây Ninh":[106.10,11.31],"Thái Nguyên":[105.84,21.59],"Thanh Hóa":[105.78,19.81],"Tuyên Quang":[105.22,21.82],"Vĩnh Long":[105.97,10.25]});
 // Đường biên Việt Nam xấp xỉ (kinh độ, vĩ độ) theo chiều kim đồng hồ
 var VNOUT=[[102.1,22.4],[103.0,22.6],[104.0,22.7],[105.3,23.35],[106.0,22.9],[106.7,22.8],[107.0,21.8],[107.95,21.6],[106.9,20.7],[106.2,20.1],[105.9,19.2],[106.3,18.2],[106.6,17.6],[107.1,16.9],[108.2,16.05],[109.2,13.9],[109.45,12.3],[109.0,11.1],[107.8,10.5],[107.0,10.35],[106.7,9.6],[105.1,8.6],[104.75,9.6],[105.05,10.5],[105.0,11.0],[106.0,11.9],[106.5,12.0],[107.5,12.3],[107.55,13.6],[107.35,14.7],[107.3,15.6],[106.6,16.6],[106.1,17.4],[105.3,18.4],[104.6,19.4],[104.1,20.4],[103.2,21.3],[102.6,21.9]];
 function amm(){
