@@ -281,7 +281,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="sdi" onclick="sp('photos',this)">📸 Bảng kỷ niệm</div>
     <div class="sdi" onclick="sp('map',this)">📍 Bản đồ lớp</div>
     <div class="sds">Quản trị</div>
-    <div class="sdi" onclick="sp('gantt',this)">📊 Tiến độ dự án</div>
+    <div class="sdi" onclick="sp('gantt',this)">📊 Tiến độ thực hiện</div>
     <div class="sdi" onclick="sp('finance',this)">💰 Tài chính</div>
     <div class="sdi" onclick="sp('admin',this)"><span class="adminbadge">🔐 Quản trị</span></div>
   </nav>
@@ -333,7 +333,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <button class="qab qp" onclick="sp('letters')"><span class="qai">📬</span>Góc nhắn nhủ</button>
     <button class="qab qg" onclick="sp('awards')"><span class="qai">🎓</span>DH học sinh</button>
     <button class="qab qpu" onclick="sp('map')"><span class="qai">📍</span>Bản đồ lớp</button>
-    <button class="qab qgr" onclick="sp('gantt')"><span class="qai">📊</span>Tiến độ dự án</button>
+    <button class="qab qgr" onclick="sp('gantt')"><span class="qai">📊</span>Tiến độ thực hiện</button>
     <button class="qab qg" onclick="sp('finance')"><span class="qai">💰</span>Tài chính</button>
     <button class="qab" onclick="sp('admin')" style="background:var(--navy);color:#fff"><span class="qai">🔐</span>Quản trị</button>
   </div>
@@ -391,7 +391,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 
 <!-- GANTT -->
 <div class="pg" id="pg-gantt">
-  <div class="ptit">📊 Tiến độ dự án</div>
+  <div class="ptit">📊 Tiến độ thực hiện</div>
   <div class="psub">Theo dõi nhiệm vụ theo thời gian. Người phụ trách đăng nhập PIN để cập nhật % việc của mình.</div>
   <div class="card" id="ganttLogin" style="margin-bottom:12px"></div>
   <div id="ganttChart"></div>
@@ -2211,100 +2211,4 @@ function vat(aid,name){
 }
 
 // ═══ MAP ═══
-var CF={"Hà Nội":"🏙","TP. HCM":"🌆","Đà Nẵng":"🌊","Cần Thơ":"🌾","Hải Phòng":"⚓","Nha Trang":"🏖","Huế":"🏯","Biên Hòa":"🏭","Bình Dương":"🏗","Vũng Tàu":"⛱","Đà Lạt":"🌸","Buôn Ma Thuột":"☕","Quy Nhơn":"🌊","Vinh":"🏛","Pleiku":"🌄","An Khê":"⛰","Nước ngoài 🌏":"🌍","Khác":"📍"};
-// Tọa độ [kinh độ, vĩ độ] để định vị trên bản đồ
-var CITYLL={"Hà Nội":[105.85,21.03],"TP. HCM":[106.70,10.78],"Đà Nẵng":[108.22,16.05],"Cần Thơ":[105.78,10.03],"Hải Phòng":[106.68,20.86],"Nha Trang":[109.19,12.24],"Huế":[107.59,16.46],"Biên Hòa":[106.82,10.95],"Bình Dương":[106.65,10.98],"Vũng Tàu":[107.08,10.35],"Đà Lạt":[108.44,11.94],"Buôn Ma Thuột":[108.05,12.67],"Quy Nhơn":[109.22,13.78],"Vinh":[105.68,18.68],"Pleiku":[108.00,13.98],"An Khê":[108.65,13.95]};
-// 34 tỉnh/thành sau sáp nhập 2025 (toạ độ trung tâm hành chính)
-Object.assign(CITYLL,{"An Giang":[105.43,10.39],"Bắc Ninh":[106.08,21.18],"Cà Mau":[105.15,9.18],"Cao Bằng":[106.25,22.67],"Đắk Lắk":[108.05,12.67],"Điện Biên":[103.02,21.39],"Đồng Nai":[106.82,10.95],"Đồng Tháp":[105.63,10.46],"Gia Lai":[108.00,13.98],"Hà Tĩnh":[105.90,18.34],"Hưng Yên":[106.05,20.65],"Khánh Hòa":[109.19,12.24],"Lai Châu":[103.45,22.40],"Lâm Đồng":[108.44,11.94],"Lạng Sơn":[106.76,21.85],"Lào Cai":[103.97,22.48],"Nghệ An":[105.68,18.68],"Ninh Bình":[105.97,20.25],"Phú Thọ":[105.22,21.32],"Quảng Ngãi":[108.80,15.12],"Quảng Ninh":[107.08,20.97],"Quảng Trị":[107.10,16.75],"Sơn La":[103.92,21.33],"Tây Ninh":[106.10,11.31],"Thái Nguyên":[105.84,21.59],"Thanh Hóa":[105.78,19.81],"Tuyên Quang":[105.22,21.82],"Vĩnh Long":[105.97,10.25]});
-// Đường biên Việt Nam xấp xỉ (kinh độ, vĩ độ) theo chiều kim đồng hồ
-var VNOUT=[[102.1,22.4],[103.0,22.6],[104.0,22.7],[105.3,23.35],[106.0,22.9],[106.7,22.8],[107.0,21.8],[107.95,21.6],[106.9,20.7],[106.2,20.1],[105.9,19.2],[106.3,18.2],[106.6,17.6],[107.1,16.9],[108.2,16.05],[109.2,13.9],[109.45,12.3],[109.0,11.1],[107.8,10.5],[107.0,10.35],[106.7,9.6],[105.1,8.6],[104.75,9.6],[105.05,10.5],[105.0,11.0],[106.0,11.9],[106.5,12.0],[107.5,12.3],[107.55,13.6],[107.35,14.7],[107.3,15.6],[106.6,16.6],[106.1,17.4],[105.3,18.4],[104.6,19.4],[104.1,20.4],[103.2,21.3],[102.6,21.9]];
-function amm(){
-  if(!S.mapMem)S.mapMem=[];
-  var city=document.getElementById("mcity").value;
-  var name=document.getElementById("mname").value.trim();
-  if(!city||!name)return alert("Vui lòng chọn thành phố và nhập tên!");
-  S.mapMem.push({name:name,city:city});
-  document.getElementById("mname").value="";sv();rma();
-}
-// chiếu (kinh độ, vĩ độ) -> tọa độ SVG
-var MAP_LON0=101.6,MAP_LON1=110.7,MAP_LAT0=8.0,MAP_LAT1=23.7,MAP_W=240,MAP_H=440,MAP_PX=24,MAP_PY=18;
-function mproj(lon,lat){
-  return [MAP_PX+(lon-MAP_LON0)/(MAP_LON1-MAP_LON0)*MAP_W, MAP_PY+(MAP_LAT1-lat)/(MAP_LAT1-MAP_LAT0)*MAP_H];
-}
-function rma(){
-  if(!S.mapMem)S.mapMem=[];
-  var fEl=document.getElementById("mapcls");var fcls=fEl?fEl.value:"";
-  // gộp nơi ở từ danh sách thành viên (có lớp) + vị trí tự đánh dấu (không lớp)
-  var people=[];
-  (S.members||[]).forEach(function(m){
-    if(!m.city)return;
-    if(fcls&&m.cls!==fcls)return;
-    people.push({name:m.name+(m.cls?" ("+m.cls+")":""),city:m.city});
-  });
-  if(!fcls)S.mapMem.forEach(function(m){people.push({name:m.name,city:m.city});});
-  var cc={};people.forEach(function(m){cc[m.city]=(cc[m.city]||0)+1;});
-
-  // ----- VẼ BẢN ĐỒ -----
-  var vb_w=MAP_PX*2+MAP_W,vb_h=MAP_PY*2+MAP_H;
-  var path="M";VNOUT.forEach(function(p,i){var xy=mproj(p[0],p[1]);path+=(i?"L":"")+xy[0].toFixed(1)+","+xy[1].toFixed(1)+" ";});path+="Z";
-  var pins="";
-  Object.keys(CITYLL).forEach(function(city){
-    var cnt=cc[city]||0;if(!cnt)return;
-    var ll=CITYLL[city],xy=mproj(ll[0],ll[1]);
-    var r=Math.min(16,7+cnt*2.5);
-    var names=people.filter(function(m){return m.city===city;}).map(function(m){return m.name;}).join(", ");
-    pins+='<g><title>'+city+': '+cnt+' người — '+names+'</title>'+
-      '<circle cx="'+xy[0].toFixed(1)+'" cy="'+xy[1].toFixed(1)+'" r="'+r.toFixed(1)+'" fill="#F5A623" fill-opacity="0.9" stroke="#fff" stroke-width="2"/>'+
-      '<text x="'+xy[0].toFixed(1)+'" y="'+(xy[1]+3.5).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#1A3A5C">'+cnt+'</text>'+
-      '<text x="'+(xy[0]+r+3).toFixed(1)+'" y="'+(xy[1]+3.5).toFixed(1)+'" font-size="10" fill="#1A3A5C">'+city+'</text></g>';
-  });
-  var hasPin=Object.keys(CITYLL).some(function(c){return cc[c];});
-  var svg='<svg viewBox="0 0 '+vb_w+' '+vb_h+'" width="100%" style="max-height:460px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">'+
-    '<rect x="0" y="0" width="'+vb_w+'" height="'+vb_h+'" fill="#EAF4FB" rx="10"/>'+
-    '<path d="'+path+'" fill="#DCEFE0" stroke="#1A3A5C" stroke-width="1.4" stroke-linejoin="round"/>'+
-    (hasPin?pins:'<text x="'+(vb_w/2)+'" y="'+(vb_h/2)+'" text-anchor="middle" font-size="12" fill="#6B7280">Chưa có vị trí trong nước</text>')+
-    '</svg>';
-  var mapEl=document.getElementById("vnmap");if(mapEl)mapEl.innerHTML=svg;
-
-  // ----- ngoài bản đồ (Nước ngoài / Khác) -----
-  var offEl=document.getElementById("mapoff");
-  if(offEl){
-    var off="";["Nước ngoài 🌏","Khác"].forEach(function(c){if(cc[c])off+='<span style="background:#F5F3FF;color:#5B21B6;border:1px solid #DDD6FE;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600">'+(CF[c]||"📍")+' '+c+': '+cc[c]+'</span>';});
-    offEl.innerHTML=off;
-  }
-
-  // ----- DANH SÁCH PHÂN BỐ -----
-  var el=document.getElementById("cstats");
-  if(!people.length){el.innerHTML='<div style="color:var(--mu);text-align:center;padding:16px;font-size:13px">Chưa có dữ liệu nơi ở. Thêm thành viên (kèm nơi sống) hoặc đánh dấu vị trí bên dưới.</div>';return;}
-  var mx=Math.max.apply(null,Object.values(cc).concat([1]));
-  var sorted=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a];});
-  el.innerHTML=sorted.map(function(city){
-    var cnt=cc[city],flag=CF[city]||"📍";
-    var names=people.filter(function(m){return m.city===city;}).map(function(m){return m.name;}).join(", ");
-    return '<div class="ctr"><div class="cf">'+flag+'</div><div class="cn"><div class="cnm2">'+city+'</div><div class="cmb">'+names+'</div><div class="ccb"><div class="ccf" style="width:'+Math.round(cnt/mx*100)+'%"></div></div></div><div class="cnum2">'+cnt+'</div></div>';
-  }).join("");
-}
-
-// INIT
-ld();ldAdmin();ldMe();lc2();applyAdmin();ensureGallery();
-setInterval(tick,1000);tick();
-us();rm();rf();rpr();rta();
-// seed danh sách đại biểu nếu chưa có
-if(!S.guests||!S.guests.length){S.guests=defaultGuests();sv();}
-// seed nhiệm vụ + nhóm phụ trách nếu chưa có
-if(!S.team||!S.team.length){S.team=defaultTeam();sv();}
-if(!S.budget||!S.budget.length){S.budget=defaultBudget();sv();}
-if(!S.tasks||!S.tasks.length){S.tasks=defaultTasks().concat(extraTasks());S.taskv=2;sv();}
-else if(S.taskv!==2){var have={};S.tasks.forEach(function(t){have[t.id]=1;});extraTasks().forEach(function(t){if(!have[t.id])S.tasks.push(t);});S.taskv=2;sv();}
-// gán nhóm cho nhiệm vụ cũ chưa có nhóm
-(function(){var gm=gmap();var ch=false;(S.tasks||[]).forEach(function(t){if(!t.group){t.group=gm[t.title]||"Chưa phân nhóm";ch=true;}});if(ch)sv();})();
-// seed letter nếu chưa có
-if(!S.letters||!S.letters.length){
-  S.letters=[{id:1,from:"Ban tổ chức",to:"Khóa 2003–2006 (A1·A2·A3·A4)",body:"Kính gửi toàn thể cựu học sinh khóa 2003–2006 (A1, A2, A3, A4) thân mến!\n\nSau 20 năm xa mái trường THPT Nguyễn Trãi, ngày chúng ta trở về gặp lại đã đến gần!\n\nBan tổ chức xin gửi lời cảm ơn chân thành đến tất cả các bạn đã nhiệt tình ủng hộ và đồng hành. Hẹn gặp lại trong ngày hội ngộ đáng nhớ này! 🎉",mood:"🤩",date:new Date().toLocaleDateString("vi-VN"),read:true}];sv();
-}
-document.getElementById("tdate").valueAsDate=new Date();
-try{supaInit();}catch(e){}
-setTimeout(function(){var tab=document.getElementById("tn-home");if(tab){var ind=document.getElementById("nind");if(ind){ind.style.left=tab.offsetLeft+"px";ind.style.width=tab.offsetWidth+"px";}}},100);
-</script>
-</body>
-</html>
+var CF={"Hà Nội":"🏙","TP. HCM":"🌆","Đà Nẵng":"🌊","Cần Thơ":"🌾","Hải Phòng":"⚓","Nha Trang":"🏖","Huế":"🏯","Biên Hòa":"🏭","Bình Dương":"🏗","Vũng Tàu":"⛱","Đà Lạt":"🌸","Buôn Ma Thuột":"�
