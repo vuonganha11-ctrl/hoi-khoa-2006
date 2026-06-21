@@ -355,14 +355,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 <!-- CHECK-IN -->
 <div class="pg" id="pg-checkin">
   <div class="ptit">✅ Check-in sự kiện</div>
-  <div class="psub">Tìm tên bạn và bấm “Check-in” khi đã đến. Khách mời chưa có tên thì thêm nhanh bên dưới.</div>
+  <div class="psub">Tìm tên bạn và bấm “Check-in” khi đã đến.</div>
   <div id="cistat" style="margin-bottom:10px"></div>
-  <div class="card" style="margin-bottom:12px">
-    <div class="stit">➕ Khách mời mới đến (thêm nhanh)</div>
-    <div class="fg"><label>Họ tên khách mời / đại biểu *</label><input type="text" id="wkname" placeholder="VD: Thầy Nguyễn Văn Lực"></div>
-    <div class="fg"><label>Đơn vị / vai trò</label><input type="text" id="wkorg" placeholder="VD: GVCN 12A1, Đại biểu, BGH..."></div>
-    <button class="btn bg2" onclick="addWalkin()">✅ Thêm & Check-in</button>
-  </div>
   <div class="sb2" style="margin-bottom:12px">
     <select id="ciflt" onchange="rci()"><option value="">Tất cả trạng thái</option><option value="out">⏳ Chưa đến</option><option value="in">✓ Đã đến</option></select>
   </div>
@@ -1020,25 +1014,20 @@ function ciPool(){ // danh sách người ĐÃ check-in (tên) — cấp cho vò
   (S.guests||[]).forEach(function(g){if(g.ci)a.push(g.name+(g.org?" ("+g.org+")":""));});
   return a;
 }
+function ciEventStr(){var d=(S.cfg&&S.cfg.date)||"";if(!d)return "";var p=(""+d).split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:d;}
+function ciOpen(){var d=(S.cfg&&S.cfg.date)||"";if(!d)return true;var ev=new Date(d+"T00:00:00");if(isNaN(ev.getTime()))return true;return Date.now()>=ev.getTime();}
+function ciLocked(){if(ciOpen())return false;alert("Chưa đến thời gian sự kiện ("+ciEventStr()+") nên chưa thể check-in.");return true;}
 function ciMember(id){
   var m=S.members.find(function(x){return x.id===id;});if(!m)return;
   if(m.ci){if(!confirm("Huỷ check-in của "+m.name+"?"))return;m.ci=null;}
-  else{m.ci=Date.now();if(m.s!=="c")m.s="c";}
+  else{if(ciLocked())return;m.ci=Date.now();if(m.s!=="c")m.s="c";}
   sv();rci();us();
 }
 function ciGuest(id){
   if(!S.guests)S.guests=[];
   var g=S.guests.find(function(x){return x.id===id;});if(!g)return;
   if(g.ci){if(!confirm("Huỷ check-in của "+g.name+"?"))return;g.ci=null;}
-  else g.ci=Date.now();
-  sv();rci();
-}
-function addWalkin(){
-  if(!S.guests)S.guests=[];
-  var nm=document.getElementById("wkname").value.trim();
-  if(!nm)return alert("Nhập tên khách mời!");
-  S.guests.push({id:Date.now(),name:nm,org:document.getElementById("wkorg").value.trim(),ci:Date.now()});
-  document.getElementById("wkname").value="";document.getElementById("wkorg").value="";
+  else{if(ciLocked())return;g.ci=Date.now();}
   sv();rci();
 }
 // ===== QUẢN LÝ ĐẠI BIỂU / KHÁCH MỜI (chi tiết) =====
@@ -1392,13 +1381,15 @@ function rci(){
   var srcM=(document.getElementById("cisrcM")?document.getElementById("cisrcM").value:"").toLowerCase();
   var srcG=(document.getElementById("cisrcG")?document.getElementById("cisrcG").value:"").toLowerCase();
   var fEl=document.getElementById("ciflt");var flt=fEl?fEl.value:"";
+  var locked=!ciOpen();
   var mem=(S.members||[]).map(function(m){return {type:"m",id:m.id,name:m.name,sub:((m.cls||"")+(m.job?" · "+m.job:""))||"Học sinh",ci:m.ci,col:m.col};});
   var gst=(S.guests||[]).map(function(g){return {type:"g",id:g.id,name:g.name,sub:"Khách mời"+(g.org?" · "+g.org:""),ci:g.ci,col:"#8B5CF6"};});
   // thống kê (gộp cả hai)
   var all=mem.concat(gst);
   var tot=all.length, came=all.filter(function(r){return r.ci;}).length;
   var stEl=document.getElementById("cistat");
-  if(stEl)stEl.innerHTML='<div class="g2 g4"><div class="csm kpi"><div class="kv">'+came+'</div><div class="kl">Đã đến</div></div>'+
+  if(stEl)stEl.innerHTML=(locked?'<div style="background:#FEF3C7;border:1px solid #FCD34D;color:#92400E;border-radius:12px;padding:11px 14px;margin-bottom:10px;font-size:13.5px;font-weight:600;text-align:center">🔒 Check-in sẽ mở vào ngày diễn ra sự kiện ('+ciEventStr()+').</div>':'')+
+    '<div class="g2 g4"><div class="csm kpi"><div class="kv">'+came+'</div><div class="kl">Đã đến</div></div>'+
     '<div class="csm kpi"><div class="kv">'+(tot-came)+'</div><div class="kl">Chưa đến</div></div>'+
     '<div class="csm kpi"><div class="kv">'+tot+'</div><div class="kl">Tổng</div></div>'+
     '<div class="csm kpi"><div class="kv">'+(tot?Math.round(came/tot*100):0)+'%</div><div class="kl">Tỉ lệ</div></div></div>';
@@ -1412,7 +1403,9 @@ function rci(){
     var fn=r.type==="m"?"ciMember":"ciGuest";
     var btn=r.ci
       ? '<button onclick="'+fn+'('+r.id+')" style="flex-shrink:0;background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;border-radius:10px;padding:7px 11px;font-size:13px;font-weight:700;cursor:pointer">✓ '+ciTime(r.ci)+'</button>'
-      : '<button onclick="'+fn+'('+r.id+')" style="flex-shrink:0;background:var(--gr);color:#fff;border:none;border-radius:10px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer">Check-in</button>';
+      : (locked
+        ? '<button onclick="ciLocked()" style="flex-shrink:0;background:#F3F4F6;color:#9CA3AF;border:1px solid #E5E7EB;border-radius:10px;padding:7px 13px;font-size:13px;font-weight:700;cursor:not-allowed">🔒 Chưa mở</button>'
+        : '<button onclick="'+fn+'('+r.id+')" style="flex-shrink:0;background:var(--gr);color:#fff;border:none;border-radius:10px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer">Check-in</button>');
     return '<div class="mrow'+(r.ci?" c":"")+'"><div class="av" style="background:'+(r.col||"#1A3A5C")+'">'+gi(r.name)+'</div><div class="mi"><div class="mn">'+r.name+'</div><div class="md">'+r.sub+'</div></div>'+btn+'</div>';
   }
   function renderCol(listId,countId,rows,src,emptyMsg){
