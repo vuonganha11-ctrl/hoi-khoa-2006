@@ -1796,11 +1796,21 @@ function chi(k){
 }
 
 // ===== BANG KY NIEM (CHALKBOARD GALLERY) =====
-var GBOARDS=[{k:"12A1",n:"Lớp 12A1"},{k:"12A2",n:"Lớp 12A2"},{k:"12A3",n:"Lớp 12A3"},{k:"12A4",n:"Lớp 12A4"},{k:"all",n:"Cả khóa 06"}];
+var GBOARDS=[{k:"12A1",n:"Lớp 12A1"},{k:"12A2",n:"Lớp 12A2"},{k:"12A3",n:"Lớp 12A3"},{k:"12A4",n:"Lớp 12A4"},{k:"all",n:"Cả khóa 2003 - 2006"}];
 var NCOLORS=["nc0","nc1","nc2","nc3","nc4","nc5"];
 var _curBoard="12A1",_noteColor="nc0";
 function ensureGallery(){if(!S.gallery||typeof S.gallery!=="object"||Array.isArray(S.gallery))S.gallery={};GBOARDS.forEach(function(b){if(!Array.isArray(S.gallery[b.k]))S.gallery[b.k]=[];});}
-function siso(k){if(k==="all")return (S.members||[]).length;return (S.members||[]).filter(function(m){return m.cls===k;}).length;}
+function siso(k){if(S.siso&&S.siso[k]!=null&&S.siso[k]!=="")return S.siso[k];if(k==="all")return (S.members||[]).length;return (S.members||[]).filter(function(m){return m.cls===k;}).length;}
+function editSiso(k){
+  if(!isAdmin)return reqAdmin();
+  var b=GBOARDS.find(function(x){return x.k===k;})||{n:k};
+  var v=prompt("Nhập sĩ số cho "+b.n+" (để trống = tự đếm theo thành viên):",siso(k));
+  if(v===null)return;v=(""+v).trim();
+  if(!S.siso)S.siso={};
+  if(v===""){delete S.siso[k];}
+  else{var n=parseInt(v,10);if(isNaN(n)||n<0){alert("Sĩ số phải là số ≥ 0");return;}S.siso[k]=n;}
+  sv();rgal();
+}
 function escHtml(s){return (s==null?"":String(s)).replace(/[&<>\"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 function meName(){try{if(meUser)return meUser;}catch(e){}return "";}
 function rgal(){
@@ -1820,7 +1830,7 @@ function rgal(){
     }).join(""):'<div class="bempty">Chưa có gì trên bảng. Ghim ảnh hoặc dán note nào! ✏️</div>';
     return '<div class="board"><div class="bsurf">'+
       '<div class="bhead">'+b.n+'<span class="chk">~ bảng kỷ niệm ~</span></div>'+
-      '<div class="btag">'+b.n.replace("Lớp ","")+'<span class="bs">sĩ số '+siso(b.k)+'</span></div>'+
+      '<div class="btag">'+b.n.replace("Lớp ","")+'<span class="bs">sĩ số '+siso(b.k)+(isAdmin?' <span onclick="event.stopPropagation();editSiso(\''+b.k+'\')" title="Sửa sĩ số" style="cursor:pointer">✏️</span>':'')+'</span></div>'+
       '<div class="pins">'+pins+'</div></div>'+
       '<div class="bbtns"><button class="bbtn" onclick="pinPhoto(\''+b.k+'\')">📌 Ghim ảnh</button>'+
       '<button class="bbtn" onclick="openNote(\''+b.k+'\')">📝 Dán note</button></div></div>';
