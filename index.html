@@ -90,7 +90,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 /* TIMELINE */
 .tl{position:relative}.tl::before{content:"";position:absolute;left:36px;top:0;bottom:0;width:2px;background:var(--bdr)}
 .tli{display:flex;gap:10px;margin-bottom:14px;position:relative}
-.tlt{width:32px;text-align:right;font-size:10px;font-weight:700;color:var(--gold);padding-top:10px;flex-shrink:0;line-height:1.2}
+.tlt{width:42px;text-align:right;font-size:10.5px;font-weight:700;color:var(--gold);padding-top:11px;flex-shrink:0;line-height:1.35}
 .tld{width:14px;height:14px;border-radius:50%;background:var(--navy);border:3px solid #fff;box-shadow:0 0 0 2px var(--navy);margin-top:12px;flex-shrink:0;z-index:1}
 .tld.g{background:var(--gold);box-shadow:0 0 0 2px var(--gold)}
 .tlc{flex:1;background:#fff;border-radius:12px;padding:11px 13px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
@@ -315,6 +315,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     </div>
     <div class="hdate">📅 <strong id="hdate">Chưa cài đặt</strong><br>📍 <span id="hloc">Chưa cài đặt địa điểm</span></div>
   </div>
+  <div id="noteHome"></div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
     <div class="csm kpi"><div class="kv" id="st">0</div><div class="kl">Thành viên</div></div>
     <div class="csm kpi"><div class="kv" id="sc">0</div><div class="kl">Xác nhận</div><div class="bdg bg">✓</div></div>
@@ -416,6 +417,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 <div class="pg" id="pg-program">
   <div class="ptit">🗓️ Timeline chương trình</div>
   <div class="psub">Mốc thời gian buổi lễ. Quản trị viên có thể thêm / sửa / xoá.</div>
+  <div id="noteProg"></div>
   <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
     <button class="btn bp bsm" onclick="openProg()">➕ Thêm mốc</button>
     <button class="btn bo2 bsm" onclick="ldp()">📄 Nạp mẫu</button>
@@ -750,6 +752,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     </div>
     <button class="btn bp" onclick="saveProg()">💾 Lưu</button>
     <button class="btn" id="mpDel" onclick="delProg()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá mốc</button>
+  </div>
+</div>
+
+<!-- MODAL: LƯU Ý -->
+<div class="mo" id="mnote" onclick="cbg(event,'mnote')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt">📌 Lưu ý từ Ban tổ chức</div><button class="mc" onclick="cm('mnote')">✕</button></div>
+    <div class="fg"><label>Mỗi dòng là một lưu ý (vấn đề nóng cần nhắc thành viên)</label><textarea id="noteTxt" rows="6" placeholder="VD: Trang phục phần Lễ..."></textarea></div>
+    <button class="btn bp" onclick="saveNotes()">💾 Lưu</button>
   </div>
 </div>
 
@@ -1680,12 +1692,38 @@ function rpr(){
   arr.forEach(function(p){
     var i=S.prog.indexOf(p);
     var dd=(p.d||2);
-    if(dd!==curDay){curDay=dd;html+='<div class="tlday" style="margin:'+(first?"4px":"18px")+' 0 8px;font-weight:800;color:#1A3A5C;font-size:14px;border-left:4px solid #1A3A5C;padding-left:8px">📅 '+(PDAY[dd]||("Ngày "+dd))+'</div>';first=false;}
+    if(dd!==curDay){curDay=dd;html+='<div style="display:flex;align-items:center;gap:8px;margin:'+(first?"2px":"22px")+' 0 12px;padding:9px 14px;background:linear-gradient(135deg,#1A3A5C,#2C5A82);border-radius:10px;color:#fff;font-weight:800;font-size:14px;box-shadow:0 2px 6px rgba(26,58,92,.25)"><span style="font-size:16px">📅</span><span>'+(PDAY[dd]||("Ngày "+dd))+'</span></div>';first=false;}
     var ed=isAdmin?'<button onclick="openProg('+i+')" style="position:absolute;top:8px;right:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:3px 7px;font-size:12px;cursor:pointer">✏️</button>':'';
-    html+='<div class="tli"><div class="tlt">'+p.time+'</div><div class="tld"></div><div class="tlc" style="position:relative">'+ed+'<div class="tlti">'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span></div></div>';
+    html+='<div class="tli"><div class="tlt">'+String(p.time).replace(/\s*–\s*/,"<br>")+'</div><div class="tld"></div><div class="tlc" style="position:relative">'+ed+'<div class="tlti">'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span></div></div>';
   });
   el.innerHTML=html;
 }
+// ===== LƯU Ý TỪ BAN TỔ CHỨC (vấn đề nóng cho thành viên) =====
+function defaultNotes(){return [
+  "Trang phục phần Lễ: Nữ mặc áo dài trắng (hoặc áo đồng phục); Nam mặc sơ mi trắng, quần âu tối màu.",
+  "Mang theo áo đồng phục khóa để thay cho phần Lễ và chụp ảnh lưu niệm.",
+  "Vui lòng CHECK-IN ngay khi đến để nhận bảng tên, ruy băng chia đội và đủ điều kiện tham gia Vòng quay may mắn.",
+  "Thành viên chưa đóng phí vui lòng hoàn tất trước ngày 05/07 để BTC chốt số lượng."
+];}
+function rnote(){
+  var arr=(S.notes||[]).filter(function(x){return (x||"").trim();});
+  var html="";
+  if(arr.length){
+    html='<div style="background:linear-gradient(135deg,#FEF3C7,#FFE4C4);border:1px solid #F59E0B;border-left:5px solid #EA580C;border-radius:12px;padding:12px 14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(234,88,12,.14)">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px">'
+      +'<div style="font-weight:800;color:#9A3412;font-size:14px">📌 Lưu ý từ Ban tổ chức</div>'
+      +(isAdmin?'<button onclick="editNotes()" style="flex-shrink:0;background:#fff;border:1px solid #F59E0B;color:#9A3412;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:600;cursor:pointer">✏️ Sửa</button>':'')
+      +'</div><ul style="margin:0;padding-left:20px;color:#7C2D12;font-size:13px;line-height:1.65">'
+      +arr.map(function(t){return '<li style="margin-bottom:3px">'+t+'</li>';}).join("")
+      +'</ul></div>';
+  }else if(isAdmin){
+    html='<div style="background:#FFFBEB;border:1px dashed #F59E0B;border-radius:12px;padding:10px 14px;margin-bottom:14px;text-align:center">'
+      +'<button onclick="editNotes()" style="background:#F59E0B;border:none;color:#fff;border-radius:8px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer">📌 Thêm lưu ý cho thành viên</button></div>';
+  }
+  ["noteHome","noteProg"].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=html;});
+}
+function editNotes(){if(!isAdmin)return reqAdmin();document.getElementById("noteTxt").value=(S.notes||[]).join("\n");om("mnote");}
+function saveNotes(){if(!isAdmin)return reqAdmin();S.notes=document.getElementById("noteTxt").value.split("\n").map(function(s){return s.trim();}).filter(function(s){return s;});sv();cm("mnote");rnote();}
 
 // POLLS
 function rpo(){
@@ -2097,7 +2135,7 @@ function supaPush(force){
 function rerenderCurrent(){
   var on=document.querySelector(".pg.on");if(!on)return;
   var id=on.id.replace("pg-","");
-  try{uh();us();}catch(e){}
+  try{uh();us();if(typeof rnote==="function")rnote();}catch(e){}
   try{
     if(id==="members")rm();else if(id==="checkin")rci();else if(id==="guests"){rgl();if(typeof rgadmin==="function")rgadmin();}
     else if(id==="gantt")rgantt();else if(id==="finance")rf();else if(id==="program")rpr();
@@ -2373,6 +2411,8 @@ else if((S.taskv||0)<3){var have={};S.tasks.forEach(function(t){have[t.id]=1;});
 if(!S.letters||!S.letters.length){
   S.letters=[{id:1,from:"Ban tổ chức",to:"Khóa 2003–2006 (A1·A2·A3·A4)",body:"Kính gửi toàn thể cựu học sinh khóa 2003–2006 (A1, A2, A3, A4) thân mến!\n\nSau 20 năm xa mái trường THPT Nguyễn Trãi, ngày chúng ta trở về gặp lại đã đến gần!\n\nBan tổ chức xin gửi lời cảm ơn chân thành đến tất cả các bạn đã nhiệt tình ủng hộ và đồng hành. Hẹn gặp lại trong ngày hội ngộ đáng nhớ này! 🎉",mood:"🤩",date:new Date().toLocaleDateString("vi-VN"),read:true}];sv();
 }
+if(!S.notes){S.notes=defaultNotes();sv();}
+rnote();
 document.getElementById("tdate").valueAsDate=new Date();
 try{supaInit();}catch(e){}
 setTimeout(function(){var tab=document.getElementById("tn-home");if(tab){var ind=document.getElementById("nind");if(ind){ind.style.left=tab.offsetLeft+"px";ind.style.width=tab.offsetWidth+"px";}}},100);
