@@ -853,6 +853,9 @@ function applyAdmin(){
   document.querySelectorAll(".adminbadge").forEach(function(b){b.textContent=isAdmin?"🔓 Quản trị":"🔐 Quản trị";});
   if(isAdmin){ss2();rgadmin();}
   if(typeof rnote==="function")rnote();
+  if(typeof rci==="function")rci();
+  if(typeof rm==="function")rm();
+  if(typeof rgl==="function")rgl();
 }
 function reqAdmin(){alert("🔒 Khu vực quản trị. Vào mục Quản trị để đăng nhập trước.");}
 
@@ -1467,7 +1470,7 @@ function rci(){
   var srcM=(document.getElementById("cisrcM")?document.getElementById("cisrcM").value:"").toLowerCase();
   var srcG=(document.getElementById("cisrcG")?document.getElementById("cisrcG").value:"").toLowerCase();
   var fEl=document.getElementById("ciflt");var flt=fEl?fEl.value:"";
-  var locked=!ciOpen();
+  var locked=!ciOpen()&&!isAdmin;
   var mem=(S.members||[]).map(function(m){return {type:"m",id:m.id,name:m.name,sub:((m.cls||"")+(m.job?" · "+m.job:""))||"Học sinh",ci:m.ci,col:m.col};});
   var gst=(S.guests||[]).map(function(g){return {type:"g",id:g.id,name:g.name,sub:"Khách mời"+(g.org?" · "+g.org:""),ci:g.ci,col:"#8B5CF6"};});
   // thống kê (gộp cả hai)
