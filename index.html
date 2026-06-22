@@ -756,10 +756,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 </div>
 
 <!-- MODAL: LƯU Ý -->
-<div class="mo" id="mnote" onclick="cbg(event,'mnote')">
+<div class="mo" id="mbtc" onclick="cbg(event,'mbtc')">
   <div class="modal">
     <div class="mh"></div>
-    <div class="mtr"><div class="mt">📌 Lưu ý từ Ban tổ chức</div><button class="mc" onclick="cm('mnote')">✕</button></div>
+    <div class="mtr"><div class="mt">📌 Lưu ý từ Ban tổ chức</div><button class="mc" onclick="cm('mbtc')">✕</button></div>
     <div class="fg"><label>Mỗi dòng là một lưu ý (vấn đề nóng cần nhắc thành viên)</label><textarea id="noteTxt" rows="6" placeholder="VD: Trang phục phần Lễ..."></textarea></div>
     <button class="btn bp" onclick="saveNotes()">💾 Lưu</button>
   </div>
@@ -1723,8 +1723,8 @@ function rnote(){
   }
   ["noteHome","noteProg"].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=html;});
 }
-function editNotes(){if(!isAdmin)return reqAdmin();document.getElementById("noteTxt").value=(S.notes||[]).join("\n");om("mnote");}
-function saveNotes(){if(!isAdmin)return reqAdmin();S.notes=document.getElementById("noteTxt").value.split("\n").map(function(s){return s.trim();}).filter(function(s){return s;});sv();cm("mnote");rnote();}
+function editNotes(){if(!isAdmin)return reqAdmin();document.getElementById("noteTxt").value=(S.notes||[]).join("\n");om("mbtc");}
+function saveNotes(){if(!isAdmin)return reqAdmin();S.notes=document.getElementById("noteTxt").value.split("\n").map(function(s){return s.trim();}).filter(function(s){return s;});sv();cm("mbtc");rnote();}
 
 // POLLS
 function rpo(){
