@@ -380,11 +380,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   <div class="psub">Thông tin chi tiết thầy cô, đại biểu — Quản trị viên bấm ✏️ để sửa</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
     <button class="btn bp bsm" onclick="og2()">➕ Thêm đại biểu / khách mời</button>
-    <button class="btn bo2 bsm" onclick="loadGuests()">📥 Nạp DS thầy cô (32)</button>
+    <button class="btn bo2 bsm" onclick="loadGuests()">📥 Nạp DS thầy cô (37)</button>
   </div>
   <div class="sb2">
     <input type="text" placeholder="🔍 Tìm tên..." id="gsrc" oninput="rgl()">
-    <select id="gflt" onchange="rgl()"><option value="">Tất cả vai trò</option><option>Đại biểu</option><option>Ban Giám hiệu</option><option>GV chủ nhiệm</option><option>GV bộ môn</option><option>Khách mời khác</option></select>
+    <select id="gflt" onchange="rgl()"><option value="">Tất cả vai trò</option><option>Đại biểu</option><option>Ban Giám hiệu</option><option>GV chủ nhiệm</option><option>GV bộ môn</option><option>Khách mời khác</option><option>Tưởng nhớ</option></select>
   </div>
   <div class="mlist" id="glist"></div>
 </div>
@@ -1124,38 +1124,43 @@ function rgl(){
 }
 // Danh sách đại biểu thật (DS Thầy cô 2003–2006) — [tên, môn, SĐT, nơi công tác, ghi chú, vai trò?]
 var DGRAW=[
- ["Thầy Đào Duy Lực","","0357580777","THPT Quang Trung","Nguyên Hiệu Phó","Ban Giám hiệu"],
- ["Cô Văn Thị Thu Vân","Tiếng Anh","0976869279","THPT Nguyễn Trãi","",""],
- ["Cô Lê Thị Thanh","","0905012588","","Hiện ở Mỹ",""],
- ["Cô Võ Thị Lài","","0934961169","THPT Nguyễn Trãi","",""],
- ["Thầy Trần Văn Út","","","THPT Quang Trung","",""],
- ["Cô Nguyễn Thị Thu Bằng","Toán","0919144019","THPT Nguyễn Trãi","",""],
- ["Cô Lê Thị Tuyết Vân","","","THPT Nguyễn Chí Thanh – Pleiku","",""],
- ["Cô Huỳnh Thị Sự","","0985576270","THPT Quang Trung","",""],
- ["Thầy Phùng Văn Trọng","","0905207520","THPT Nguyễn Trãi","",""],
- ["Cô Nguyễn Thanh Diễm","","0914433365","THPT Nguyễn Trãi","",""],
- ["Cô Trần Thị Thanh Trực","","","THPT Nguyễn Trãi","Bổ sung",""],
- ["Thầy Võ Đăng Phước","","0978420402","THPT DTNT Đông Gia Lai","",""],
- ["Thầy Hồ Trọng Hải","Vật Lý","0906043777 / 0982532527","THPT Nguyễn Trãi","",""],
- ["Thầy Nguyễn Văn Hán","","0905336749","","Đã nghỉ hưu",""],
- ["Cô Phan Thị Thanh Kiều","","0384829092","THPT Nguyễn Trãi","",""],
- ["Thầy Nguyễn Văn Hiền","Hóa","0985973728","THPT Nguyễn Trãi","",""],
- ["Cô Võ Thị Mộng Hoa","","0905302738","THPT Nguyễn Trãi","",""],
- ["Cô Lê Thị Ngò","","0975362567","THPT Nguyễn Trãi","",""],
- ["Thầy Trần Công Thường","Văn","0984021369","THPT DTNT Đông Gia Lai","",""],
- ["Thầy Nguyễn Xuân Thành","","0905072565 / 0967265476","Trường Y Đôn","",""],
- ["Thầy Trần Văn Đấu","","0349166892","","Đã nghỉ hưu",""],
- ["Cô Nguyễn Thị Thanh Quý","","","THPT Quang Trung","",""],
- ["Cô Nguyễn Thị Trọng","Sinh","0983540357","THPT Phan Bội Châu Pleiku","",""],
- ["Thầy Nguyễn Thanh Long","Kỹ Thuật","0984860040","THPT Nguyễn Trãi","",""],
- ["Cô Đặng Thị Quý","","0983570499","THPT Y Đôn","",""],
- ["Thầy Nguyễn Văn Nguyên","Lịch Sử","0984860506","THPT Nguyễn Trãi","",""],
- ["Cô Trần Thị Mai Trâm","Địa Lý","0982641744","THPT Nguyễn Trãi","",""],
- ["Cô Cao Thị Ái Nhã","","","","Hiện ở Hà Nội",""],
- ["Cô Nguyễn Thị Hồng Thắm","GDCD","0378985076","THPT DTNT Đông Gia Lai","",""],
- ["Thầy Hồ Đình Nam","","0988309039","THPT Nguyễn Trãi","",""],
- ["Cô Lê Thị Kiều Anh","Thể Dục","0968017788","THPT Nguyễn Trãi","",""],
- ["Chú Chín","","","","Bảo vệ – đã nghỉ hưu","Khách mời khác"]
+ ["Thầy Hồ Văn Dũng","Hiệu trưởng","0914433371","THPT Nguyễn Trãi","","Ban Giám hiệu"],
+ ["Cô Văn Thu Vân","Hiệu phó · Tiếng Anh","0976869279","THPT Nguyễn Trãi","","Ban Giám hiệu"],
+ ["Thầy Vũ Văn Chiến","Hiệu phó","0905509037","THPT Nguyễn Trãi","","Ban Giám hiệu"],
+ ["Thầy Hoàng Sỹ Tuấn","Bí thư Đoàn trường","0357580777","THPT Nguyễn Trãi","","Đại biểu"],
+ ["Thầy Đào Duy Lực","Nguyên Hiệu trưởng","0357580777","THPT Quang Trung","","Ban Giám hiệu"],
+ ["Thầy Hà Hữu Phúc","Nguyên Phó HT","0905072219","","Đã nghỉ hưu","Ban Giám hiệu"],
+ ["Cô Phan Thị Thanh Kiều","Vật lý","0384829092","THPT Nguyễn Trãi","",""],
+ ["Thầy Hồ Trọng Hải","Vật lý","0906043777 / 0982532527","THPT Nguyễn Trãi","",""],
+ ["Thầy Nguyễn Thanh Long","Vật lý","0984860040","THPT Nguyễn Trãi","",""],
+ ["Thầy Trần Công Thường","Văn","0984021369 / 0965543068","HT trường Nội Trú","",""],
+ ["Thầy Nguyễn Xuân Thành","Văn","0905072565 / 0967265476","HT trường Y Đôn","",""],
+ ["Thầy Trần Văn Đấu","Văn","0349166892","","Nghỉ hưu",""],
+ ["Cô Trần Thị Mỹ Loan","Văn","","","Chưa liên lạc được",""],
+ ["Cô Nguyễn Thị Hiền","Văn","","","Chưa liên lạc được",""],
+ ["Thầy Nguyễn Văn Hiền","Hóa · Bí thư đoàn","0985973728","THPT Nguyễn Trãi","",""],
+ ["Cô Lê Thị Ngò","Hóa","0975362567","THPT Nguyễn Trãi","",""],
+ ["Thầy Trần Văn Út","Anh văn","","THPT Quang Trung","",""],
+ ["Cô Lê Thị Thanh","Anh văn","0905012588","","Đi Mỹ rồi",""],
+ ["Cô Đoàn Bích Thảo","Anh văn","0372301119","THPT Nguyễn Trãi","",""],
+ ["Cô Huỳnh Thị Sự","Toán","0985576270","THPT Quang Trung","",""],
+ ["Cô Lê Thị Tuyết Vân","Toán","","THPT Nguyễn Chí Thanh – Pleiku","",""],
+ ["Thầy Võ Đăng Phước","Toán","0978420402","Trường Nội Trú Đông GL","",""],
+ ["Cô Phan Kiều Nương","Toán","","","Chưa liên lạc được",""],
+ ["Cô Nguyễn Thanh Diễm","Toán","0914433365","THPT Nguyễn Trãi","",""],
+ ["Cô Nguyễn Thị Trọng","Sinh · Kỹ thuật","","THPT Nguyễn Chí Thanh","",""],
+ ["Cô Đặng Thị Quý","Sinh · Kỹ thuật","0983570499","THPT Y Đôn","",""],
+ ["Cô Cao Thị Ái Nhã","Địa","","","Đi Hà Nội rồi",""],
+ ["Cô Trần Thị Mai Trâm","Địa","0982641744","THPT Nguyễn Trãi","",""],
+ ["Cô Nguyễn Thị Hồng Thắm","Lịch sử · GDCD","0378985076","Trường Nội Trú Đông GL","",""],
+ ["Thầy Hồ Đình Nam","Lịch sử · GDCD","0988309039","THPT Nguyễn Trãi","",""],
+ ["Thầy Nguyễn T. A. Tuấn","Thể dục","","","Chưa liên lạc được",""],
+ ["Cô Lê Thị Kiều Anh","Thể dục","0968017788","THPT Nguyễn Trãi","",""],
+ ["Thầy Nguyễn Văn Nguyên","Lịch sử","0984860506","THPT Nguyễn Trãi","",""],
+ ["Chú Chín","Bảo vệ","","","Đã nghỉ hưu","Khách mời khác"],
+ ["Thầy Hoàng Phước Huy","Sử","","","Đã mất — thắp hương tưởng nhớ (tối 11/07)","Tưởng nhớ"],
+ ["Thầy Nguyễn Hữu Tâm","Thể dục","","","Đã mất — thắp hương tưởng nhớ (tối 11/07)","Tưởng nhớ"],
+ ["Thầy Nguyễn Ngọc Quyến","Sinh học","","","Đã mất — thắp hương tưởng nhớ (tối 11/07)","Tưởng nhớ"]
 ];
 function defaultGuests(){return DGRAW.map(function(r,i){return {id:2001+i,name:r[0],role:r[5]||"GV bộ môn",subj:r[1],phone:r[2],org:r[3],note:r[4],inv:"chua",speech:"no",ci:null};});}
 function loadGuests(){
@@ -1211,7 +1216,7 @@ function defaultTeam(){return [
   {id:3005,name:"Kim Duyên",pin:"1005"},{id:3006,name:"Huy",pin:"1006"},
   {id:3007,name:"Quang Nguyễn",pin:"1007"},{id:3008,name:"Trúc Phương",pin:"1008"}
 ];}
-var GORDER=["Đối ngoại & Mời","Tài chính","Danh sách & Nội dung","Truyền thông & In ấn","Hậu cần & Cung cấp","Tiệc liên hoan","Lễ tân & Đón tiếp","Quà tặng","Truyền thông Media"];
+var GORDER=["Ban điều hành","Đối ngoại & Mời","Tài chính","Danh sách & Nội dung","Văn nghệ & Hoạt náo","Truyền thông & In ấn","Hậu cần & Cung cấp","Tiệc liên hoan","Lễ tân & Đón tiếp","Quà tặng","Truyền thông Media"];
 function defaultTasks(){return [
   {id:4001,group:"Đối ngoại & Mời",title:"Liên hệ & chốt ngày với BGH",owner:"Hồng",start:"2026-06-06",end:"2026-06-18",prog:100,note:"Đã chốt 12/07"},
   {id:4009,group:"Đối ngoại & Mời",title:"Mời 32 đại biểu (giấy mời + gọi điện)",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
@@ -1246,7 +1251,44 @@ function extraTasks(){return [
   {id:4118,group:"Truyền thông Media",title:"Chụp ảnh & quay phim Lễ + Tiệc",owner:"",start:"2026-07-12",end:"2026-07-12",prog:0,note:""},
   {id:4120,group:"Truyền thông Media",title:"Biên tập & chia sẻ ảnh/video sau sự kiện",owner:"Phương Uyên",start:"2026-07-12",end:"2026-07-20",prog:0,note:""}
 ];}
-function gmap(){var m={};defaultTasks().concat(extraTasks()).forEach(function(t){m[t.title]=t.group;});return m;}
+// Bổ sung phân công đầy đủ (kịch bản + kế hoạch 8 tiểu ban). Mục trống = chưa có người phụ trách.
+function extraTasks2(){return [
+  {id:4201,group:"Ban điều hành",title:"Kiện toàn BTC: Trưởng ban / Phó ban / Thư ký",owner:"",start:"2026-06-21",end:"2026-06-28",prog:0,note:"⚠ Chưa có người phụ trách — cần chốt nhân sự BTC"},
+  {id:4202,group:"Ban điều hành",title:"Điều phối tiểu ban & họp BTC định kỳ",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-12",prog:0,note:""},
+  {id:4203,group:"Ban điều hành",title:"Chốt phương án đồng phục toàn khối",owner:"",start:"2026-06-21",end:"2026-06-30",prog:0,note:"⚠ Chưa chốt có/không dùng đồng phục"},
+  {id:4204,group:"Ban điều hành",title:"Theo dõi & cập nhật tiến độ lên web cho cả khóa",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-12",prog:0,note:""},
+  {id:4205,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A1",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:"Thà mời nhầm hơn bỏ sót"},
+  {id:4206,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A2",owner:"Trâm Anh (A2)",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
+  {id:4207,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A3",owner:"Ly (A3)",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
+  {id:4208,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A4",owner:"Quang (A4)",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
+  {id:4209,group:"Đối ngoại & Mời",title:"Chốt & gửi danh sách đại biểu cho MC",owner:"",start:"2026-06-28",end:"2026-07-08",prog:0,note:"⚠ Chưa có người phụ trách — kịch bản còn thiếu DS đại biểu"},
+  {id:4210,group:"Đối ngoại & Mời",title:"Báo trước thầy cô có bài phát biểu (BGH/CGV)",owner:"Hồng",start:"2026-06-28",end:"2026-07-08",prog:0,note:""},
+  {id:4211,group:"Tài chính",title:"Mở & quản lý tài khoản ngân hàng chung của khóa",owner:"Vương Anh",start:"2026-06-21",end:"2026-06-30",prog:0,note:""},
+  {id:4212,group:"Tài chính",title:"Quản lý quỹ học bổng & kế hoạch trao",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-08",prog:0,note:"⚠ Chưa chốt giá trị học bổng"},
+  {id:4213,group:"Tài chính",title:"Báo cáo tài chính công khai sau sự kiện",owner:"Vương Anh",start:"2026-07-12",end:"2026-07-20",prog:0,note:""},
+  {id:4214,group:"Danh sách & Nội dung",title:"Chốt & duyệt kịch bản MC + người dẫn (1 MC)",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-08",prog:0,note:"⚠ Chưa chốt người dẫn chương trình"},
+  {id:4215,group:"Danh sách & Nội dung",title:"Chuẩn bị bài phát biểu: BTC / BGH / CGV",owner:"",start:"2026-06-28",end:"2026-07-08",prog:0,note:"⚠ Chưa chốt người phát biểu đại diện BTC"},
+  {id:4216,group:"Văn nghệ & Hoạt náo",title:"Lập danh sách & thứ tự tiết mục văn nghệ + người trình bày",owner:"",start:"2026-06-25",end:"2026-07-10",prog:0,note:"⚠ Chưa có người phụ trách — tiết mục & ca sĩ chưa xác định"},
+  {id:4217,group:"Văn nghệ & Hoạt náo",title:"Lập Ban giám khảo & form chấm điểm văn nghệ",owner:"",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có BGK"},
+  {id:4218,group:"Văn nghệ & Hoạt náo",title:"Tổ chức trò chơi kết nối + quản trò / hoạt náo",owner:"",start:"2026-06-28",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4219,group:"Văn nghệ & Hoạt náo",title:"Chuẩn bị Vòng quay may mắn (nhập data check-in)",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-11",prog:0,note:"100 phong bì dùng chung mọi giải"},
+  {id:4220,group:"Văn nghệ & Hoạt náo",title:"Chuẩn bị Mini game dự phòng",owner:"",start:"2026-06-28",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4221,group:"Truyền thông & In ấn",title:"Làm bảng/kệ QR check-in (5 bảng + 2 kệ A4)",owner:"",start:"2026-06-25",end:"2026-07-08",prog:0,note:"⚠ Chưa có người phụ trách — chưa chuẩn bị"},
+  {id:4222,group:"Truyền thông & In ấn",title:"Ruy băng 4 màu + giấy bảng tên + bút lông",owner:"Vương Anh",start:"2026-06-15",end:"2026-06-25",prog:100,note:"VA đã mua"},
+  {id:4223,group:"Truyền thông & In ấn",title:"Vận hành Link check-in (Google Form) + Sheet",owner:"Vương Anh",start:"2026-06-20",end:"2026-07-12",prog:0,note:""},
+  {id:4224,group:"Hậu cần & Cung cấp",title:"Âm thanh – ánh sáng, màn hình LED/Tivi, sân khấu",owner:"",start:"2026-06-25",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4225,group:"Hậu cần & Cung cấp",title:"Nước uống đại biểu + vệ sinh + y tế cơ bản",owner:"",start:"2026-07-05",end:"2026-07-12",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4226,group:"Hậu cần & Cung cấp",title:"Giữ xe & an ninh (phối hợp nhà trường)",owner:"Hồng",start:"2026-07-05",end:"2026-07-12",prog:0,note:""},
+  {id:4227,group:"Lễ tân & Đón tiếp",title:"Phân công đội lễ tân theo 4 lớp",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4228,group:"Lễ tân & Đón tiếp",title:"Sơ đồ chỗ ngồi (giáo viên + CHS theo lớp)",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4229,group:"Tiệc liên hoan",title:"Khảo sát & ký hợp đồng nhà hàng/tiệc",owner:"Trâm Anh (A2)",start:"2026-06-25",end:"2026-07-05",prog:0,note:"Hạnh Huệ 1,4tr/bàn"},
+  {id:4230,group:"Tiệc liên hoan",title:"Giám sát chất lượng & ATTP ngày tiệc",owner:"Trâm Anh (A2)",start:"2026-07-12",end:"2026-07-12",prog:0,note:""},
+  {id:4231,group:"Quà tặng",title:"Phân công người trao quà tri ân / lưu niệm / học bổng",owner:"",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có người phụ trách — kịch bản còn thiếu người trao"},
+  {id:4232,group:"Quà tặng",title:"Chuẩn bị 100 phong bì quà (giải thưởng & vòng quay)",owner:"",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4233,group:"Truyền thông Media",title:"Bố trí khu chụp ảnh check-in + backdrop",owner:"A Luân",start:"2026-07-05",end:"2026-07-12",prog:0,note:""}
+];}
+function allSeed(){return defaultTasks().concat(extraTasks()).concat(extraTasks2());}
+function gmap(){var m={};allSeed().forEach(function(t){m[t.title]=t.group;});return m;}
 function dms(s){return s?new Date(s+"T00:00:00").getTime():0;}
 function fmtD(s){if(!s)return"";var d=new Date(s+"T00:00:00");return d.getDate()+"/"+(d.getMonth()+1);}
 function tstat(t){var now=Date.now();var p=t.prog||0;
@@ -2294,8 +2336,8 @@ if(!S.guests||!S.guests.length){S.guests=defaultGuests();sv();}
 // seed nhiệm vụ + nhóm phụ trách nếu chưa có
 if(!S.team||!S.team.length){S.team=defaultTeam();sv();}
 if(!S.budget||!S.budget.length){S.budget=defaultBudget();sv();}
-if(!S.tasks||!S.tasks.length){S.tasks=defaultTasks().concat(extraTasks());S.taskv=2;sv();}
-else if(S.taskv!==2){var have={};S.tasks.forEach(function(t){have[t.id]=1;});extraTasks().forEach(function(t){if(!have[t.id])S.tasks.push(t);});S.taskv=2;sv();}
+if(!S.tasks||!S.tasks.length){S.tasks=allSeed();S.taskv=3;sv();}
+else if((S.taskv||0)<3){var have={};S.tasks.forEach(function(t){have[t.id]=1;});allSeed().forEach(function(t){if(!have[t.id])S.tasks.push(t);});var bf={4118:"A Luân"};S.tasks.forEach(function(t){if(bf[t.id]&&!t.owner)t.owner=bf[t.id];if(!t.owner&&!(t.note||"").trim())t.note="⚠ Chưa có người phụ trách";});S.taskv=3;sv();}
 // gán nhóm cho nhiệm vụ cũ chưa có nhóm
 (function(){var gm=gmap();var ch=false;(S.tasks||[]).forEach(function(t){if(!t.group){t.group=gm[t.title]||"Chưa phân nhóm";ch=true;}});if(ch)sv();})();
 // seed letter nếu chưa có
