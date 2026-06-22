@@ -843,6 +843,7 @@ function applyAdmin(){
   document.querySelectorAll(".adminPanel").forEach(function(p){p.style.display=isAdmin?"":"none";});
   document.querySelectorAll(".adminbadge").forEach(function(b){b.textContent=isAdmin?"🔓 Quản trị":"🔐 Quản trị";});
   if(isAdmin){ss2();rgadmin();}
+  if(typeof rnote==="function")rnote();
 }
 function reqAdmin(){alert("🔒 Khu vực quản trị. Vào mục Quản trị để đăng nhập trước.");}
 
