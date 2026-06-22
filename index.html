@@ -739,11 +739,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   <div class="modal">
     <div class="mh"></div>
     <div class="mtr"><div class="mt" id="mpTitle">➕ Thêm mốc</div><button class="mc" onclick="cm('mprog')">✕</button></div>
-    <div class="fg"><label>Giờ</label><input type="text" id="ptime" placeholder="17:00"></div>
+    <div class="fg"><label>Ngày</label>
+      <select id="pday"><option value="1">Thứ Bảy · 11/07/2026</option><option value="2" selected>Chủ Nhật · 12/07/2026</option></select>
+    </div>
+    <div class="fg"><label>Giờ</label><input type="text" id="ptime" placeholder="VD: 10h15 – 10h35"></div>
     <div class="fg"><label>Tên tiết mục</label><input type="text" id="ptit2" placeholder="VD: Khai mạc..."></div>
     <div class="fg"><label>Mô tả</label><textarea id="pdesc" rows="2" placeholder="Nội dung..."></textarea></div>
     <div class="fg"><label>Nhãn</label>
-      <select id="ptag"><option value="Chính thức">📌 Chính thức</option><option value="Giải trí">🎭 Giải trí</option><option value="Ăn uống">🍽 Ăn uống</option><option value="Games">🎮 Games</option><option value="Trao giải">🏆 Trao giải</option></select>
+      <select id="ptag"><option value="Chính thức">📌 Chính thức</option><option value="Giải trí">🎭 Giải trí</option><option value="Ăn uống">🍽 Ăn uống</option><option value="Games">🎮 Games</option><option value="Trao giải">🏆 Trao giải</option><option value="Hậu cần">🛠 Hậu cần</option><option value="Tưởng nhớ">🪷 Tưởng nhớ</option></select>
     </div>
     <button class="btn bp" onclick="saveProg()">💾 Lưu</button>
     <button class="btn" id="mpDel" onclick="delProg()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá mốc</button>
@@ -1622,16 +1625,22 @@ function rf(){
 }
 
 // PROGRAM
-var TC={"Chính thức":"#1A3A5C","Giải trí":"#8B5CF6","Ăn uống":"#F59E0B","Games":"#10B981","Trao giải":"#F5A623"};
+var TC={"Chính thức":"#1A3A5C","Giải trí":"#8B5CF6","Ăn uống":"#F59E0B","Games":"#10B981","Trao giải":"#F5A623","Hậu cần":"#64748B","Tưởng nhớ":"#111827"};
+var PDAY={1:"Thứ Bảy · 11/07/2026",2:"Chủ Nhật · 12/07/2026"};
+function defaultProg(){return [
+  {d:1,time:"08h00 – 12h00",title:"Trang trí & chuẩn bị",desc:"Trang trí khu vực tổ chức, chuẩn bị bảng phấn các lớp, kiểm tra sân khấu và các hạng mục hậu cần.",tag:"Hậu cần"},
+  {d:1,time:"13h00 – 17h00",title:"Viếng & thắp hương tưởng nhớ các thầy đã mất",desc:"Đến viếng, thắp hương tưởng nhớ các thầy đã mất (chỉ trong địa bàn An Khê).",tag:"Tưởng nhớ"},
+  {d:2,time:"07h00 – 07h45",title:"Đón tiếp & check-in",desc:"Đón tiếp cựu học sinh và quý thầy cô; check-in, giao lưu theo lớp và chụp ảnh lưu niệm.",tag:"Chính thức"},
+  {d:2,time:"07h45 – 08h00",title:"Khai mạc chương trình",desc:"Chia đội, bầu đội trưởng, lựa chọn khẩu hiệu và phổ biến thể lệ các hoạt động.",tag:"Chính thức"},
+  {d:2,time:"08h00 – 09h30",title:"Trò chơi kết nối",desc:"Tổ chức các trò chơi tập thể, hoạt động kết nối và giao lưu giữa các lớp.",tag:"Games"},
+  {d:2,time:"09h30 – 10h15",title:"Thay đồng phục & chụp ảnh lưu niệm",desc:"Thay đồng phục khóa và chụp ảnh lưu niệm cùng quý thầy cô, Ban Giám hiệu và toàn khóa.",tag:"Chính thức"},
+  {d:2,time:"10h15 – 10h35",title:"Chương trình tri ân thầy cô",desc:"• Tuyên bố lý do, giới thiệu đại biểu.<br>• Phát biểu của đại diện Ban Tổ chức cựu học sinh.<br>• Phát biểu của đại diện Ban Giám hiệu Nhà trường.<br>• Nghi thức tri ân và tặng quà lưu niệm quý thầy cô.<br>• Trao tặng quà lưu niệm cho Nhà trường.<br>• Trao học bổng cho học sinh có hoàn cảnh khó khăn, vươn lên trong học tập.",tag:"Chính thức"},
+  {d:2,time:"10h35 – 12h30",title:"Liên hoan mừng ngày hội ngộ",desc:"Thưởng thức các tiết mục văn nghệ, giao lưu âm nhạc, mini game và vòng quay may mắn.",tag:"Ăn uống"},
+  {d:2,time:"12h30",title:"Tổng kết & bế mạc",desc:"Tổng kết chương trình, trao giải các hoạt động, phát biểu cảm ơn và tuyên bố bế mạc.",tag:"Trao giải"}
+];}
 function ldp(){
   if(!isAdmin)return reqAdmin();
-  S.prog=[
-    {time:"07:30",title:"Chụp hình lớp",desc:"Đón tiếp cựu học sinh, quý thầy cô; chụp ảnh lưu niệm theo lớp.",tag:"Chính thức"},
-    {time:"08:00",title:"Trò chơi kết nối",desc:"Khóa 06 chia đội, chơi các trò chơi mang tính kết nối.",tag:"Games"},
-    {time:"09:30",title:"Free time",desc:"Giao lưu tự do, gặp gỡ bạn bè.",tag:"Giải trí"},
-    {time:"10:00",title:"Chương trình tri ân thầy cô",desc:"Văn nghệ, phát biểu, nghi thức tri ân thầy cô, trao học bổng, chụp ảnh lưu niệm.",tag:"Chính thức"},
-    {time:"10:30",title:"Nhập tiệc",desc:"Liên hoan (tiệc mặn).",tag:"Ăn uống"},
-  ];
+  S.prog=defaultProg();
   sv();rpr();
 }
 var editingPidx=-1;
@@ -1640,9 +1649,11 @@ function openProg(idx){
   if(typeof idx==="number"&&S.prog[idx]){var p=S.prog[idx];editingPidx=idx;
     document.getElementById("ptime").value=p.time||"";document.getElementById("ptit2").value=p.title||"";
     document.getElementById("pdesc").value=p.desc||"";document.getElementById("ptag").value=p.tag||"Chính thức";
+    if(document.getElementById("pday"))document.getElementById("pday").value=String(p.d||2);
     document.getElementById("mpTitle").textContent="✏️ Sửa mốc";document.getElementById("mpDel").style.display="block";
   }else{editingPidx=-1;
     document.getElementById("ptime").value="";document.getElementById("ptit2").value="";document.getElementById("pdesc").value="";document.getElementById("ptag").selectedIndex=0;
+    if(document.getElementById("pday"))document.getElementById("pday").value="2";
     document.getElementById("mpTitle").textContent="➕ Thêm mốc";document.getElementById("mpDel").style.display="none";
   }
   om("mprog");
@@ -1651,9 +1662,10 @@ function saveProg(){
   if(!isAdmin)return reqAdmin();
   var time=document.getElementById("ptime").value.trim();var title=document.getElementById("ptit2").value.trim();
   if(!time||!title)return alert("Điền giờ và tên mốc!");
-  var data={time:time,title:title,desc:document.getElementById("pdesc").value.trim(),tag:document.getElementById("ptag").value};
+  var pdEl=document.getElementById("pday");var dd=pdEl?parseInt(pdEl.value)||2:2;
+  var data={d:dd,time:time,title:title,desc:document.getElementById("pdesc").value.trim(),tag:document.getElementById("ptag").value};
   if(editingPidx>=0&&S.prog[editingPidx]){S.prog[editingPidx]=data;editingPidx=-1;}else{S.prog.push(data);}
-  S.prog.sort(function(a,b){return a.time.localeCompare(b.time);});
+  S.prog.sort(function(a,b){return ((a.d||2)-(b.d||2))||String(a.time).localeCompare(String(b.time));});
   sv();cm("mprog");rpr();
 }
 function delProg(){
@@ -1663,7 +1675,16 @@ function delProg(){
 function rpr(){
   var el=document.getElementById("tllist");
   if(!S.prog.length){el.innerHTML="<div style='color:var(--mu);padding:12px;text-align:center;font-size:13px'>Nhấn &ldquo;Nạp mẫu&rdquo; hoặc &ldquo;Thêm mốc&rdquo; để bắt đầu!</div>";return;}
-  el.innerHTML=S.prog.map(function(p,i){var ed=isAdmin?'<button onclick="openProg('+i+')" style="position:absolute;top:8px;right:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:3px 7px;font-size:12px;cursor:pointer">✏️</button>':'';return '<div class="tli"><div class="tlt">'+p.time+'</div><div class="tld'+(i===0?" g":"")+'"></div><div class="tlc" style="position:relative">'+ed+'<div class="tlti">'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span></div></div>';}).join("");
+  var arr=S.prog.slice().sort(function(a,b){return ((a.d||2)-(b.d||2))||String(a.time).localeCompare(String(b.time));});
+  var html="",curDay=null,first=true;
+  arr.forEach(function(p){
+    var i=S.prog.indexOf(p);
+    var dd=(p.d||2);
+    if(dd!==curDay){curDay=dd;html+='<div class="tlday" style="margin:'+(first?"4px":"18px")+' 0 8px;font-weight:800;color:#1A3A5C;font-size:14px;border-left:4px solid #1A3A5C;padding-left:8px">📅 '+(PDAY[dd]||("Ngày "+dd))+'</div>';first=false;}
+    var ed=isAdmin?'<button onclick="openProg('+i+')" style="position:absolute;top:8px;right:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:3px 7px;font-size:12px;cursor:pointer">✏️</button>':'';
+    html+='<div class="tli"><div class="tlt">'+p.time+'</div><div class="tld"></div><div class="tlc" style="position:relative">'+ed+'<div class="tlti">'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span></div></div>';
+  });
+  el.innerHTML=html;
 }
 
 // POLLS
