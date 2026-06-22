@@ -824,6 +824,7 @@ var S={cfg:{cls:"Khóa 2003–2006 · THPT Nguyễn Trãi",date:"2026-07-12",loc
   songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[],budget:[]
 };
 function sv(){try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}try{supaPush();}catch(e){}}
+function gsv(){sv();try{if(typeof supaPushGal==="function")supaPushGal();}catch(e){}}
 function ld(){try{var d=localStorage.getItem("r20");if(d)S=JSON.parse(d);}catch(e){}}
 
 // ===== ADMIN / ĐĂNG NHẬP =====
@@ -1999,7 +2000,7 @@ function hp(input){
   files.forEach(function(file){
     compressImg(file,function(durl){
       S.gallery[k].push({id:Date.now()+Math.floor(Math.random()*1000),type:"photo",src:durl,by:meName(),ts:Date.now()});
-      left--;if(left<=0){sv();rgal();}
+      left--;if(left<=0){gsv();rgal();}
     });
   });
 }
@@ -2016,7 +2017,7 @@ function saveNote(){
   var t=document.getElementById("ntxt").value.trim();if(!t)return alert("Viết nội dung note nhé!");
   var by=document.getElementById("nby").value.trim();
   S.gallery[_curBoard].push({id:Date.now()+Math.floor(Math.random()*1000),type:"note",text:t,color:_noteColor,by:by,ts:Date.now()});
-  sv();cm("mnote");rgal();
+  gsv();cm("mnote");rgal();
 }
 var _zoomK=null,_zoomList=[],_zoomIdx=0;
 function zoomItem(k,id){
@@ -2067,7 +2068,7 @@ function delGal(k,id){
   ensureGallery();
   if(!S.tomb)S.tomb={};S.tomb[id]=Date.now();
   S.gallery[k]=(S.gallery[k]||[]).filter(function(x){return x.id!==id;});
-  sv();cm("mzoom");rgal();
+  gsv();cm("mzoom");rgal();
 }
 function compressImg(file,cb){
   var rd=new FileReader();
@@ -2090,7 +2091,7 @@ function od(){var l=document.getElementById("dlink").value.trim();if(!S.cfg)S.cf
 // >>> Dan PROJECT URL + ANON PUBLIC KEY cua Supabase vao 2 dong duoi de bat realtime nhieu may <<<
 var SUPA_URL="https://yncksjmovgfsyvhkztgw.supabase.co";   // tks-web project
 var SUPA_KEY="sb_publishable_SGSemc2Ra1W-_TudgQ9JMw_eLp2zyVh";   // publishable (an toan nhung web)
-var sb=null,CID=(Date.now().toString(36)+Math.random().toString(36).slice(2,8)),_pushT=null,_supaOn=false;
+var sb=null,CID=(Date.now().toString(36)+Math.random().toString(36).slice(2,8)),_pushT=null,_pushGT=null,_supaOn=false;
 function supaReady(){return !!(SUPA_URL&&SUPA_KEY&&window.supabase&&window.supabase.createClient);}
 function mergeTomb(a,b){a=a||{};b=b||{};var o={};Object.keys(a).forEach(function(k){o[k]=a[k];});Object.keys(b).forEach(function(k){if(!o[k]||b[k]>o[k])o[k]=b[k];});return o;}
 function mergeById(localArr,remoteArr,tomb){
@@ -2107,8 +2108,19 @@ function applyRemote(data){
     var tomb=mergeTomb(S.tomb,data.tomb);data.tomb=tomb;
     data.members=mergeById(S.members,data.members,tomb);
     data.guests=mergeById(S.guests,data.guests,tomb);
-    if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});}
-    S=data;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();
+    var keepGal=S.gallery; // gallery đồng bộ qua row riêng (r20_gal) — giữ lại khi nhận state chính
+    if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});keepGal=data.gallery;}
+    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();
+    try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
+    rerenderCurrent();
+  }catch(e){}
+}
+function applyRemoteGal(data){
+  if(!data||!data.gallery)return;
+  try{
+    var tomb=mergeTomb(S.tomb,data.tomb);S.tomb=tomb;
+    var lg=S.gallery||{};ensureGallery();
+    GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];S.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
@@ -2119,10 +2131,16 @@ function supaInit(){
     sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);_supaOn=true;
     sb.from("event_state").select("data").eq("id","r20").single().then(function(r){
       if(r&&r.data&&r.data.data)applyRemote(r.data.data);else supaPush(true);
-      rerenderCurrent();
+      // tải ảnh từ row riêng; nếu chưa có thì tạo từ gallery hiện tại (migrate)
+      sb.from("event_state").select("data").eq("id","r20_gal").single().then(function(g){
+        if(g&&g.data&&g.data.data&&g.data.data.gallery)applyRemoteGal(g.data.data);else supaPushGal(true);
+        rerenderCurrent();
+      },function(){supaPushGal(true);rerenderCurrent();});
     },function(){});
     sb.channel("rt-r20").on("postgres_changes",{event:"*",schema:"public",table:"event_state",filter:"id=eq.r20"},function(p){
       var d=p&&p.new&&p.new.data;if(d&&d._cid!==CID)applyRemote(d);
+    }).on("postgres_changes",{event:"*",schema:"public",table:"event_state",filter:"id=eq.r20_gal"},function(p){
+      var d=p&&p.new&&p.new.data;if(d&&d._cid!==CID)applyRemoteGal(d);
     }).subscribe();
   }catch(e){_supaOn=false;}
 }
@@ -2130,8 +2148,15 @@ function supaPush(force){
   if(!_supaOn||!sb)return;
   clearTimeout(_pushT);
   _pushT=setTimeout(function(){
-    try{S._cid=CID;sb.from("event_state").upsert({id:"r20",data:S,updated_at:new Date().toISOString()}).then(function(){},function(){});}catch(e){}
+    try{S._cid=CID;var lite={};for(var k in S){if(k!=="gallery")lite[k]=S[k];}sb.from("event_state").upsert({id:"r20",data:lite,updated_at:new Date().toISOString()}).then(function(){},function(){});}catch(e){}
   },force?0:700);
+}
+function supaPushGal(force){
+  if(!_supaOn||!sb)return;
+  clearTimeout(_pushGT);
+  _pushGT=setTimeout(function(){
+    try{sb.from("event_state").upsert({id:"r20_gal",data:{_cid:CID,gallery:S.gallery||{},tomb:S.tomb||{}},updated_at:new Date().toISOString()}).then(function(){},function(){});}catch(e){}
+  },force?0:900);
 }
 function rerenderCurrent(){
   var on=document.querySelector(".pg.on");if(!on)return;
