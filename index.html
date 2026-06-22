@@ -627,6 +627,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="fg"><label>Lớp</label>
       <select id="mcls"><option value="12A1">12A1</option><option value="12A2">12A2</option><option value="12A3">12A3</option><option value="12A4">12A4</option></select>
     </div>
+    <div class="fg"><label>Giới tính</label>
+      <select id="mgender"><option value="">— Chọn —</option><option value="Nữ">Nữ</option><option value="Nam">Nam</option></select>
+    </div>
+    <div class="fg"><label>Size áo</label>
+      <select id="msize"><option value="">— Chọn —</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option><option value="XXXL">XXXL</option></select>
+    </div>
     <div class="fg"><label>Biệt danh</label><input type="text" id="mnick" placeholder="VD: Minh Béo"></div>
     <div class="fg"><label>Công việc</label><input type="text" id="mjob" placeholder="VD: Kỹ sư, Giáo viên..."></div>
     <div class="fg"><label>Nơi sống hiện tại <span style="color:var(--mu);font-weight:400">(dùng cho Bản đồ lớp)</span></label>
@@ -956,6 +962,7 @@ function oam(){
   editingId=null;
   ["mnam","mnick","mjob"].forEach(function(id){document.getElementById(id).value="";});
   document.getElementById("mcls").value="12A1";document.getElementById("mres").value="";
+  document.getElementById("mgender").value="";document.getElementById("msize").value="";
   document.getElementById("mst").value="p";document.getElementById("mpd").value="no";
   document.getElementById("mmTitle").textContent="👤 Thêm thành viên";
   document.getElementById("mmSave").textContent="💾 Lưu thành viên";
@@ -969,6 +976,8 @@ function editM(ev,id){
   editingId=id;
   document.getElementById("mnam").value=m.name||"";
   document.getElementById("mcls").value=m.cls||"12A1";
+  document.getElementById("mgender").value=m.sex||"";
+  document.getElementById("msize").value=m.size||"";
   document.getElementById("mnick").value=m.nick||"";
   document.getElementById("mjob").value=m.job||"";
   document.getElementById("mres").value=m.city||"";
@@ -990,7 +999,7 @@ function svm(){
   if(!isAdmin)return reqAdmin();
   var name=document.getElementById("mnam").value.trim();
   if(!name)return alert("Vui lòng nhập họ tên!");
-  var data={name:name,cls:document.getElementById("mcls").value,nick:document.getElementById("mnick").value,job:document.getElementById("mjob").value,city:document.getElementById("mres").value,s:document.getElementById("mst").value,pd:document.getElementById("mpd").value};
+  var data={name:name,cls:document.getElementById("mcls").value,sex:document.getElementById("mgender").value,size:document.getElementById("msize").value,nick:document.getElementById("mnick").value,job:document.getElementById("mjob").value,city:document.getElementById("mres").value,s:document.getElementById("mst").value,pd:document.getElementById("mpd").value};
   if(editingId!=null){
     var m=S.members.find(function(x){return x.id===editingId;});
     if(m){for(var k in data)m[k]=data[k];}
@@ -1017,8 +1026,10 @@ function rm(){
   g.innerHTML=list.map(function(m){
     var meta=[];
     if(m.cls)meta.push(m.cls);
+    if(m.sex)meta.push(m.sex);
     if(m.job)meta.push(m.job);
     if(m.city)meta.push("📍 "+m.city);
+    if(m.size)meta.push("👕 "+m.size);
     if(m.pd==="yes")meta.push("💰 Đã đóng");
     var editBtn=isAdmin?'<button onclick="editM(event,'+m.id+')" style="margin-left:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:5px 9px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0">✏️ Sửa</button>':'';
     return '<div class="mrow '+m.s+'"><div class="av" style="background:'+m.col+'">'+gi(m.name)+'</div><div class="mi"><div class="mn">'+m.name+(m.nick?' <span style="color:var(--mu);font-size:12px">('+m.nick+')</span>':'')+'</div><div class="md">'+(meta.join(" · ")||"Chưa cập nhật")+'</div></div><span class="mb">'+(si[m.s]||"⏳")+'</span>'+editBtn+'</div>';
