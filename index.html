@@ -1126,7 +1126,7 @@ function rgl(){
       (line2.length?'<div class="md">'+line2.join(" · ")+'</div>':'')+
       (g.phone&&!memorial?'<div class="md">📞 '+maskPhone(g.phone)+'</div>':'')+
       '<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;align-items:center">'+tags+'</div>'+
-      (g.note?'<div style="font-size:12px;color:var(--mu);margin-top:4px;font-style:italic">'+(memorial?'🕯️ ':'📝 ')+g.note+'</div>':'')+
+      (g.note&&!memorial?'<div style="font-size:12px;color:var(--mu);margin-top:4px;font-style:italic">📝 '+g.note+'</div>':'')+
       '</div>'+edit+'</div>';
   }).join("");
 }
@@ -1166,9 +1166,9 @@ var DGRAW=[
  ["Cô Lê Thị Kiều Anh","Thể dục","0968017788","THPT Nguyễn Trãi","",""],
  ["Thầy Nguyễn Văn Nguyên","Lịch sử","0984860506","THPT Nguyễn Trãi","",""],
  ["Chú Chín","Bảo vệ","","","Đã nghỉ hưu","Khách mời khác"],
- ["Thầy Hoàng Phước Huy","Sử","","","Đã mất — thắp hương tưởng nhớ (tối 11/07)","Tưởng nhớ"],
- ["Thầy Nguyễn Hữu Tâm","Thể dục","","","Đã mất — thắp hương tưởng nhớ (tối 11/07)","Tưởng nhớ"],
- ["Thầy Nguyễn Ngọc Quyến","Sinh học","","","Đã mất — thắp hương tưởng nhớ (tối 11/07)","Tưởng nhớ"]
+ ["Thầy Hoàng Phước Huy","Sử","","","","Tưởng nhớ"],
+ ["Thầy Nguyễn Hữu Tâm","Thể dục","","","","Tưởng nhớ"],
+ ["Thầy Nguyễn Ngọc Quyến","Sinh học","","","","Tưởng nhớ"]
 ];
 function defaultGuests(){return DGRAW.map(function(r,i){return {id:2001+i,name:r[0],role:r[5]||"GV bộ môn",subj:r[1],phone:r[2],org:r[3],note:r[4],inv:"chua",speech:"no",ci:null};});}
 function loadGuests(){
