@@ -454,9 +454,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   <div id="rtwrap"></div>
   <div id="boards"></div>
   <div class="card">
-    <div class="stit">📂 Album Google Drive chung</div>
-    <div class="fg"><label>Link Drive / Album</label><input type="text" id="dlink" placeholder="Dán link Google Drive..."></div>
-    <button class="btn bo2" onclick="od()">📂 Mở Drive chung</button>
+    <div class="stit">📷 Album ảnh chung</div>
+    <div style="font-size:12.5px;color:var(--mu);margin:2px 0 10px;line-height:1.55">Bấm vào để mở album chung — bạn có thể <b>tải ảnh lên</b> góp kỷ niệm. Sau sự kiện, toàn bộ ảnh sẽ được tổng hợp ở đây để mọi người <b>tải về</b>.</div>
+    <button class="btn bp" style="width:100%;justify-content:center" onclick="openDrive()">📷 Mở album — Tải ảnh lên / Tải về</button>
+    <div class="fg adminPanel" style="margin-top:10px"><label>🔐 Link Drive / Album (chỉ quản trị)</label><input type="text" id="dlink" placeholder="Dán link Google Drive..."></div>
+    <button class="btn bo2 adminPanel" style="width:100%;justify-content:center;margin-top:8px" onclick="od()">💾 Lưu link Album</button>
   </div>
   <input type="file" id="pinp" accept="image/*" multiple style="display:none" onchange="hp(this)">
 </div>
@@ -2085,7 +2087,8 @@ function compressImg(file,cb){
   };
   rd.readAsDataURL(file);
 }
-function od(){var l=document.getElementById("dlink").value.trim();if(!S.cfg)S.cfg={};S.cfg.drive=l;sv();if(l)window.open(l,"_blank");else alert("Dán link Google Drive trước nhé!");}
+function od(){if(!isAdmin)return reqAdmin();var l=document.getElementById("dlink").value.trim();if(!S.cfg)S.cfg={};S.cfg.drive=l;sv();alert(l?"✅ Đã lưu link Album.":"Đã xoá link Album.");}
+function openDrive(){var l=((S.cfg&&S.cfg.drive)||((document.getElementById("dlink")||{}).value)||"").trim();if(l)window.open(l,"_blank");else alert("Chưa có link Album. Quản trị viên vui lòng dán link Google Drive ở phần quản trị.");}
 
 // ===== SUPABASE REALTIME (tuy chon) =====
 // >>> Dan PROJECT URL + ANON PUBLIC KEY cua Supabase vao 2 dong duoi de bat realtime nhieu may <<<
