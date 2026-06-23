@@ -88,19 +88,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 .btn:active{transform:scale(.98)}.bp{background:var(--navy);color:#fff}.bg2{background:var(--gold);color:#fff}
 .bo2{background:transparent;color:var(--navy);border:2px solid var(--navy)}.bsm{padding:10px 16px;font-size:13px;width:auto;display:inline-flex}
 /* TIMELINE */
-.tltime{display:inline-block;background:var(--gl);color:#9A6B00;font-weight:800;font-size:11.5px;padding:1px 8px;border-radius:6px;margin-right:7px;vertical-align:middle;white-space:nowrap}
-.tlnum{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 5px;margin-right:7px;border-radius:6px;background:var(--navy);color:#fff;font-size:11px;font-weight:800;vertical-align:middle}
-.mcbox{margin-top:10px;background:#FFFBEB;border:1px dashed #F59E0B;border-radius:10px;padding:9px 11px}
-.mcbox-h{font-weight:800;color:#9A3412;font-size:13.5px;margin-bottom:7px}
-.mcnote{background:#fff;border:1px solid #FDE68A;border-radius:8px;padding:7px 9px;margin-bottom:6px}
-.mcnt-h{font-weight:800;color:#B45309;font-size:13px}
-.mcnt-b{font-size:15px;color:#374151;margin-top:5px;line-height:1.7;white-space:pre-wrap}
-.mcbtn{border-radius:6px;padding:2px 6px;font-size:11px;cursor:pointer;background:#fff}
-.mcbe{border:1px solid #C7D2FE;color:#3730A3}
-.mcbd{border:1px solid #FCA5A5;color:#B91C1C}
-.mcadd{margin-top:7px;background:#1A3A5C;color:#fff;border:none;border-radius:7px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer}
-
-.tl{position:relative}.tl::before{display:none}
+.tl{position:relative}.tl::before{content:"";position:absolute;left:36px;top:0;bottom:0;width:2px;background:var(--bdr)}
 .tli{display:flex;gap:10px;margin-bottom:14px;position:relative}
 .tlt{width:42px;text-align:right;font-size:10.5px;font-weight:700;color:var(--gold);padding-top:11px;flex-shrink:0;line-height:1.35}
 .tld{width:14px;height:14px;border-radius:50%;background:var(--navy);border:3px solid #fff;box-shadow:0 0 0 2px var(--navy);margin-top:12px;flex-shrink:0;z-index:1}
@@ -433,7 +421,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
     <button class="btn bp bsm" onclick="openProg()">➕ Thêm mốc</button>
     <button class="btn bo2 bsm" onclick="ldp()">📄 Nạp mẫu</button>
-    <button class="btn bo2 bsm" id="mcBtn" onclick="toggleMC()">🎤 Note MC 🔒</button>
   </div>
   <div class="card"><div class="tl" id="tllist"></div></div>
 </div>
@@ -776,19 +763,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   </div>
 </div>
 
-
-<!-- MODAL: NOTE MC -->
-<div class="mo" id="mcmodal" onclick="cbg(event,'mcmodal')">
-  <div class="modal">
-    <div class="mh"></div>
-    <div class="mtr"><div class="mt" id="mcTitleM">➕ Thêm thẻ note MC</div><button class="mc" onclick="cm('mcmodal')">✕</button></div>
-    <div id="mcCtx" style="font-size:12px;color:var(--mu);margin-bottom:8px;font-weight:600"></div>
-    <div class="fg"><label>Nội dung cho MC (nội dung dài nên tách thành nhiều thẻ)</label><textarea id="mcText" rows="6" placeholder="Lời dẫn cho MC..."></textarea></div>
-    <button class="btn bp" onclick="saveMCNote()">💾 Lưu thẻ</button>
-    <button class="btn" id="mcDel" onclick="delMCNote()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá thẻ</button>
-  </div>
-</div>
-
 <!-- MODAL: LƯU Ý -->
 <div class="mo" id="mbtc" onclick="cbg(event,'mbtc')">
   <div class="modal">
@@ -859,7 +833,7 @@ var S={cfg:{cls:"Khóa 2003–2006 · THPT Nguyễn Trãi",date:"2026-07-12",loc
 };
 function sv(){try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}try{supaPush();}catch(e){}}
 function gsv(){sv();try{if(typeof supaPushGal==="function")supaPushGal();}catch(e){}}
-function ld(){try{var d=localStorage.getItem("r20");if(d)S=JSON.parse(d);}catch(e){}try{ensureProgIds();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ldMC();}catch(e){}}
+function ld(){try{var d=localStorage.getItem("r20");if(d)S=JSON.parse(d);}catch(e){}}
 
 // ===== ADMIN / ĐĂNG NHẬP =====
 var ADMINPW="hoikhoa2006";
@@ -1284,77 +1258,59 @@ function defaultTeam(){return [
   {id:3005,name:"Kim Duyên",pin:"1005"},{id:3006,name:"Huy",pin:"1006"},
   {id:3007,name:"Quang Nguyễn",pin:"1007"},{id:3008,name:"Trúc Phương",pin:"1008"}
 ];}
-var GORDER=["Ban điều hành","Đối ngoại & Mời","Tài chính","Danh sách & Nội dung","Văn nghệ & Hoạt náo","Truyền thông & In ấn","Hậu cần & Cung cấp","Tiệc liên hoan","Lễ tân & Đón tiếp","Quà tặng","Truyền thông Media"];
+var GORDER=["Ban điều hành","Đối ngoại & Mời","Tài chính","Danh sách & Nội dung","Văn nghệ & Hoạt náo","Truyền thông & In ấn","Hậu cần & Cung cấp","Lễ tân & Đón tiếp","Quà tặng","Truyền thông Media"];
+// Đồng bộ từ Sheet phân công (gid 1382191003) — 46 việc / 10 tiểu ban. Cập nhật 2026-06-23.
 function defaultTasks(){return [
-  {id:4001,group:"Đối ngoại & Mời",title:"Liên hệ & chốt ngày với BGH",owner:"Hồng",start:"2026-06-06",end:"2026-06-18",prog:100,note:"Đã chốt 12/07"},
-  {id:4009,group:"Đối ngoại & Mời",title:"Mời 32 đại biểu (giấy mời + gọi điện)",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
-  {id:4002,group:"Tài chính",title:"Giữ tổng quỹ & thu tiền các lớp",owner:"Vương Anh",start:"2026-06-10",end:"2026-07-05",prog:40,note:""},
-  {id:4007,group:"Tài chính",title:"Vận động tài trợ quà tặng",owner:"Kim Duyên",start:"2026-06-12",end:"2026-07-05",prog:25,note:""},
-  {id:4010,group:"Danh sách & Nội dung",title:"Chốt danh sách HS lớp A4",owner:"Trúc Phương",start:"2026-06-10",end:"2026-06-18",prog:100,note:"16 bạn"},
-  {id:4011,group:"Danh sách & Nội dung",title:"Chốt danh sách HS các lớp A1/A2/A3",owner:"Quang Nguyễn",start:"2026-06-20",end:"2026-06-30",prog:20,note:""},
-  {id:4013,group:"Danh sách & Nội dung",title:"Tổng duyệt chương trình & kịch bản/MC",owner:"Vương Anh",start:"2026-07-05",end:"2026-07-11",prog:0,note:""},
-  {id:4004,group:"Truyền thông & In ấn",title:"In phông nền & giấy mời",owner:"Trần Bích Hảo",start:"2026-06-20",end:"2026-07-02",prog:10,note:""},
-  {id:4005,group:"Truyền thông & In ấn",title:"Thiết kế & in băng rôn (5,5×2,8m)",owner:"Phương Uyên",start:"2026-06-20",end:"2026-07-02",prog:20,note:""},
-  {id:4006,group:"Truyền thông & In ấn",title:"Quản trị Fanpage & truyền thông",owner:"Kim Duyên",start:"2026-06-12",end:"2026-07-12",prog:30,note:""},
-  {id:4012,group:"Truyền thông & In ấn",title:"Đặt áo đồng phục khóa",owner:"Vương Anh",start:"2026-06-22",end:"2026-07-02",prog:0,note:""},
-  {id:4003,group:"Hậu cần & Cung cấp",title:"Chốt nhà cung cấp (tiệc, âm thanh, MC)",owner:"Vương Anh",start:"2026-06-15",end:"2026-06-30",prog:50,note:"Hạnh Huệ, Sao Mai, MC HCM"},
-  {id:4008,group:"Hậu cần & Cung cấp",title:"Thuê & đưa đón MC (HCM)",owner:"Huy",start:"2026-06-18",end:"2026-07-10",prog:30,note:""},
-  {id:4014,group:"Hậu cần & Cung cấp",title:"Trang trí & dựng rạp tại trường",owner:"Trần Bích Hảo",start:"2026-07-11",end:"2026-07-12",prog:0,note:""}
+  {id:4301,group:"Ban điều hành",title:"Kiện toàn BTC: Trưởng ban / Phó ban / Thư ký",owner:"",start:"2026-06-21",end:"2026-06-28",prog:0,note:"⚠ Cần chốt nhân sự BTC"},
+  {id:4302,group:"Ban điều hành",title:"Điều phối tiểu ban & họp BTC định kỳ",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-12",prog:0,note:""},
+  {id:4303,group:"Ban điều hành",title:"Chốt phương án, mẫu và đặt đồng phục toàn khối",owner:"Trần Bích Hảo",start:"2026-06-21",end:"2026-06-30",prog:0,note:"⚠ Chưa chốt mẫu"},
+  {id:4304,group:"Ban điều hành",title:"Theo dõi & cập nhật tiến độ lên web cho cả khóa",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-12",prog:0,note:""},
+  {id:4305,group:"Đối ngoại & Mời",title:"Liên hệ & chốt ngày với BGH",owner:"Hồng",start:"2026-06-06",end:"2026-06-18",prog:100,note:"Đã chốt 12/07"},
+  {id:4306,group:"Đối ngoại & Mời",title:"Mời 34 đại biểu (giấy mời + gọi điện)",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
+  {id:4307,group:"Đối ngoại & Mời",title:"Báo trước thầy cô có bài phát biểu (BGH/CGV)",owner:"Hồng",start:"2026-06-28",end:"2026-07-08",prog:0,note:""},
+  {id:4308,group:"Tài chính",title:"Giữ tổng quỹ & thu tiền các lớp",owner:"Vương Anh",start:"2026-06-10",end:"2026-07-05",prog:40,note:""},
+  {id:4309,group:"Tài chính",title:"Lập dự toán chi tiết & quản lý thu chi",owner:"Vương Anh",start:"2026-06-20",end:"2026-06-28",prog:0,note:""},
+  {id:4310,group:"Tài chính",title:"Vận động tài trợ quà tặng",owner:"Tất cả",start:"2026-06-12",end:"2026-07-05",prog:25,note:""},
+  {id:4311,group:"Tài chính",title:"Báo cáo tài chính công khai sau sự kiện",owner:"Vương Anh",start:"2026-07-12",end:"2026-07-20",prog:0,note:""},
+  {id:4312,group:"Danh sách & Nội dung",title:"Chốt danh sách thành viên tham dự A1/A2/A3/A4 → cập nhật size áo cho Hảo đặt",owner:"Vương Anh",start:"2026-06-20",end:"2026-06-30",prog:20,note:""},
+  {id:4313,group:"Danh sách & Nội dung",title:"Xây dựng kịch bản chi tiết buổi lễ",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
+  {id:4314,group:"Danh sách & Nội dung",title:"Chốt & duyệt kịch bản MC",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
+  {id:4315,group:"Danh sách & Nội dung",title:"Chốt danh sách đại diện phát biểu & chuẩn bị bài phát biểu: BTC / BGH / CGV",owner:"Vương Anh, Hồng",start:"2026-06-28",end:"2026-07-08",prog:0,note:"⚠ Chưa chốt người phát biểu đại diện BTC"},
+  {id:4316,group:"Danh sách & Nội dung",title:"Tổ chức văn nghệ (mỗi lớp 1 tiết mục)",owner:"Đại diện mỗi lớp",start:"2026-06-25",end:"2026-07-10",prog:0,note:""},
+  {id:4317,group:"Danh sách & Nội dung",title:"Điều chỉnh, chốt chương trình & kịch bản/MC",owner:"Vương Anh",start:"2026-07-05",end:"2026-07-11",prog:0,note:""},
+  {id:4318,group:"Văn nghệ & Hoạt náo",title:"Lập danh sách & thứ tự tiết mục văn nghệ + người trình bày",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-10",prog:0,note:"⚠ Tiết mục & ca sĩ chưa xác định"},
+  {id:4319,group:"Văn nghệ & Hoạt náo",title:"Lập Ban giám khảo & form chấm điểm văn nghệ",owner:"Vương Anh",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có BGK"},
+  {id:4320,group:"Văn nghệ & Hoạt náo",title:"Tổ chức trò chơi kết nối + quản trò / hoạt náo",owner:"Vương Anh",start:"2026-06-28",end:"2026-07-11",prog:0,note:""},
+  {id:4321,group:"Văn nghệ & Hoạt náo",title:"Chuẩn bị Vòng quay may mắn (nhập data check-in)",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-11",prog:0,note:"100 phong bì dùng chung mọi giải"},
+  {id:4322,group:"Văn nghệ & Hoạt náo",title:"Chuẩn bị Mini game dự phòng",owner:"Vương Anh",start:"2026-06-28",end:"2026-07-11",prog:0,note:""},
+  {id:4323,group:"Truyền thông & In ấn",title:"In giấy mời",owner:"Trần Bích Hảo",start:"2026-06-20",end:"2026-06-24",prog:10,note:""},
+  {id:4324,group:"Truyền thông & In ấn",title:"Thiết kế & in băng rôn (5,5×2,8m), phông nền",owner:"Trần Bích Hảo",start:"2026-06-20",end:"2026-07-02",prog:20,note:""},
+  {id:4325,group:"Truyền thông & In ấn",title:"Quản trị Fanpage & truyền thông",owner:"Kim Duyên + Phương Uyên",start:"2026-06-12",end:"2026-07-12",prog:30,note:""},
+  {id:4326,group:"Truyền thông & In ấn",title:"Ruy băng 4 màu + bảng tên + bút lông",owner:"Vương Anh",start:"2026-06-15",end:"2026-06-25",prog:100,note:""},
+  {id:4327,group:"Hậu cần & Cung cấp",title:"Chốt nhà cung cấp tiệc, số lượng bàn",owner:"Vương Anh",start:"2026-06-15",end:"2026-06-30",prog:50,note:""},
+  {id:4328,group:"Hậu cần & Cung cấp",title:"Chốt nhà cung cấp âm thanh",owner:"Vương Anh",start:"2026-06-18",end:"2026-07-10",prog:30,note:""},
+  {id:4329,group:"Hậu cần & Cung cấp",title:"Phối hợp nhà trường (sân, bàn ghế, điện nước, an ninh)",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
+  {id:4330,group:"Hậu cần & Cung cấp",title:"Sơ đồ bố trí sân khấu & backdrop",owner:"Trần Bích Hảo",start:"2026-06-28",end:"2026-07-06",prog:0,note:""},
+  {id:4331,group:"Hậu cần & Cung cấp",title:"Nước uống đại biểu + vệ sinh + y tế cơ bản",owner:"",start:"2026-07-05",end:"2026-07-12",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4332,group:"Hậu cần & Cung cấp",title:"Giữ xe & an ninh (phối hợp nhà trường)",owner:"Hồng",start:"2026-07-05",end:"2026-07-12",prog:0,note:""},
+  {id:4333,group:"Hậu cần & Cung cấp",title:"Trang trí & dựng rạp tại trường",owner:"",start:"2026-07-11",end:"2026-07-12",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4334,group:"Lễ tân & Đón tiếp",title:"Chuẩn bị khu đón tiếp (check-in, bảng tên, hoa cài áo)",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4335,group:"Lễ tân & Đón tiếp",title:"Phân công đón tiếp thầy cô",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4336,group:"Lễ tân & Đón tiếp",title:"Phân công đội lễ tân theo 4 lớp",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4337,group:"Lễ tân & Đón tiếp",title:"Sơ đồ chỗ ngồi (giáo viên + CHS theo lớp)",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4338,group:"Lễ tân & Đón tiếp",title:"Trang trí 4 phòng học cho 4 lớp",owner:"",start:"2026-07-11",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4339,group:"Lễ tân & Đón tiếp",title:"Thắp hương, tưởng nhớ các thầy quá cố",owner:"",start:"2026-07-11",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4340,group:"Quà tặng",title:"Chuẩn bị quà tri ân thầy cô (chốt DS sau khi mời xong)",owner:"Kim Duyên",start:"2026-06-27",end:"2026-07-08",prog:0,note:""},
+  {id:4341,group:"Quà tặng",title:"Quà lưu niệm cho nhà trường",owner:"",start:"2026-06-25",end:"2026-07-08",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4342,group:"Quà tặng",title:"Phân công người trao quà tri ân / lưu niệm / học bổng",owner:"",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4343,group:"Quà tặng",title:"Chuẩn bị 100 phong bì quà (giải thưởng & vòng quay)",owner:"Vương Anh",start:"2026-06-28",end:"2026-07-10",prog:0,note:""},
+  {id:4344,group:"Truyền thông Media",title:"Chụp ảnh & quay phim Lễ + Tiệc",owner:"",start:"2026-07-12",end:"2026-07-12",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4345,group:"Truyền thông Media",title:"Bố trí khu chụp ảnh check-in + backdrop",owner:"",start:"2026-07-11",end:"2026-07-12",prog:0,note:"⚠ Chưa có người phụ trách"},
+  {id:4346,group:"Truyền thông Media",title:"Biên tập & chia sẻ ảnh/video sau sự kiện",owner:"",start:"2026-07-12",end:"2026-07-20",prog:0,note:"⚠ Chưa có người phụ trách"}
 ];}
-// Nhiệm vụ bổ sung theo File kế hoạch phân công (8 tiểu ban)
-function extraTasks(){return [
-  {id:4101,group:"Đối ngoại & Mời",title:"Rà soát & cập nhật danh sách CHS 4 lớp + CGV",owner:"",start:"2026-06-20",end:"2026-07-01",prog:0,note:""},
-  {id:4103,group:"Tài chính",title:"Lập dự toán chi tiết & quản lý thu chi",owner:"Vương Anh",start:"2026-06-20",end:"2026-06-28",prog:0,note:""},
-  {id:4105,group:"Danh sách & Nội dung",title:"Xây dựng kịch bản chi tiết buổi lễ",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
-  {id:4106,group:"Danh sách & Nội dung",title:"Chuẩn bị bài phát biểu & mời MC",owner:"Huy",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
-  {id:4107,group:"Danh sách & Nội dung",title:"Tổ chức văn nghệ (mỗi lớp 2 tiết mục)",owner:"",start:"2026-06-25",end:"2026-07-10",prog:0,note:""},
-  {id:4108,group:"Danh sách & Nội dung",title:"Sản xuất video clip kỷ niệm",owner:"Phương Uyên",start:"2026-06-25",end:"2026-07-10",prog:0,note:""},
-  {id:4109,group:"Hậu cần & Cung cấp",title:"Phối hợp nhà trường (sân, bàn ghế, điện nước, an ninh)",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
-  {id:4110,group:"Hậu cần & Cung cấp",title:"Sơ đồ bố trí sân khấu & backdrop",owner:"",start:"2026-06-28",end:"2026-07-06",prog:0,note:""},
-  {id:4113,group:"Tiệc liên hoan",title:"Chốt thực đơn & số bàn tiệc",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-05",prog:0,note:"Hạnh Huệ 1,4tr/bàn"},
-  {id:4114,group:"Lễ tân & Đón tiếp",title:"Chuẩn bị khu đón tiếp (check-in, bảng tên, hoa cài áo)",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:""},
-  {id:4115,group:"Lễ tân & Đón tiếp",title:"Phân công đón tiếp thầy cô",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:""},
-  {id:4116,group:"Quà tặng",title:"Chuẩn bị quà tri ân thầy cô (32 phần)",owner:"Kim Duyên",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
-  {id:4117,group:"Quà tặng",title:"Quà lưu niệm cho nhà trường",owner:"Kim Duyên",start:"2026-06-25",end:"2026-07-08",prog:0,note:""},
-  {id:4118,group:"Truyền thông Media",title:"Chụp ảnh & quay phim Lễ + Tiệc",owner:"",start:"2026-07-12",end:"2026-07-12",prog:0,note:""},
-  {id:4120,group:"Truyền thông Media",title:"Biên tập & chia sẻ ảnh/video sau sự kiện",owner:"Phương Uyên",start:"2026-07-12",end:"2026-07-20",prog:0,note:""}
-];}
-// Bổ sung phân công đầy đủ (kịch bản + kế hoạch 8 tiểu ban). Mục trống = chưa có người phụ trách.
-function extraTasks2(){return [
-  {id:4201,group:"Ban điều hành",title:"Kiện toàn BTC: Trưởng ban / Phó ban / Thư ký",owner:"",start:"2026-06-21",end:"2026-06-28",prog:0,note:"⚠ Chưa có người phụ trách — cần chốt nhân sự BTC"},
-  {id:4202,group:"Ban điều hành",title:"Điều phối tiểu ban & họp BTC định kỳ",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-12",prog:0,note:""},
-  {id:4203,group:"Ban điều hành",title:"Chốt phương án đồng phục toàn khối",owner:"",start:"2026-06-21",end:"2026-06-30",prog:0,note:"⚠ Chưa chốt có/không dùng đồng phục"},
-  {id:4204,group:"Ban điều hành",title:"Theo dõi & cập nhật tiến độ lên web cho cả khóa",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-12",prog:0,note:""},
-  {id:4205,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A1",owner:"Hồng",start:"2026-06-22",end:"2026-07-05",prog:0,note:"Thà mời nhầm hơn bỏ sót"},
-  {id:4206,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A2",owner:"Trâm Anh (A2)",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
-  {id:4207,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A3",owner:"Ly (A3)",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
-  {id:4208,group:"Đối ngoại & Mời",title:"Mời thầy cô — lớp A4",owner:"Quang (A4)",start:"2026-06-22",end:"2026-07-05",prog:0,note:""},
-  {id:4209,group:"Đối ngoại & Mời",title:"Chốt & gửi danh sách đại biểu cho MC",owner:"",start:"2026-06-28",end:"2026-07-08",prog:0,note:"⚠ Chưa có người phụ trách — kịch bản còn thiếu DS đại biểu"},
-  {id:4210,group:"Đối ngoại & Mời",title:"Báo trước thầy cô có bài phát biểu (BGH/CGV)",owner:"Hồng",start:"2026-06-28",end:"2026-07-08",prog:0,note:""},
-  {id:4211,group:"Tài chính",title:"Mở & quản lý tài khoản ngân hàng chung của khóa",owner:"Vương Anh",start:"2026-06-21",end:"2026-06-30",prog:0,note:""},
-  {id:4212,group:"Tài chính",title:"Quản lý quỹ học bổng & kế hoạch trao",owner:"Vương Anh",start:"2026-06-21",end:"2026-07-08",prog:0,note:"⚠ Chưa chốt giá trị học bổng"},
-  {id:4213,group:"Tài chính",title:"Báo cáo tài chính công khai sau sự kiện",owner:"Vương Anh",start:"2026-07-12",end:"2026-07-20",prog:0,note:""},
-  {id:4214,group:"Danh sách & Nội dung",title:"Chốt & duyệt kịch bản MC + người dẫn (1 MC)",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-08",prog:0,note:"⚠ Chưa chốt người dẫn chương trình"},
-  {id:4215,group:"Danh sách & Nội dung",title:"Chuẩn bị bài phát biểu: BTC / BGH / CGV",owner:"",start:"2026-06-28",end:"2026-07-08",prog:0,note:"⚠ Chưa chốt người phát biểu đại diện BTC"},
-  {id:4216,group:"Văn nghệ & Hoạt náo",title:"Lập danh sách & thứ tự tiết mục văn nghệ + người trình bày",owner:"",start:"2026-06-25",end:"2026-07-10",prog:0,note:"⚠ Chưa có người phụ trách — tiết mục & ca sĩ chưa xác định"},
-  {id:4217,group:"Văn nghệ & Hoạt náo",title:"Lập Ban giám khảo & form chấm điểm văn nghệ",owner:"",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có BGK"},
-  {id:4218,group:"Văn nghệ & Hoạt náo",title:"Tổ chức trò chơi kết nối + quản trò / hoạt náo",owner:"",start:"2026-06-28",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
-  {id:4219,group:"Văn nghệ & Hoạt náo",title:"Chuẩn bị Vòng quay may mắn (nhập data check-in)",owner:"Vương Anh",start:"2026-06-25",end:"2026-07-11",prog:0,note:"100 phong bì dùng chung mọi giải"},
-  {id:4220,group:"Văn nghệ & Hoạt náo",title:"Chuẩn bị Mini game dự phòng",owner:"",start:"2026-06-28",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
-  {id:4221,group:"Truyền thông & In ấn",title:"Làm bảng/kệ QR check-in (5 bảng + 2 kệ A4)",owner:"",start:"2026-06-25",end:"2026-07-08",prog:0,note:"⚠ Chưa có người phụ trách — chưa chuẩn bị"},
-  {id:4222,group:"Truyền thông & In ấn",title:"Ruy băng 4 màu + giấy bảng tên + bút lông",owner:"Vương Anh",start:"2026-06-15",end:"2026-06-25",prog:100,note:"VA đã mua"},
-  {id:4223,group:"Truyền thông & In ấn",title:"Vận hành Link check-in (Google Form) + Sheet",owner:"Vương Anh",start:"2026-06-20",end:"2026-07-12",prog:0,note:""},
-  {id:4224,group:"Hậu cần & Cung cấp",title:"Âm thanh – ánh sáng, màn hình LED/Tivi, sân khấu",owner:"",start:"2026-06-25",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
-  {id:4225,group:"Hậu cần & Cung cấp",title:"Nước uống đại biểu + vệ sinh + y tế cơ bản",owner:"",start:"2026-07-05",end:"2026-07-12",prog:0,note:"⚠ Chưa có người phụ trách"},
-  {id:4226,group:"Hậu cần & Cung cấp",title:"Giữ xe & an ninh (phối hợp nhà trường)",owner:"Hồng",start:"2026-07-05",end:"2026-07-12",prog:0,note:""},
-  {id:4227,group:"Lễ tân & Đón tiếp",title:"Phân công đội lễ tân theo 4 lớp",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
-  {id:4228,group:"Lễ tân & Đón tiếp",title:"Sơ đồ chỗ ngồi (giáo viên + CHS theo lớp)",owner:"",start:"2026-07-05",end:"2026-07-11",prog:0,note:"⚠ Chưa có người phụ trách"},
-  {id:4229,group:"Tiệc liên hoan",title:"Khảo sát & ký hợp đồng nhà hàng/tiệc",owner:"Trâm Anh (A2)",start:"2026-06-25",end:"2026-07-05",prog:0,note:"Hạnh Huệ 1,4tr/bàn"},
-  {id:4230,group:"Tiệc liên hoan",title:"Giám sát chất lượng & ATTP ngày tiệc",owner:"Trâm Anh (A2)",start:"2026-07-12",end:"2026-07-12",prog:0,note:""},
-  {id:4231,group:"Quà tặng",title:"Phân công người trao quà tri ân / lưu niệm / học bổng",owner:"",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có người phụ trách — kịch bản còn thiếu người trao"},
-  {id:4232,group:"Quà tặng",title:"Chuẩn bị 100 phong bì quà (giải thưởng & vòng quay)",owner:"",start:"2026-06-28",end:"2026-07-10",prog:0,note:"⚠ Chưa có người phụ trách"},
-  {id:4233,group:"Truyền thông Media",title:"Bố trí khu chụp ảnh check-in + backdrop",owner:"A Luân",start:"2026-07-05",end:"2026-07-12",prog:0,note:""}
-];}
+// (Đã gộp toàn bộ vào defaultTasks theo Sheet phân công 2026-06-23)
+function extraTasks(){return [];}
+function extraTasks2(){return [];}
 function allSeed(){return defaultTasks().concat(extraTasks()).concat(extraTasks2());}
 function gmap(){var m={};allSeed().forEach(function(t){m[t.title]=t.group;});return m;}
 function dms(s){return s?new Date(s+"T00:00:00").getTime():0;}
@@ -1697,7 +1653,7 @@ function defaultProg(){return [
 ];}
 function ldp(){
   if(!isAdmin)return reqAdmin();
-  S.prog=defaultProg();ensureProgIds();
+  S.prog=defaultProg();
   sv();rpr();
 }
 var editingPidx=-1;
@@ -1721,95 +1677,27 @@ function saveProg(){
   if(!time||!title)return alert("Điền giờ và tên mốc!");
   var pdEl=document.getElementById("pday");var dd=pdEl?parseInt(pdEl.value)||2:2;
   var data={d:dd,time:time,title:title,desc:document.getElementById("pdesc").value.trim(),tag:document.getElementById("ptag").value};
-  data.id=(editingPidx>=0&&S.prog[editingPidx]&&S.prog[editingPidx].id)?S.prog[editingPidx].id:genId();if(editingPidx>=0&&S.prog[editingPidx]){S.prog[editingPidx]=data;editingPidx=-1;}else{S.prog.push(data);}
+  if(editingPidx>=0&&S.prog[editingPidx]){S.prog[editingPidx]=data;editingPidx=-1;}else{S.prog.push(data);}
   S.prog.sort(function(a,b){return ((a.d||2)-(b.d||2))||String(a.time).localeCompare(String(b.time));});
   sv();cm("mprog");rpr();
 }
 function delProg(){
   if(!isAdmin)return reqAdmin();if(editingPidx<0)return;if(!confirm("Xoá mốc này?"))return;
-  var _dp=S.prog[editingPidx];if(_dp&&_dp.id){S.mcnotes=(S.mcnotes||[]).filter(function(x){return x.pid!==_dp.id;});}S.prog.splice(editingPidx,1);editingPidx=-1;sv();cm("mprog");rpr();
+  S.prog.splice(editingPidx,1);editingPidx=-1;sv();cm("mprog");rpr();
 }
-
-/* ===== NOTE MC (PIN) ===== */
-var MCPIN="mc2026";
-var mcUnlocked=false;
-function ldMC(){try{mcUnlocked=localStorage.getItem("r20mc")==="1";}catch(e){mcUnlocked=false;}}
-function mcCanView(){return isAdmin||mcUnlocked;}
-function genId(){return "p"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
-function ensureProgIds(){var ch=false;(S.prog||[]).forEach(function(p){if(p&&!p.id){p.id=genId();ch=true;}});return ch;}
-function updMCBtn(){var b=document.getElementById("mcBtn");if(!b)return;if(isAdmin){b.style.display="none";return;}b.style.display="";b.innerHTML=mcUnlocked?"🎤 Note MC 🔓 (ẩn)":"🎤 Note MC 🔒";}
-function toggleMC(){
-  if(isAdmin){alert("Bạn đang đăng nhập quản trị — luôn xem được Note MC.");return;}
-  if(mcUnlocked){mcUnlocked=false;try{localStorage.removeItem("r20mc");}catch(e){}rpr();updMCBtn();return;}
-  var p=prompt("🎤 Nhập mã PIN để xem Note MC:");if(p===null)return;
-  if(p===MCPIN){mcUnlocked=true;try{localStorage.setItem("r20mc","1");}catch(e){}rpr();updMCBtn();}else alert("❌ Sai mã PIN!");
-}
-function escMC(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-function mcHtml(p){
-  if(!mcCanView())return "";
-  if(!p.id)p.id=genId();
-  var notes=(S.mcnotes||[]).filter(function(x){return x&&x.pid===p.id;});
-  var inner="";
-  if(notes.length){
-    inner=notes.map(function(nt,k){
-      return '<div class="mcnote"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px"><div class="mcnt-h">📝 Thẻ '+(k+1)+'</div><div style="display:flex;gap:6px;flex-shrink:0"><button data-mc="edit" data-pid="'+p.id+'" data-id="'+nt.id+'" class="mcbtn mcbe">✏️</button><button data-mc="del" data-id="'+nt.id+'" class="mcbtn mcbd">🗑</button></div></div><div class="mcnt-b">'+escMC(nt.text)+'</div></div>';
-    }).join("");
-  }else{
-    inner='<div style="font-size:11.5px;color:#92400E;font-style:italic">Chưa có note cho MC.</div>';
-  }
-  var add='<button data-mc="add" data-pid="'+p.id+'" class="mcadd">➕ Thêm thẻ note MC</button>';
-  return '<div class="mcbox"><div class="mcbox-h">🎤 Note cho MC</div>'+inner+add+'</div>';
-}
-var mcEditPid=null,mcEditId=null;
-function openMCNote(pid,id){
-  if(!mcCanView())return;
-  mcEditPid=pid;mcEditId=id||null;
-  var pitem=(S.prog||[]).filter(function(x){return x.id===pid;})[0]||{};
-  document.getElementById("mcCtx").textContent=(PDAY[pitem.d]||"")+" · "+(pitem.time||"")+" — "+(pitem.title||"");
-  var txt="";if(id){var nt=(S.mcnotes||[]).filter(function(x){return x.id===id;})[0];if(nt)txt=nt.text||"";}
-  document.getElementById("mcText").value=txt;
-  document.getElementById("mcTitleM").textContent=id?"✏️ Sửa thẻ note MC":"➕ Thêm thẻ note MC";
-  document.getElementById("mcDel").style.display=id?"block":"none";
-  om("mcmodal");
-}
-function saveMCNote(){
-  if(!mcCanView())return;
-  var txt=document.getElementById("mcText").value.trim();if(!txt)return alert("Nhập nội dung note!");
-  if(!Array.isArray(S.mcnotes))S.mcnotes=[];
-  if(mcEditId){var nt=S.mcnotes.filter(function(x){return x.id===mcEditId;})[0];if(nt){nt.text=txt;nt.ci=Date.now();}}
-  else{S.mcnotes.push({id:"n"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),pid:mcEditPid,text:txt,ci:Date.now()});}
-  ensureProgIds();mcEditId=null;mcEditPid=null;sv();cm("mcmodal");rpr();
-}
-function delMCNote(){
-  if(!mcEditId)return;if(!confirm("Xoá thẻ note này?"))return;
-  S.mcnotes=(S.mcnotes||[]).filter(function(x){return x.id!==mcEditId;});mcEditId=null;mcEditPid=null;sv();cm("mcmodal");rpr();
-}
-function delMCNoteId(id){
-  if(!mcCanView())return;if(!confirm("Xoá thẻ note này?"))return;
-  S.mcnotes=(S.mcnotes||[]).filter(function(x){return x.id!==id;});sv();rpr();
-}
-document.addEventListener("click",function(e){
-  var b=e.target&&e.target.closest?e.target.closest("[data-mc]"):null;if(!b)return;
-  var a=b.getAttribute("data-mc");
-  if(a==="add")openMCNote(b.getAttribute("data-pid"));
-  else if(a==="edit")openMCNote(b.getAttribute("data-pid"),b.getAttribute("data-id"));
-  else if(a==="del")delMCNoteId(b.getAttribute("data-id"));
-});
-
 function rpr(){
   var el=document.getElementById("tllist");
   if(!S.prog.length){el.innerHTML="<div style='color:var(--mu);padding:12px;text-align:center;font-size:13px'>Nhấn &ldquo;Nạp mẫu&rdquo; hoặc &ldquo;Thêm mốc&rdquo; để bắt đầu!</div>";return;}
   var arr=S.prog.slice().sort(function(a,b){return ((a.d||2)-(b.d||2))||String(a.time).localeCompare(String(b.time));});
-  var html="",curDay=null,first=true,n=0;
+  var html="",curDay=null,first=true;
   arr.forEach(function(p){
-    var i=S.prog.indexOf(p);n++;
+    var i=S.prog.indexOf(p);
     var dd=(p.d||2);
     if(dd!==curDay){curDay=dd;html+='<div style="display:flex;align-items:center;gap:8px;margin:'+(first?"2px":"22px")+' 0 12px;padding:9px 14px;background:linear-gradient(135deg,#1A3A5C,#2C5A82);border-radius:10px;color:#fff;font-weight:800;font-size:14px;box-shadow:0 2px 6px rgba(26,58,92,.25)"><span style="font-size:16px">📅</span><span>'+(PDAY[dd]||("Ngày "+dd))+'</span></div>';first=false;}
     var ed=isAdmin?'<button onclick="openProg('+i+')" style="position:absolute;top:8px;right:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:3px 7px;font-size:12px;cursor:pointer">✏️</button>':'';
-    html+='<div class="tli"><div class="tlc" style="position:relative">'+ed+'<div class="tlti"><span class="tlnum">'+n+'</span><span class="tltime">'+String(p.time)+'</span>'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span>'+mcHtml(p)+'</div></div>';
+    html+='<div class="tli"><div class="tlt">'+String(p.time).replace(/\s*–\s*/,"<br>")+'</div><div class="tld"></div><div class="tlc" style="position:relative">'+ed+'<div class="tlti">'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span></div></div>';
   });
   el.innerHTML=html;
-  try{updMCBtn();}catch(e){}
 }
 // ===== LƯU Ý TỪ BAN TỔ CHỨC (vấn đề nóng cho thành viên) =====
 function defaultNotes(){return [
@@ -2222,7 +2110,7 @@ function applyRemote(data){
     data.guests=mergeById(S.guests,data.guests,tomb);
     var keepGal=S.gallery; // gallery đồng bộ qua row riêng (r20_gal) — giữ lại khi nhận state chính
     if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});keepGal=data.gallery;}
-    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();
+    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
