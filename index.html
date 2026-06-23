@@ -384,8 +384,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <button class="btn bo2 bsm" onclick="loadGuests()">📥 Nạp DS thầy cô (37)</button>
   </div>
   <div class="sb2">
-    <input type="text" placeholder="🔍 Tìm tên..." id="gsrc" oninput="rgl()">
-    <select id="gflt" onchange="rgl()"><option value="">Tất cả vai trò</option><option>Đại biểu</option><option>Ban Giám hiệu</option><option>GV chủ nhiệm</option><option>GV bộ môn</option><option>Khách mời khác</option><option>Tưởng nhớ</option></select>
+    <input type="text" placeholder="🔍 Tìm theo tên, môn, nơi công tác, vai trò..." id="gsrc" oninput="rgl()">
   </div>
   <div class="mlist" id="glist"></div>
 </div>
@@ -1133,12 +1132,11 @@ function maskPhone(s){if(!s)return s;return s.replace(/\d+/g,function(d){return 
 // Trang danh sách đại biểu / khách mời
 function rgl(){
   var el=document.getElementById("glist");if(!el)return;
-  var src=(document.getElementById("gsrc")?document.getElementById("gsrc").value:"").toLowerCase();
-  var fEl=document.getElementById("gflt");var flt=fEl?fEl.value:"";
+  var src=(document.getElementById("gsrc")?document.getElementById("gsrc").value:"").trim().toLowerCase();
   var gs=(S.guests||[]).filter(function(g){
-    if(flt&&g.role!==flt)return false;
-    if(src&&g.name.toLowerCase().indexOf(src)<0)return false;
-    return true;
+    if(!src)return true;
+    var hay=[g.name,g.org,g.subj,g.role,g.note,g.phone].filter(Boolean).join(" ").toLowerCase();
+    return hay.indexOf(src)>=0;
   });
   if(!gs.length){el.innerHTML="<div style='color:var(--mu);padding:20px;text-align:center;font-size:13px'>Chưa có đại biểu / khách mời. Bấm “➕ Thêm khách mời”.</div>";return;}
   el.innerHTML=gs.map(function(g){
