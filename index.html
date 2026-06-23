@@ -1472,7 +1472,7 @@ function rci(){
   var fEl=document.getElementById("ciflt");var flt=fEl?fEl.value:"";
   var locked=!ciOpen()&&!isAdmin;
   var mem=(S.members||[]).map(function(m){return {type:"m",id:m.id,name:m.name,sub:((m.cls||"")+(m.job?" · "+m.job:""))||"Học sinh",ci:m.ci,col:m.col};});
-  var gst=(S.guests||[]).map(function(g){return {type:"g",id:g.id,name:g.name,sub:"Khách mời"+(g.org?" · "+g.org:""),ci:g.ci,col:"#8B5CF6"};});
+  var gst=(S.guests||[]).filter(function(g){return g.role!=="Tưởng nhớ";}).map(function(g){return {type:"g",id:g.id,name:g.name,sub:"Khách mời"+(g.org?" · "+g.org:""),ci:g.ci,col:"#8B5CF6"};});
   // thống kê (gộp cả hai)
   var all=mem.concat(gst);
   var tot=all.length, came=all.filter(function(r){return r.ci;}).length;
