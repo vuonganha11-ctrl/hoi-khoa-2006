@@ -636,7 +636,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="mtr"><div class="mt" id="mmTitle">👤 Thêm thành viên</div><button class="mc" onclick="cm('mm')">✕</button></div>
     <div class="fg"><label>Họ và tên *</label><input type="text" id="mnam" placeholder="Nguyễn Văn A"></div>
     <div class="fg"><label>Lớp</label>
-      <select id="mcls"><option value="12A1">12A1</option><option value="12A2">12A2</option><option value="12A3">12A3</option><option value="12A4">12A4</option></select>
+      <select id="mclsSel"><option value="12A1">12A1</option><option value="12A2">12A2</option><option value="12A3">12A3</option><option value="12A4">12A4</option></select>
     </div>
     <div class="fg"><label>Giới tính</label>
       <select id="mgender"><option value="">— Chọn —</option><option value="Nữ">Nữ</option><option value="Nam">Nam</option></select>
@@ -988,7 +988,7 @@ function oam(){
   if(!isAdmin)return reqAdmin();
   editingId=null;
   ["mnam","mnick","mjob"].forEach(function(id){document.getElementById(id).value="";});
-  document.getElementById("mcls").value="12A1";document.getElementById("mres").value="";
+  document.getElementById("mclsSel").value="12A1";document.getElementById("mres").value="";
   document.getElementById("mgender").value="";document.getElementById("msize").value="";
   document.getElementById("mst").value="p";document.getElementById("mpd").value="no";
   document.getElementById("mmTitle").textContent="👤 Thêm thành viên";
@@ -1002,7 +1002,7 @@ function editM(ev,id){
   var m=S.members.find(function(x){return x.id===id;});if(!m)return;
   editingId=id;
   document.getElementById("mnam").value=m.name||"";
-  document.getElementById("mcls").value=m.cls||"12A1";
+  document.getElementById("mclsSel").value=m.cls||"12A1";
   document.getElementById("mgender").value=m.sex||"";
   document.getElementById("msize").value=m.size||"";
   document.getElementById("mnick").value=m.nick||"";
@@ -1026,7 +1026,7 @@ function svm(){
   if(!isAdmin)return reqAdmin();
   var name=document.getElementById("mnam").value.trim();
   if(!name)return alert("Vui lòng nhập họ tên!");
-  var data={name:name,cls:document.getElementById("mcls").value,sex:document.getElementById("mgender").value,size:document.getElementById("msize").value,nick:document.getElementById("mnick").value,job:document.getElementById("mjob").value,city:document.getElementById("mres").value,s:document.getElementById("mst").value,pd:document.getElementById("mpd").value};
+  var data={name:name,cls:document.getElementById("mclsSel").value,sex:document.getElementById("mgender").value,size:document.getElementById("msize").value,nick:document.getElementById("mnick").value,job:document.getElementById("mjob").value,city:document.getElementById("mres").value,s:document.getElementById("mst").value,pd:document.getElementById("mpd").value};
   if(editingId!=null){
     var m=S.members.find(function(x){return x.id===editingId;});
     if(m){for(var k in data)m[k]=data[k];}
