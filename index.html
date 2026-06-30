@@ -726,7 +726,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="fg"><label>Tên hạng mục *</label><input type="text" id="budName" placeholder="VD: Tiệc liên hoan"></div>
     <div class="fg"><label>Số tiền dự toán (VND)</label><input type="number" id="budPlan" placeholder="0" inputmode="numeric"></div>
     <div class="fg"><label>Khớp danh mục chi (để tự tính “Đã chi”)</label>
-      <select id="budCat"><option value="">— Không khớp (tự theo dõi) —</option><option>Thuê địa điểm</option><option>Trang trí</option><option>Ăn uống / Tiệc</option><option>Âm thanh / Ánh sáng</option><option>MC / Chương trình</option><option>Quà tặng / Kỷ niệm</option><option>In ấn / Banner</option><option>Học bổng</option><option>Quà lưu niệm trường</option><option>Khác</option></select>
+      <input type="text" id="budCat" list="catList" autocomplete="off" placeholder="Chọn hoặc gõ danh mục mới… (để trống = không khớp)">
+      <datalist id="catList"><option value="Đóng phí thành viên"></option><option value="Tài trợ / Hảo tâm"></option><option value="Thuê địa điểm"></option><option value="Trang trí"></option><option value="Ăn uống / Tiệc"></option><option value="Âm thanh / Ánh sáng"></option><option value="MC / Chương trình"></option><option value="Quà tặng / Kỷ niệm"></option><option value="In ấn / Banner"></option><option value="Học bổng"></option><option value="Quà lưu niệm trường"></option><option value="Khác"></option></datalist>
     </div>
     <button class="btn bp" onclick="saveBud()">💾 Lưu dự toán</button>
     <button class="btn" id="mbudDel" onclick="delBud()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá hạng mục</button>
@@ -739,7 +740,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="mtr"><div class="mt" id="mfTitle">💸 Ghi giao dịch</div><button class="mc" onclick="cm('mf')">✕</button></div>
     <div class="fg"><label>Loại</label><select id="ttype"><option value="income">💚 Thu tiền</option><option value="expense">🔴 Chi tiêu</option></select></div>
     <div class="fg"><label>Danh mục</label>
-      <select id="tcat"><option>Đóng phí thành viên</option><option>Tài trợ / Hảo tâm</option><option>Thuê địa điểm</option><option>Trang trí</option><option>Ăn uống / Tiệc</option><option>Âm thanh / Ánh sáng</option><option>MC / Chương trình</option><option>Quà tặng / Kỷ niệm</option><option>In ấn / Banner</option><option>Học bổng</option><option>Quà lưu niệm trường</option><option>Khác</option></select>
+      <input type="text" id="tcat" list="catList" autocomplete="off" placeholder="Chọn hoặc gõ danh mục…">
     </div>
     <div class="fg"><label>Diễn giải *</label><input type="text" id="tdesc" placeholder="VD: Anh Minh đóng phí"></div>
     <div class="fg"><label>Số tiền <span style="color:var(--mu);font-weight:400">(tài trợ có thể để 0 để ghi nhận)</span></label><input type="number" id="tamt" placeholder="500000" inputmode="numeric"></div>
