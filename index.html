@@ -2201,7 +2201,7 @@ function applyRemote(data){
     data.guests=mergeById(S.guests,data.guests,tomb);
     var keepGal=S.gallery; // gallery đồng bộ qua row riêng (r20_gal) — giữ lại khi nhận state chính
     if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});keepGal=data.gallery;}
-    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();
+    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();if(typeof S._ver!=="number")S._ver=parseInt(S._ver,10)||0;
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
@@ -2235,11 +2235,39 @@ function supaInit(){
     }).subscribe();
   }catch(e){_supaOn=false;}
 }
+function staleRefreshNotice(){
+  try{
+    if(window.__staleShown)return;window.__staleShown=true;setTimeout(function(){window.__staleShown=false;},6000);
+    var d=document.createElement("div");
+    d.textContent="↻ Dữ liệu đã được cập nhật từ thiết bị khác — trang vừa được làm mới.";
+    d.style.cssText="position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:99999;background:#1A3A5C;color:#fff;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 6px 22px rgba(0,0,0,.28);max-width:90%;text-align:center";
+    document.body.appendChild(d);
+    setTimeout(function(){try{d.remove();}catch(e){}},5000);
+  }catch(e){}
+}
 function supaPush(force){
   if(!_supaOn||!sb)return;
   clearTimeout(_pushT);
   _pushT=setTimeout(function(){
-    try{S._cid=CID;var lite={};for(var k in S){if(k!=="gallery")lite[k]=S[k];}sb.from("event_state").upsert({id:"r20",data:lite,updated_at:new Date().toISOString()}).then(function(){},function(){});}catch(e){}
+    try{
+      sb.from("event_state").select("v:data->>_ver, c:data->>_cid").eq("id","r20").single().then(function(r){
+        var rv=(r&&r.data&&r.data.v!=null)?(parseInt(r.data.v,10)||0):0;
+        var lv=(typeof S._ver==="number")?S._ver:0;
+        if(rv>lv){
+          sb.from("event_state").select("data").eq("id","r20").single().then(function(f){
+            var d=f&&f.data&&f.data.data;if(d&&d._cid!==CID){applyRemote(d);}else if(d){S._ver=rv;}
+          },function(){});
+          try{console.warn("[sync] Skip overwrite: local older than server (lv="+lv+" < rv="+rv+"), refreshed.");}catch(e){}
+          try{staleRefreshNotice();}catch(e){}
+          return;
+        }
+        S._cid=CID;S._ver=lv+1;
+        var lite={};for(var k in S){if(k!=="gallery")lite[k]=S[k];}
+        sb.from("event_state").upsert({id:"r20",data:lite,updated_at:new Date().toISOString()}).then(function(){},function(){});
+      },function(){
+        try{S._cid=CID;S._ver=((typeof S._ver==="number")?S._ver:0)+1;var lite={};for(var k in S){if(k!=="gallery")lite[k]=S[k];}sb.from("event_state").upsert({id:"r20",data:lite,updated_at:new Date().toISOString()}).then(function(){},function(){});}catch(e){}
+      });
+    }catch(e){}
   },force?0:700);
 }
 function supaPushGal(force){
