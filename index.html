@@ -60,6 +60,21 @@ body{font-family:Inter,sans-serif;background:var(--soft);color:var(--tx);display
 .av{width:44px;height:44px;border-radius:50%;flex-shrink:0;font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
 .mi{flex:1;min-width:0}.mn{font-size:14px;font-weight:600}.md{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.md2{margin-top:1px}
 .mb{flex-shrink:0;font-size:20px}
+.clsStats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0 14px}
+.csc{background:#fff;border-radius:12px;padding:12px 13px;box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid var(--navy)}
+.csc.c0{border-top-color:#1A3A5C}.csc.c1{border-top-color:#F5A623}.csc.c2{border-top-color:#10B981}.csc.c3{border-top-color:#8B5CF6}
+.csc-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px}
+.csc-cls{font-family:"Playfair Display",serif;font-size:19px;font-weight:900;color:var(--navy)}
+.csc-ss{font-size:11px;color:var(--mu);font-weight:600}.csc-ss b{color:var(--tx);font-size:14px;font-weight:800}
+.csc-row{display:flex;gap:8px;margin-bottom:9px}
+.csc-st{flex:1;text-align:center;background:#F8FAFC;border-radius:8px;padding:6px 2px}
+.csc-st .v{font-size:17px;font-weight:800;line-height:1.1}.csc-st .l{font-size:9px;color:var(--mu);font-weight:600;margin-top:1px}
+.csc-st.go .v{color:var(--gr)}.csc-st.wa .v{color:var(--gold)}
+.csc-sz{display:flex;flex-wrap:wrap;gap:4px;border-top:1px dashed var(--bdr);padding-top:8px}
+.csc-szl{font-size:9px;color:var(--mu);font-weight:700;width:100%;margin-bottom:1px;text-transform:uppercase;letter-spacing:.3px}
+.csc-chip{font-size:10px;font-weight:700;background:var(--soft);color:var(--navy);border-radius:6px;padding:2px 6px}
+.csc-chip.none{background:#F3F4F6;color:var(--mu);font-weight:500;font-style:italic}
+@media(max-width:360px){.clsStats{grid-template-columns:1fr}}
 .sb2{display:flex;gap:8px;margin-bottom:12px}
 .sb2 input{flex:1;padding:10px 14px;border:2px solid var(--bdr);border-radius:10px;font-size:14px;font-family:Inter,sans-serif;outline:none}
 .sb2 input:focus{border-color:var(--navy)}
@@ -358,6 +373,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 <div class="pg" id="pg-members">
   <div class="ptit">👥 Thành viên</div>
   <div class="psub">Quản trị viên bấm ✏️ Sửa để chỉnh thông tin & trạng thái</div>
+  <div class="clsStats" id="clsStats"></div>
   <div class="sb2">
     <input type="text" placeholder="🔍 Tìm tên..." id="msrc" oninput="rm()">
     <select id="mfcls" onchange="rm()"><option value="">Tất cả lớp</option><option value="12A1">12A1</option><option value="12A2">12A2</option><option value="12A3">12A3</option><option value="12A4">12A4</option></select>
@@ -1038,7 +1054,34 @@ function svm(){
   }
   sv();cm("mm");rm();us();rma();
 }
+var CLS_LIST=["12A1","12A2","12A3","12A4"];
+var SIZE_ORDER=["S","M","L","XL","XXL","XXXL"];
+function rcs(){
+  var host=document.getElementById("clsStats");if(!host)return;
+  host.innerHTML=CLS_LIST.map(function(cls,idx){
+    var mem=(S.members||[]).filter(function(m){return m.cls===cls;});
+    var ss=siso(cls);
+    var join=mem.filter(function(m){return m.pd==="yes";}).length;
+    var wait=mem.filter(function(m){return m.s==="p";}).length;
+    var sizes={};
+    mem.forEach(function(m){if(m.size){sizes[m.size]=(sizes[m.size]||0)+1;}});
+    var keys=Object.keys(sizes).sort(function(a,b){
+      var ia=SIZE_ORDER.indexOf(a),ib=SIZE_ORDER.indexOf(b);
+      if(ia<0)ia=99;if(ib<0)ib=99;return ia-ib;});
+    var chips=keys.length?keys.map(function(k){return '<span class="csc-chip">'+k+' · '+sizes[k]+'</span>';}).join("")
+      :'<span class="csc-chip none">chưa có</span>';
+    return '<div class="csc c'+idx+'">'
+      +'<div class="csc-h"><span class="csc-cls">'+cls+'</span><span class="csc-ss">Sĩ số <b>'+ss+'</b></span></div>'
+      +'<div class="csc-row">'
+      +'<div class="csc-st go"><div class="v">'+join+'</div><div class="l">Tham gia</div></div>'
+      +'<div class="csc-st wa"><div class="v">'+wait+'</div><div class="l">Đợi xác nhận</div></div>'
+      +'</div>'
+      +'<div class="csc-sz"><span class="csc-szl">👕 Size áo</span>'+chips+'</div>'
+      +'</div>';
+  }).join("");
+}
 function rm(){
+  rcs();
   var src=(document.getElementById("msrc").value||"").toLowerCase();
   var flt=document.getElementById("mflt").value;
   var fclsEl=document.getElementById("mfcls");var fcls=fclsEl?fclsEl.value:"";
