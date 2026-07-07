@@ -1649,7 +1649,7 @@ function rbudget(){
   var tLeft=tPlan-tSpent;
   var thu=(S.txs||[]).filter(function(t){return t.tp==="income";}).reduce(function(a,t){return a+t.amt;},0);
   var chiAll=(S.txs||[]).filter(function(t){return t.tp==="expense";}).reduce(function(a,t){return a+t.amt;},0);
-  var quy=thu-chiAll, canDoi=quy-tPlan;
+  var quy=thu-chiAll, canDoi=thu-tPlan;
   var cdColor=canDoi<0?"#DC2626":"#059669", cdTxt=(canDoi<0?("\u26a0\ufe0f Thi\u1ebfu "+ff(-canDoi)):("D\u01b0 "+ff(canDoi)));
   var _budSummary='<div style="background:var(--soft);border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:13px">'+
     '<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--mu)">Qu\u1ef9 hi\u1ec7n c\u00f3 (thu \u2212 chi th\u1ef1c t\u1ebf)</span><span style="font-weight:700;color:var(--gr)">'+ff(quy)+'</span></div>'+
