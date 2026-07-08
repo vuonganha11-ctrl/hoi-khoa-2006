@@ -1281,8 +1281,10 @@ function rgl(){
     return hay.indexOf(src)>=0;
   });
   if(!gs.length){el.innerHTML="<div style='color:var(--mu);padding:20px;text-align:center;font-size:13px'>Chưa có đại biểu / khách mời. Bấm “➕ Thêm khách mời”.</div>";return;}
+  var kmById=guestKM().byId;
   el.innerHTML=gs.map(function(g){
     var memorial=(g.role==="Tưởng nhớ");
+    var kmBadge=kmById[g.id]?'<span style="background:#EDE9FE;color:#5B21B6;border-radius:6px;padding:1px 6px;font-size:12px;font-weight:800;margin-right:6px;font-family:monospace">'+kmById[g.id]+'</span>':'';
     var line2=[];if(g.org)line2.push(g.org);if(g.subj)line2.push(g.subj);
     var tags;
     if(memorial){
@@ -1296,7 +1298,7 @@ function rgl(){
     }
     var edit=isAdmin?'<button onclick="editG('+g.id+')" style="flex-shrink:0;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:5px 9px;font-size:13px;font-weight:600;cursor:pointer">✏️ Sửa</button>':'';
     var av=memorial?'<div class="av" style="background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px">🪷</div>':'<div class="av" style="background:#8B5CF6">'+gi(g.name)+'</div>';
-    return '<div class="mrow" style="align-items:flex-start">'+av+'<div class="mi"><div class="mn">'+g.name+'</div>'+
+    return '<div class="mrow" style="align-items:flex-start">'+av+'<div class="mi"><div class="mn">'+kmBadge+g.name+'</div>'+
       (line2.length?'<div class="md">'+line2.join(" · ")+'</div>':'')+
       (g.phone&&!memorial?'<div class="md">📞 '+maskPhone(g.phone)+'</div>':'')+
       '<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;align-items:center">'+tags+'</div>'+
@@ -1404,12 +1406,29 @@ function judgePw(name){
   last=last?last.charAt(0).toUpperCase()+last.slice(1):"";
   return last+"1207";
 }
+// Mã KM01..KMxx cho đại biểu (bỏ nhóm Tưởng nhớ), theo thứ tự danh sách khách mời. Dùng làm mật khẩu chấm điểm.
+function kmCode(n){return "KM"+(n<10?"0"+n:n);}
+function guestKM(){
+  var byName={},byId={},list=[],n=0;
+  (S.guests||[]).forEach(function(g){
+    if(g.role==="Tưởng nhớ")return;
+    n++;var code=kmCode(n);
+    byId[g.id]=code;if(!(g.name in byName))byName[g.name]=code;list.push({name:g.name,code:code});
+  });
+  return {byName:byName,byId:byId,list:list};
+}
+function normKM(p){
+  var s=String(p||"").trim().toUpperCase().replace(/\s+/g,"");
+  if(/^\d+$/.test(s)){s="KM"+(parseInt(s,10)<10?"0"+parseInt(s,10):parseInt(s,10));}
+  return s;
+}
 function judgeLogin(suffix){
   suffix=suffix||"";
   var sel=document.getElementById("scJudgeSel"+suffix),pwi=document.getElementById("scJudgePw"+suffix);
   if(!sel)return;var name=sel.value;var p=(pwi?pwi.value:"").trim();
   if(!name){alert("Vui lòng chọn tên giám khảo.");return;}
-  if(p.toLowerCase()!==judgePw(name).toLowerCase()){alert("Mật khẩu không đúng. Mật khẩu là tên gọi (bỏ dấu, viết hoa chữ đầu) + 1207.");return;}
+  var km=guestKM().byName[name]||"";
+  if(!km||normKM(p)!==km){alert("Mã số không đúng. Mật khẩu là mã KM của bạn trong danh sách đại biểu (VD: KM01).");return;}
   judgeName=name;try{localStorage.setItem("r20judge",name);}catch(e){}
   rscore();
 }
@@ -1420,12 +1439,12 @@ function judgeBarHtml(suffix){
       '<span style="font-size:20px">🧑‍⚖️</span><div style="flex:1"><div style="font-size:12px;color:#4338CA">Giám khảo đang chấm</div><div style="font-weight:800;color:#312E81;font-size:16px">'+judgeName+'</div></div>'+
       '<button class="btn bo2 bsm" onclick="judgeLogout()">🚪 Đăng xuất</button></div>';
   }
-  var opts=judgeList().map(function(n){return '<option value="'+n.replace(/"/g,"&quot;")+'">'+n+'</option>';}).join("");
+  var opts=guestKM().list.map(function(x){var nm=x.name.replace(/"/g,"&quot;");return '<option value="'+nm+'">'+x.code+' · '+x.name+'</option>';}).join("");
   return '<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin-bottom:14px">'+
     '<div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:10px">🧑‍⚖️ Đăng nhập giám khảo để chấm điểm</div>'+
     (opts?('<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">'+
       '<div style="flex:2;min-width:180px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Chọn tên giám khảo (khách mời)</label><select id="scJudgeSel'+suffix+'" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px;background:#fff">'+opts+'</select></div>'+
-      '<div style="flex:1;min-width:130px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Mật khẩu</label><input type="password" id="scJudgePw'+suffix+'" placeholder="Nhập mật khẩu" onkeydown="if(event.key===\'Enter\')judgeLogin(\''+suffix+'\')" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px"></div>'+
+      '<div style="flex:1;min-width:130px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Mã số (mật khẩu)</label><input type="password" id="scJudgePw'+suffix+'" placeholder="VD: KM01" onkeydown="if(event.key===\'Enter\')judgeLogin(\''+suffix+'\')" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px"></div>'+
       '<button class="btn bp bsm" onclick="judgeLogin(\''+suffix+'\')" style="flex-shrink:0">Đăng nhập</button></div>')
      :'<div style="font-size:13px;color:#B45309">Chưa có danh sách khách mời. Vào mục 🎓 Đại biểu / Khách mời để thêm trước.</div>')+
     '</div>';
