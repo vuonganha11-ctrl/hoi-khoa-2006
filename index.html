@@ -1344,17 +1344,30 @@ var GAME_CRIT=[{k:"ketqua",l:"Kết quả"},{k:"dongdoi",l:"Tinh thần đồng 
 function scCrit(kind){return kind==="vn"?VN_CRIT:GAME_CRIT;}
 function scMax(kind){return scCrit(kind).length*10;}
 var judgeName=(function(){try{return localStorage.getItem("r20judge")||null;}catch(e){return null;}})();
-function setJudge(){
-  var n=prompt("Nhập tên giám khảo của bạn (điểm bạn chấm sẽ ghi theo tên này):",judgeName||"");
-  if(n===null)return;n=n.trim();if(!n){alert("Tên không được để trống.");return;}
-  judgeName=n;try{localStorage.setItem("r20judge",n);}catch(e){}
+// Giám khảo = danh sách khách mời (trừ "Tưởng nhớ"). Mật khẩu = <Tên gọi bỏ dấu, viết hoa chữ đầu>+"1207" (VD: Dũng → Dung1207)
+function judgeList(){return (S.guests||[]).filter(function(g){return g.role!=="Tưởng nhớ";}).map(function(g){return g.name;});}
+function jStrip(s){return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D");}
+function judgePw(name){
+  var toks=String(name||"").trim().split(/\s+/);
+  var last=toks.length?toks[toks.length-1]:"";
+  last=jStrip(last).toLowerCase();
+  last=last?last.charAt(0).toUpperCase()+last.slice(1):"";
+  return last+"1207";
+}
+function judgeLogin(){
+  var sel=document.getElementById("scJudgeSel"),pwi=document.getElementById("scJudgePw");
+  if(!sel)return;var name=sel.value;var p=(pwi?pwi.value:"").trim();
+  if(!name){alert("Vui lòng chọn tên giám khảo.");return;}
+  if(p.toLowerCase()!==judgePw(name).toLowerCase()){alert("Mật khẩu không đúng. Mật khẩu là tên gọi (bỏ dấu, viết hoa chữ đầu) + 1207.");return;}
+  judgeName=name;try{localStorage.setItem("r20judge",name);}catch(e){}
   rscore();
 }
+function judgeLogout(){judgeName=null;try{localStorage.removeItem("r20judge");}catch(e){}rscore();}
 function scf1(x){return Math.round(x*10)/10;}
 function scIdOf(kind,target,judge){return kind+"|"+target+"|"+judge;}
 function scGet(kind,target,judge){var a=S.scores||[];for(var i=0;i<a.length;i++)if(a[i].id===scIdOf(kind,target,judge))return a[i];return null;}
 function scSet(kind,target,crit,val){
-  if(!judgeName){setJudge();return;}
+  if(!judgeName){alert("Vui lòng đăng nhập giám khảo trước khi chấm.");return;}
   if(!S.scores)S.scores=[];
   var v=parseFloat(val);if(isNaN(v))v=0;if(v<0)v=0;if(v>10)v=10;
   var id=scIdOf(kind,target,judgeName),rec=null;
@@ -1402,7 +1415,7 @@ function scItemHtml(kind,target,title,sub){
       '<input type="number" min="0" max="10" step="0.5" value="'+val+'"'+dis+' onchange="scSet(\''+kind+'\','+(kind==="vn"?target:target)+',\''+cr.k+'\',this.value)" style="width:100%;padding:8px 9px;border:1px solid #CBD5E1;border-radius:9px;font-size:15px;font-weight:700;text-align:center;color:#1A3A5C"></div>';
   }).join("");
   var myTot=mine?scf1(scTotalRec(mine,kind)):null;
-  var meLine=judgeName?('Điểm của bạn: <b style="color:#1A3A5C">'+(myTot!=null?myTot:"—")+'</b>/'+scMax(kind)):'<span style="color:#B45309">Nhập tên giám khảo để chấm</span>';
+  var meLine=judgeName?('Điểm của bạn: <b style="color:#1A3A5C">'+(myTot!=null?myTot:"—")+'</b>/'+scMax(kind)):'<span style="color:#B45309">Đăng nhập giám khảo để chấm</span>';
   var agLine=ag.n?('TB chung: <b style="color:#047857">'+scf1(ag.avg)+'</b>/'+scMax(kind)+' · '+ag.n+' GK'):'Chưa có GK nào chấm';
   return '<div style="border:1px solid #E2E8F0;border-radius:12px;padding:12px;margin-bottom:12px;background:#fff">'+
     '<div style="font-weight:800;color:#0F172A;font-size:15px;margin-bottom:2px">'+title+'</div>'+
@@ -1431,12 +1444,19 @@ function rscore(){
   if(jb){
     if(judgeName){
       jb.innerHTML='<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px;padding:11px 14px;margin-bottom:14px">'+
-        '<span style="font-size:20px">🧑‍⚖️</span><div style="flex:1"><div style="font-size:12px;color:#4338CA">Bạn đang chấm với tên</div><div style="font-weight:800;color:#312E81;font-size:16px">'+judgeName+'</div></div>'+
-        '<button class="btn bo2 bsm" onclick="setJudge()">✏️ Đổi tên</button></div>';
+        '<span style="font-size:20px">🧑‍⚖️</span><div style="flex:1"><div style="font-size:12px;color:#4338CA">Giám khảo đang chấm</div><div style="font-weight:800;color:#312E81;font-size:16px">'+judgeName+'</div></div>'+
+        '<button class="btn bo2 bsm" onclick="judgeLogout()">🚪 Đăng xuất</button></div>';
     }else{
-      jb.innerHTML='<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center">'+
-        '<div style="font-size:14px;color:#92400E;margin-bottom:9px">Nhập tên giám khảo của bạn để bắt đầu chấm điểm.</div>'+
-        '<button class="btn bp bsm" onclick="setJudge()">🧑‍⚖️ Nhập tên giám khảo</button></div>';
+      var opts=judgeList().map(function(n){return '<option value="'+n.replace(/"/g,"&quot;")+'">'+n+'</option>';}).join("");
+      jb.innerHTML='<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin-bottom:14px">'+
+        '<div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:10px">🧑‍⚖️ Đăng nhập giám khảo để chấm điểm</div>'+
+        (opts?('<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">'+
+          '<div style="flex:2;min-width:180px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Chọn tên giám khảo (khách mời)</label><select id="scJudgeSel" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px;background:#fff">'+opts+'</select></div>'+
+          '<div style="flex:1;min-width:130px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Mật khẩu</label><input type="password" id="scJudgePw" placeholder="VD: Dung1207" onkeydown="if(event.key===\'Enter\')judgeLogin()" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px"></div>'+
+          '<button class="btn bp bsm" onclick="judgeLogin()" style="flex-shrink:0">Đăng nhập</button></div>'+
+          '<div style="font-size:11.5px;color:#B45309;margin-top:8px">Mật khẩu = tên gọi (bỏ dấu, viết hoa chữ đầu) + <b>1207</b>. VD: thầy Dũng → <b>Dung1207</b>.</div>')
+         :'<div style="font-size:13px;color:#B45309">Chưa có danh sách khách mời. Vào mục 🎓 Đại biểu / Khách mời để thêm trước.</div>')+
+        '</div>';
     }
   }
   // Văn nghệ
