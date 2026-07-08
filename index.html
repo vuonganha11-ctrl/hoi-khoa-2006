@@ -302,6 +302,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="sdi" onclick="sp('program',this)">🗓️ Timeline</div>
     <div class="sds">Tính năng</div>
     <div class="sdi" onclick="sp('games',this)">🎮 Trò chơi</div>
+    <div class="sdi" onclick="sp('score',this)">⭐ Chấm điểm</div>
     <div class="sdi" onclick="sp('polls',this)">🏆 Danh hiệu thầy cô</div>
     <div class="sdi" onclick="sp('awards',this)">🎓 Danh hiệu học sinh</div>
     <div class="sdi" onclick="sp('music',this)">🎤 Đăng ký văn nghệ</div>
@@ -365,6 +366,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <button class="qab qpu" onclick="sp('gantt')"><span class="qai">📊</span>Tiến độ thực hiện</button>
     <button class="qab qp" onclick="sp('finance')"><span class="qai">💰</span>Tài chính</button>
     <button class="qab qg" onclick="sp('music')"><span class="qai">🎤</span>Đăng ký văn nghệ</button>
+    <button class="qab qpu" onclick="sp('score')"><span class="qai">⭐</span>Chấm điểm</button>
   </div>
   <button class="btn bo2 bsm" style="width:100%;justify-content:center" onclick="sp('admin')"><span class="adminbadge">🔐 Quản trị</span> · Cài đặt · Thu/chi · Thêm thành viên</button>
 </div>
@@ -464,6 +466,25 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="gr2" onclick="og('bingo')"><div class="gem">🎯</div><div><div class="gti">Bingo 20 năm</div><div class="gde">Tìm bạn phù hợp với từng ô</div><div class="gpl">👥 10+ người</div></div><div class="gar">›</div></div>
     <div class="gr2" onclick="og('memory')"><div class="gem">🃏</div><div><div class="gti">Lật ảnh ký ức</div><div class="gde">Ghép đôi thẻ nhanh nhất</div><div class="gpl">👥 1–4 người</div></div><div class="gar">›</div></div>
     <div class="gr2" onclick="og('sentence')"><div class="gem">✍️</div><div><div class="gti">Hoàn thành câu</div><div class="gde">Điền câu hài hước thời học sinh</div><div class="gpl">👥 Nhóm</div></div><div class="gar">›</div></div>
+  </div>
+</div>
+
+<!-- CHẤM ĐIỂM -->
+<div class="pg" id="pg-score">
+  <div class="ptit">⭐ Chấm điểm</div>
+  <div class="psub">Giám khảo chấm điểm phần trình diễn văn nghệ và trò chơi đội nhóm. Điểm cuối là trung bình từ tất cả giám khảo.</div>
+  <div id="scJudge"></div>
+  <div class="card">
+    <div class="stit">🎤 Trình diễn văn nghệ <span style="font-weight:600;color:var(--mu);font-size:12px">(thang 40đ)</span></div>
+    <div id="scVN"></div>
+  </div>
+  <div class="card">
+    <div class="stit" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><span>🎮 Trò chơi đội nhóm <span style="font-weight:600;color:var(--mu);font-size:12px">(thang 30đ)</span></span><span id="scTeamAdd"></span></div>
+    <div id="scGame"></div>
+  </div>
+  <div class="card">
+    <div class="stit">🏆 Kết quả xếp hạng</div>
+    <div id="scRank"></div>
   </div>
 </div>
 
@@ -870,7 +891,7 @@ var S={cfg:{cls:"Khóa 2003–2006 · THPT Nguyễn Trãi",date:"2026-07-12",loc
     time:{q:"Chọn ngày tổ chức (chốt trước 5/5/2026)",opts:["Chủ nhật 12/7/2026","Chủ nhật 19/7/2026"],v:[0,0]},
     gift:{q:"Quà kỷ niệm",opts:["Sách ảnh lớp","Ly/mug in hình","Khung ảnh","Không cần quà"],v:[0,0,0,0]}
   },
-  songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[],budget:[]
+  songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[],budget:[],scores:[],scoreTeams:[]
 };
 function sv(){try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}try{supaPush();}catch(e){}}
 function gsv(){sv();try{if(typeof supaPushGal==="function")supaPushGal();}catch(e){}}
@@ -931,6 +952,7 @@ function sp(id,el){
   if(id==="program")rpr();
   if(id==="polls")rta();
   if(id==="music")rvn();
+  if(id==="score")rscore();
   if(id==="letters")rl2();
   if(id==="awards")raw();
   if(id==="map")rma();
@@ -1314,6 +1336,139 @@ function rvn(){
     var del=isAdmin?'<button onclick="delAct('+a.id+')" style="flex-shrink:0;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;border-radius:8px;padding:5px 8px;font-size:12px;cursor:pointer;margin-left:6px">🗑</button>':'';
     return '<div class="mrow"><div style="width:26px;text-align:center;font-weight:800;color:var(--gold)">'+(i+1)+'</div><div class="mi"><div class="mn">'+a.song+'</div><div class="md">'+sub.join(" · ")+'</div><div class="md">🕒 '+ciTime(a.ts)+' · ĐK: '+a.by+'</div></div>'+yt+del+'</div>';
   }).join("");
+}
+
+// ===== CHẤM ĐIỂM =====
+var VN_CRIT=[{k:"noidung",l:"Nội dung"},{k:"trinhdien",l:"Trình diễn"},{k:"trangphuc",l:"Trang phục"},{k:"antuong",l:"Ấn tượng"}];
+var GAME_CRIT=[{k:"ketqua",l:"Kết quả"},{k:"dongdoi",l:"Tinh thần đồng đội"},{k:"covu",l:"Cổ vũ"}];
+function scCrit(kind){return kind==="vn"?VN_CRIT:GAME_CRIT;}
+function scMax(kind){return scCrit(kind).length*10;}
+var judgeName=(function(){try{return localStorage.getItem("r20judge")||null;}catch(e){return null;}})();
+function setJudge(){
+  var n=prompt("Nhập tên giám khảo của bạn (điểm bạn chấm sẽ ghi theo tên này):",judgeName||"");
+  if(n===null)return;n=n.trim();if(!n){alert("Tên không được để trống.");return;}
+  judgeName=n;try{localStorage.setItem("r20judge",n);}catch(e){}
+  rscore();
+}
+function scf1(x){return Math.round(x*10)/10;}
+function scIdOf(kind,target,judge){return kind+"|"+target+"|"+judge;}
+function scGet(kind,target,judge){var a=S.scores||[];for(var i=0;i<a.length;i++)if(a[i].id===scIdOf(kind,target,judge))return a[i];return null;}
+function scSet(kind,target,crit,val){
+  if(!judgeName){setJudge();return;}
+  if(!S.scores)S.scores=[];
+  var v=parseFloat(val);if(isNaN(v))v=0;if(v<0)v=0;if(v>10)v=10;
+  var id=scIdOf(kind,target,judgeName),rec=null;
+  for(var i=0;i<S.scores.length;i++)if(S.scores[i].id===id){rec=S.scores[i];break;}
+  if(!rec){rec={id:id,kind:kind,target:String(target),judge:judgeName,sc:{},ts:Date.now()};S.scores.push(rec);}
+  rec.sc[crit]=v;rec.ts=Date.now();
+  sv();rscore();
+}
+function scTotalRec(rec,kind){var c=scCrit(kind),t=0;for(var i=0;i<c.length;i++)t+=(rec.sc[c[i].k]||0);return t;}
+function scAgg(kind,target){
+  var recs=(S.scores||[]).filter(function(r){return r.kind===kind&&r.target===String(target);});
+  if(!recs.length)return {n:0,avg:0};
+  var s=0;recs.forEach(function(r){s+=scTotalRec(r,kind);});
+  return {n:recs.length,avg:s/recs.length};
+}
+function addScoreTeam(){
+  if(!isAdmin)return reqAdmin();
+  var n=prompt("Tên đội thi (VD: Đội 1, Đội Sư Tử...):","");
+  if(n===null)return;n=n.trim();if(!n)return;
+  if(!S.scoreTeams)S.scoreTeams=[];
+  S.scoreTeams.push({id:Date.now(),name:n,ts:Date.now()});
+  sv();rscore();
+}
+function editScoreTeam(id){
+  if(!isAdmin)return reqAdmin();
+  var t=(S.scoreTeams||[]).filter(function(x){return x.id===id;})[0];if(!t)return;
+  var n=prompt("Đổi tên đội:",t.name);if(n===null)return;n=n.trim();if(!n)return;
+  t.name=n;t.ts=Date.now();sv();rscore();
+}
+function delScoreTeam(id){
+  if(!isAdmin)return reqAdmin();
+  if(!confirm("Xoá đội này cùng toàn bộ điểm đã chấm cho đội?"))return;
+  if(!S.tomb)S.tomb={};S.tomb[id]=Date.now();
+  (S.scores||[]).forEach(function(r){if(r.kind==="game"&&r.target===String(id))S.tomb[r.id]=Date.now();});
+  S.scoreTeams=(S.scoreTeams||[]).filter(function(t){return t.id!==id;});
+  S.scores=(S.scores||[]).filter(function(r){return !(r.kind==="game"&&r.target===String(id));});
+  sv();rscore();
+}
+function scItemHtml(kind,target,title,sub){
+  var c=scCrit(kind),mine=judgeName?scGet(kind,target,judgeName):null,ag=scAgg(kind,target);
+  var dis=judgeName?"":" disabled";
+  var inputs=c.map(function(cr){
+    var val=(mine&&mine.sc[cr.k]!=null)?mine.sc[cr.k]:"";
+    return '<div style="flex:1;min-width:120px"><label style="display:block;font-size:11px;color:var(--mu);margin-bottom:3px">'+cr.l+' <span style="color:#94A3B8">/10</span></label>'+
+      '<input type="number" min="0" max="10" step="0.5" value="'+val+'"'+dis+' onchange="scSet(\''+kind+'\','+(kind==="vn"?target:target)+',\''+cr.k+'\',this.value)" style="width:100%;padding:8px 9px;border:1px solid #CBD5E1;border-radius:9px;font-size:15px;font-weight:700;text-align:center;color:#1A3A5C"></div>';
+  }).join("");
+  var myTot=mine?scf1(scTotalRec(mine,kind)):null;
+  var meLine=judgeName?('Điểm của bạn: <b style="color:#1A3A5C">'+(myTot!=null?myTot:"—")+'</b>/'+scMax(kind)):'<span style="color:#B45309">Nhập tên giám khảo để chấm</span>';
+  var agLine=ag.n?('TB chung: <b style="color:#047857">'+scf1(ag.avg)+'</b>/'+scMax(kind)+' · '+ag.n+' GK'):'Chưa có GK nào chấm';
+  return '<div style="border:1px solid #E2E8F0;border-radius:12px;padding:12px;margin-bottom:12px;background:#fff">'+
+    '<div style="font-weight:800;color:#0F172A;font-size:15px;margin-bottom:2px">'+title+'</div>'+
+    (sub?'<div style="font-size:12px;color:var(--mu);margin-bottom:9px">'+sub+'</div>':'<div style="margin-bottom:9px"></div>')+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">'+inputs+'</div>'+
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:9px;font-size:12.5px;color:#475569">'+
+    '<span>'+meLine+'</span><span>'+agLine+'</span></div></div>';
+}
+function scRankTable(kind,rows){
+  // rows: [{name, target}]
+  var arr=rows.map(function(r){var ag=scAgg(kind,r.target);return {name:r.name,avg:ag.avg,n:ag.n};});
+  arr.sort(function(a,b){return b.avg-a.avg;});
+  if(!arr.length)return '<div style="color:var(--mu);font-size:13px;padding:6px 0">Chưa có mục nào.</div>';
+  var med=["🥇","🥈","🥉"];
+  return '<div style="display:flex;flex-direction:column;gap:6px">'+arr.map(function(x,i){
+    var rk=x.n?(med[i]||("#"+(i+1))):"—";
+    return '<div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #E2E8F0;border-radius:10px;background:'+(i===0&&x.n?"#FFFBEB":"#fff")+'">'+
+      '<div style="width:30px;text-align:center;font-size:16px;font-weight:800">'+rk+'</div>'+
+      '<div style="flex:1;font-weight:700;color:#0F172A">'+x.name+'</div>'+
+      '<div style="text-align:right"><div style="font-weight:800;color:#047857;font-size:15px">'+(x.n?scf1(x.avg):"—")+'<span style="color:#94A3B8;font-size:11px">/'+scMax(kind)+'</span></div><div style="font-size:11px;color:var(--mu)">'+x.n+' GK</div></div></div>';
+  }).join("")+'</div>';
+}
+function rscore(){
+  if(!S.scores)S.scores=[];if(!S.scoreTeams)S.scoreTeams=[];
+  var jb=document.getElementById("scJudge");
+  if(jb){
+    if(judgeName){
+      jb.innerHTML='<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px;padding:11px 14px;margin-bottom:14px">'+
+        '<span style="font-size:20px">🧑‍⚖️</span><div style="flex:1"><div style="font-size:12px;color:#4338CA">Bạn đang chấm với tên</div><div style="font-weight:800;color:#312E81;font-size:16px">'+judgeName+'</div></div>'+
+        '<button class="btn bo2 bsm" onclick="setJudge()">✏️ Đổi tên</button></div>';
+    }else{
+      jb.innerHTML='<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center">'+
+        '<div style="font-size:14px;color:#92400E;margin-bottom:9px">Nhập tên giám khảo của bạn để bắt đầu chấm điểm.</div>'+
+        '<button class="btn bp bsm" onclick="setJudge()">🧑‍⚖️ Nhập tên giám khảo</button></div>';
+    }
+  }
+  // Văn nghệ
+  var vnEl=document.getElementById("scVN");
+  if(vnEl){
+    var acts=(S.acts||[]).slice().sort(function(a,b){return a.ts-b.ts;});
+    if(!acts.length){vnEl.innerHTML='<div style="color:var(--mu);font-size:13px;text-align:center;padding:14px">Chưa có tiết mục nào đăng ký. Vào mục 🎤 Đăng ký văn nghệ để thêm.</div>';}
+    else{vnEl.innerHTML=acts.map(function(a){
+      var sub=[];if(a.perf)sub.push("🎤 "+a.perf);if(a.cls)sub.push(a.cls);
+      return scItemHtml("vn",a.id,a.song,sub.join(" · "));
+    }).join("");}
+  }
+  // Trò chơi đội
+  var addEl=document.getElementById("scTeamAdd");
+  if(addEl)addEl.innerHTML=isAdmin?'<button class="btn bp bsm" onclick="addScoreTeam()">➕ Thêm đội</button>':'';
+  var gEl=document.getElementById("scGame");
+  if(gEl){
+    var teams=(S.scoreTeams||[]).slice().sort(function(a,b){return a.id-b.id;});
+    if(!teams.length){gEl.innerHTML='<div style="color:var(--mu);font-size:13px;text-align:center;padding:14px">Chưa có đội thi nào.'+(isAdmin?' Bấm “➕ Thêm đội”.':' Quản trị viên sẽ thêm các đội.')+'</div>';}
+    else{gEl.innerHTML=teams.map(function(t){
+      var admBtns=isAdmin?'<div style="display:flex;gap:6px;margin-bottom:8px"><button class="btn bo2 bsm" onclick="editScoreTeam('+t.id+')">✏️ Sửa tên</button><button class="btn bsm" style="background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5" onclick="delScoreTeam('+t.id+')">🗑 Xoá</button></div>':'';
+      return scItemHtml("game",t.id,t.name,"")+(admBtns?'<div style="margin:-6px 0 12px">'+admBtns+'</div>':'');
+    }).join("");}
+  }
+  // Xếp hạng
+  var rEl=document.getElementById("scRank");
+  if(rEl){
+    var vnRows=(S.acts||[]).map(function(a){return {name:a.song+(a.perf?" — "+a.perf:""),target:a.id};});
+    var gRows=(S.scoreTeams||[]).map(function(t){return {name:t.name,target:t.id};});
+    rEl.innerHTML='<div style="font-weight:700;color:#334155;font-size:13px;margin:2px 0 8px">🎤 Văn nghệ</div>'+scRankTable("vn",vnRows)+
+      '<div style="font-weight:700;color:#334155;font-size:13px;margin:16px 0 8px">🎮 Trò chơi đội nhóm</div>'+scRankTable("game",gRows);
+  }
 }
 
 // ===== GANTT / TIẾN ĐỘ DỰ ÁN =====
@@ -2243,9 +2398,11 @@ function applyRemote(data){
     var tomb=mergeTomb(S.tomb,data.tomb);data.tomb=tomb;
     data.members=mergeById(S.members,data.members,tomb);
     data.guests=mergeById(S.guests,data.guests,tomb);
+    data.scores=mergeById(S.scores,data.scores,tomb);
+    data.scoreTeams=mergeById(S.scoreTeams,data.scoreTeams,tomb);
     var keepGal=S.gallery; // gallery đồng bộ qua row riêng (r20_gal) — giữ lại khi nhận state chính
     if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});keepGal=data.gallery;}
-    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();if(typeof S._ver!=="number")S._ver=parseInt(S._ver,10)||0;
+    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!Array.isArray(S.scores))S.scores=[];if(!Array.isArray(S.scoreTeams))S.scoreTeams=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();if(typeof S._ver!=="number")S._ver=parseInt(S._ver,10)||0;
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
@@ -2328,7 +2485,7 @@ function rerenderCurrent(){
   try{
     if(id==="members")rm();else if(id==="checkin")rci();else if(id==="guests"){rgl();if(typeof rgadmin==="function")rgadmin();}
     else if(id==="gantt")rgantt();else if(id==="finance")rf();else if(id==="program")rpr();
-    else if(id==="polls")rta();else if(id==="music"){if(typeof rvn==="function")rvn();}else if(id==="letters")rl2();
+    else if(id==="polls")rta();else if(id==="music"){if(typeof rvn==="function")rvn();}else if(id==="score"){if(typeof rscore==="function")rscore();}else if(id==="letters")rl2();
     else if(id==="awards")raw();else if(id==="map")rma();else if(id==="photos")rgal();
   }catch(e){}
 }
