@@ -1829,7 +1829,7 @@ function rpr(){
     var dd=(p.d||2);
     if(dd!==curDay){curDay=dd;html+='<div style="display:flex;align-items:center;gap:8px;margin:'+(first?"2px":"22px")+' 0 12px;padding:9px 14px;background:linear-gradient(135deg,#1A3A5C,#2C5A82);border-radius:10px;color:#fff;font-weight:800;font-size:14px;box-shadow:0 2px 6px rgba(26,58,92,.25)"><span style="font-size:16px">📅</span><span>'+(PDAY[dd]||("Ngày "+dd))+'</span></div>';first=false;}
     var ed=isAdmin?'<button onclick="openProg('+i+')" style="position:absolute;top:8px;right:8px;background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:8px;padding:3px 7px;font-size:12px;cursor:pointer">✏️</button>':'';
-    html+='<div class="tli"><div class="tlc" style="position:relative">'+ed+'<div class="tlti"><span class="tlnum">'+n+'</span><span class="tltime">'+String(p.time)+'</span>'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+'<span class="tltg" style="background:'+(TC[p.tag]||"#1A3A5C")+'25;color:'+(TC[p.tag]||"#1A3A5C")+'">'+p.tag+'</span>'+mcHtml(p)+'</div></div>';
+    html+='<div class="tli"><div class="tlc" style="position:relative">'+ed+'<div class="tlti"><span class="tlnum">'+n+'</span><span class="tltime">'+String(p.time)+'</span>'+p.title+'</div>'+(p.desc?'<div class="tlde">'+p.desc+'</div>':'')+mcHtml(p)+'</div></div>';
   });
   el.innerHTML=html;
   try{updMCBtn();}catch(e){}
