@@ -484,9 +484,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   </div>
   <div class="card">
     <div class="stit">📊 Biểu đồ điểm văn nghệ</div>
-    <div style="font-weight:700;color:#334155;font-size:13px;margin:6px 0 8px">Xếp hạng hiện tại</div>
-    <div style="position:relative;height:300px"><canvas id="scChartBarVN"></canvas></div>
-    <div style="font-weight:700;color:#334155;font-size:13px;margin:20px 0 8px">Điểm theo từng giám khảo</div>
+    <div style="font-weight:700;color:#334155;font-size:13px;margin:6px 0 8px">Điểm theo từng giám khảo</div>
     <div style="position:relative;height:300px"><canvas id="scChartLineVN"></canvas></div>
     <div id="scChartNoteVN" style="font-size:12px;color:var(--mu);margin-top:10px"></div>
   </div>
@@ -513,9 +511,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   </div>
   <div class="card">
     <div class="stit">📊 Biểu đồ điểm trò chơi &amp; đội</div>
-    <div style="font-weight:700;color:#334155;font-size:13px;margin:6px 0 8px">Tổng điểm các đội</div>
-    <div style="position:relative;height:300px"><canvas id="scChartBarGame"></canvas></div>
-    <div style="font-weight:700;color:#334155;font-size:13px;margin:20px 0 8px">Điểm mỗi đội qua từng trò chơi</div>
+    <div style="font-weight:700;color:#334155;font-size:13px;margin:6px 0 8px">Điểm mỗi đội qua từng trò chơi</div>
     <div style="position:relative;height:300px"><canvas id="scChartLineGame"></canvas></div>
     <div id="scChartNoteGame" style="font-size:12px;color:var(--mu);margin-top:10px"></div>
   </div>
@@ -1439,7 +1435,7 @@ function judgeBarHtml(suffix){
       '<span style="font-size:20px">🧑‍⚖️</span><div style="flex:1"><div style="font-size:12px;color:#4338CA">Giám khảo đang chấm</div><div style="font-weight:800;color:#312E81;font-size:16px">'+judgeName+'</div></div>'+
       '<button class="btn bo2 bsm" onclick="judgeLogout()">🚪 Đăng xuất</button></div>';
   }
-  var opts=guestKM().list.map(function(x){var nm=x.name.replace(/"/g,"&quot;");return '<option value="'+nm+'">'+x.code+' · '+x.name+'</option>';}).join("");
+  var opts=guestKM().list.map(function(x){var nm=x.name.replace(/"/g,"&quot;");return '<option value="'+nm+'">'+x.name+'</option>';}).join("");
   return '<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin-bottom:14px">'+
     '<div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:10px">🧑‍⚖️ Đăng nhập giám khảo để chấm điểm</div>'+
     (opts?('<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">'+
