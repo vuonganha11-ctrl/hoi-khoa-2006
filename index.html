@@ -1586,7 +1586,9 @@ function saveScoreTeam(){
 }
 function teamMemberNames(t){
   var byId={};(S.members||[]).forEach(function(m){byId[m.id]=m;});
-  return ((t&&t.members)||[]).map(function(mid){var m=byId[mid];return m?m.name:null;}).filter(Boolean);
+  var arr=((t&&t.members)||[]).map(function(mid){return byId[mid];}).filter(Boolean);
+  arr.sort(function(a,b){return (a.cls||"").localeCompare(b.cls||"")||(a.name||"").localeCompare(b.name||"");});
+  return arr.map(function(m){return m.name+(m.cls?" ("+m.cls+")":"");});
 }
 function delScoreTeam(id){
   if(!isAdmin)return reqAdmin();
