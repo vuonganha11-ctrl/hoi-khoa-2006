@@ -303,7 +303,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="sdi" onclick="sp('program',this)">🗓️ Timeline</div>
     <div class="sds">Tính năng</div>
     <div class="sdi" onclick="sp('games',this)">🎮 Trò chơi</div>
-    <div class="sdi" onclick="sp('score',this)">⭐ Chấm điểm</div>
+    <div class="sdi" onclick="sp('scorevn',this)">🎤 Chấm điểm văn nghệ</div>
+    <div class="sdi" onclick="sp('scoregame',this)">🎮 Chấm điểm trò chơi</div>
     <div class="sdi" onclick="sp('polls',this)">🏆 Danh hiệu thầy cô</div>
     <div class="sdi" onclick="sp('awards',this)">🎓 Danh hiệu học sinh</div>
     <div class="sdi" onclick="sp('music',this)">🎤 Đăng ký văn nghệ</div>
@@ -367,7 +368,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <button class="qab qpu" onclick="sp('gantt')"><span class="qai">📊</span>Tiến độ thực hiện</button>
     <button class="qab qp" onclick="sp('finance')"><span class="qai">💰</span>Tài chính</button>
     <button class="qab qg" onclick="sp('music')"><span class="qai">🎤</span>Đăng ký văn nghệ</button>
-    <button class="qab qpu" onclick="sp('score')"><span class="qai">⭐</span>Chấm điểm</button>
+    <button class="qab qpu" onclick="sp('scorevn')"><span class="qai">🎤</span>Chấm điểm VN</button>
+    <button class="qab qpu" onclick="sp('scoregame')"><span class="qai">🎮</span>Chấm điểm trò chơi</button>
   </div>
   <button class="btn bo2 bsm" style="width:100%;justify-content:center" onclick="sp('admin')"><span class="adminbadge">🔐 Quản trị</span> · Cài đặt · Thu/chi · Thêm thành viên</button>
 </div>
@@ -470,16 +472,35 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   </div>
 </div>
 
-<!-- CHẤM ĐIỂM -->
-<div class="pg" id="pg-score">
-  <div class="ptit">⭐ Chấm điểm</div>
-  <div class="psub">Giám khảo chấm điểm phần trình diễn văn nghệ và trò chơi đội nhóm. Điểm cuối là trung bình từ tất cả giám khảo.</div>
-  <div id="scJudge"></div>
+<!-- CHẤM ĐIỂM VĂN NGHỆ -->
+<div class="pg" id="pg-scorevn">
+  <div class="ptit">🎤 Chấm điểm văn nghệ</div>
+  <div class="psub">Giám khảo chấm điểm các tiết mục văn nghệ dự thi. Điểm cuối là trung bình từ tất cả giám khảo.</div>
+  <div id="scJudgeVN"></div>
   <div class="card">
     <div class="stit" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><span>🎤 Tiết mục văn nghệ dự thi <span style="font-weight:600;color:var(--mu);font-size:12px">(mỗi tiết mục 1 điểm /10)</span></span><span id="scVnAdd"></span></div>
     <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Đây là các tiết mục <b>dự thi</b> do BTC thêm. Tiết mục đăng ký qua form ở mục 🎤 chỉ để giao lưu, không chấm điểm.</div>
     <div id="scVN"></div>
   </div>
+  <div class="card">
+    <div class="stit">📊 Biểu đồ điểm văn nghệ</div>
+    <div style="font-weight:700;color:#334155;font-size:13px;margin:6px 0 8px">Xếp hạng hiện tại</div>
+    <div style="position:relative;height:300px"><canvas id="scChartBarVN"></canvas></div>
+    <div style="font-weight:700;color:#334155;font-size:13px;margin:20px 0 8px">Điểm theo từng giám khảo</div>
+    <div style="position:relative;height:300px"><canvas id="scChartLineVN"></canvas></div>
+    <div id="scChartNoteVN" style="font-size:12px;color:var(--mu);margin-top:10px"></div>
+  </div>
+  <div class="card">
+    <div class="stit">🏆 Kết quả xếp hạng văn nghệ</div>
+    <div id="scRankVN"></div>
+  </div>
+</div>
+
+<!-- CHẤM ĐIỂM TRÒ CHƠI -->
+<div class="pg" id="pg-scoregame">
+  <div class="ptit">🎮 Chấm điểm trò chơi</div>
+  <div class="psub">Giám khảo chấm điểm các trò chơi và đội thi. Điểm cuối là trung bình từ tất cả giám khảo.</div>
+  <div id="scJudgeGame"></div>
   <div class="card">
     <div class="stit" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><span>🕹️ Trò chơi <span style="font-weight:600;color:var(--mu);font-size:12px">(mỗi trò 1 điểm /10)</span></span><span id="scGameAdd"></span></div>
     <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Mỗi trò chơi là một mục chấm điểm riêng. BTC thêm nhiều trò khác nhau.</div>
@@ -490,17 +511,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div id="scGame"></div>
   </div>
   <div class="card">
-    <div class="stit">📊 Biểu đồ theo dõi điểm</div>
-    <div style="font-size:12px;color:var(--mu);margin-bottom:12px">Tất cả chấm theo thang 10 nên so sánh trực tiếp giữa đội và tiết mục.</div>
-    <div style="font-weight:700;color:#334155;font-size:13px;margin-bottom:8px">Xếp hạng hiện tại</div>
-    <div style="position:relative;height:300px"><canvas id="scChartBar"></canvas></div>
+    <div class="stit">📊 Biểu đồ điểm trò chơi &amp; đội</div>
+    <div style="font-weight:700;color:#334155;font-size:13px;margin:6px 0 8px">Xếp hạng hiện tại</div>
+    <div style="position:relative;height:300px"><canvas id="scChartBarGame"></canvas></div>
     <div style="font-weight:700;color:#334155;font-size:13px;margin:20px 0 8px">Điểm theo từng giám khảo</div>
-    <div style="position:relative;height:300px"><canvas id="scChartLine"></canvas></div>
-    <div id="scChartNote" style="font-size:12px;color:var(--mu);margin-top:10px"></div>
+    <div style="position:relative;height:300px"><canvas id="scChartLineGame"></canvas></div>
+    <div id="scChartNoteGame" style="font-size:12px;color:var(--mu);margin-top:10px"></div>
   </div>
   <div class="card">
-    <div class="stit">🏆 Kết quả xếp hạng</div>
-    <div id="scRank"></div>
+    <div class="stit">🏆 Kết quả xếp hạng trò chơi &amp; đội</div>
+    <div id="scRankGame"></div>
   </div>
 </div>
 
@@ -981,7 +1001,8 @@ function sp(id,el){
   if(id==="program")rpr();
   if(id==="polls")rta();
   if(id==="music")rvn();
-  if(id==="score")rscore();
+  if(id==="scorevn")rscoreVN();
+  if(id==="scoregame")rscoreGame();
   if(id==="letters")rl2();
   if(id==="awards")raw();
   if(id==="map")rma();
@@ -1382,8 +1403,9 @@ function judgePw(name){
   last=last?last.charAt(0).toUpperCase()+last.slice(1):"";
   return last+"1207";
 }
-function judgeLogin(){
-  var sel=document.getElementById("scJudgeSel"),pwi=document.getElementById("scJudgePw");
+function judgeLogin(suffix){
+  suffix=suffix||"";
+  var sel=document.getElementById("scJudgeSel"+suffix),pwi=document.getElementById("scJudgePw"+suffix);
   if(!sel)return;var name=sel.value;var p=(pwi?pwi.value:"").trim();
   if(!name){alert("Vui lòng chọn tên giám khảo.");return;}
   if(p.toLowerCase()!==judgePw(name).toLowerCase()){alert("Mật khẩu không đúng. Mật khẩu là tên gọi (bỏ dấu, viết hoa chữ đầu) + 1207.");return;}
@@ -1391,6 +1413,22 @@ function judgeLogin(){
   rscore();
 }
 function judgeLogout(){judgeName=null;try{localStorage.removeItem("r20judge");}catch(e){}rscore();}
+function judgeBarHtml(suffix){
+  if(judgeName){
+    return '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px;padding:11px 14px;margin-bottom:14px">'+
+      '<span style="font-size:20px">🧑‍⚖️</span><div style="flex:1"><div style="font-size:12px;color:#4338CA">Giám khảo đang chấm</div><div style="font-weight:800;color:#312E81;font-size:16px">'+judgeName+'</div></div>'+
+      '<button class="btn bo2 bsm" onclick="judgeLogout()">🚪 Đăng xuất</button></div>';
+  }
+  var opts=judgeList().map(function(n){return '<option value="'+n.replace(/"/g,"&quot;")+'">'+n+'</option>';}).join("");
+  return '<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin-bottom:14px">'+
+    '<div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:10px">🧑‍⚖️ Đăng nhập giám khảo để chấm điểm</div>'+
+    (opts?('<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">'+
+      '<div style="flex:2;min-width:180px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Chọn tên giám khảo (khách mời)</label><select id="scJudgeSel'+suffix+'" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px;background:#fff">'+opts+'</select></div>'+
+      '<div style="flex:1;min-width:130px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Mật khẩu</label><input type="password" id="scJudgePw'+suffix+'" placeholder="Nhập mật khẩu" onkeydown="if(event.key===\'Enter\')judgeLogin(\''+suffix+'\')" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px"></div>'+
+      '<button class="btn bp bsm" onclick="judgeLogin(\''+suffix+'\')" style="flex-shrink:0">Đăng nhập</button></div>')
+     :'<div style="font-size:13px;color:#B45309">Chưa có danh sách khách mời. Vào mục 🎓 Đại biểu / Khách mời để thêm trước.</div>')+
+    '</div>';
+}
 function scf1(x){return Math.round(x*10)/10;}
 function scIdOf(kind,target,judge){return kind+"|"+target+"|"+judge;}
 function scGet(kind,target,judge){var a=S.scores||[];for(var i=0;i<a.length;i++)if(a[i].id===scIdOf(kind,target,judge))return a[i];return null;}
@@ -1539,27 +1577,10 @@ function scRankTable(kind,rows){
       '<div style="text-align:right"><div style="font-weight:800;color:#047857;font-size:15px">'+(x.n?scf1(x.avg):"—")+'<span style="color:#94A3B8;font-size:11px">/'+scMax(kind)+'</span></div><div style="font-size:11px;color:var(--mu)">'+x.n+' GK</div></div></div>';
   }).join("")+'</div>';
 }
-function rscore(){
-  if(!S.scores)S.scores=[];if(!S.scoreTeams)S.scoreTeams=[];
-  var jb=document.getElementById("scJudge");
-  if(jb){
-    if(judgeName){
-      jb.innerHTML='<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px;padding:11px 14px;margin-bottom:14px">'+
-        '<span style="font-size:20px">🧑‍⚖️</span><div style="flex:1"><div style="font-size:12px;color:#4338CA">Giám khảo đang chấm</div><div style="font-weight:800;color:#312E81;font-size:16px">'+judgeName+'</div></div>'+
-        '<button class="btn bo2 bsm" onclick="judgeLogout()">🚪 Đăng xuất</button></div>';
-    }else{
-      var opts=judgeList().map(function(n){return '<option value="'+n.replace(/"/g,"&quot;")+'">'+n+'</option>';}).join("");
-      jb.innerHTML='<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin-bottom:14px">'+
-        '<div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:10px">🧑‍⚖️ Đăng nhập giám khảo để chấm điểm</div>'+
-        (opts?('<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">'+
-          '<div style="flex:2;min-width:180px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Chọn tên giám khảo (khách mời)</label><select id="scJudgeSel" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px;background:#fff">'+opts+'</select></div>'+
-          '<div style="flex:1;min-width:130px"><label style="display:block;font-size:11px;color:#92400E;margin-bottom:3px">Mật khẩu</label><input type="password" id="scJudgePw" placeholder="Nhập mật khẩu" onkeydown="if(event.key===\'Enter\')judgeLogin()" style="width:100%;padding:9px;border:1px solid #FCD34D;border-radius:9px;font-size:14px"></div>'+
-          '<button class="btn bp bsm" onclick="judgeLogin()" style="flex-shrink:0">Đăng nhập</button></div>')
-         :'<div style="font-size:13px;color:#B45309">Chưa có danh sách khách mời. Vào mục 🎓 Đại biểu / Khách mời để thêm trước.</div>')+
-        '</div>';
-    }
-  }
-  // Văn nghệ dự thi
+function rscore(){ rscoreVN(); rscoreGame(); }
+function rscoreVN(){
+  if(!S.scores)S.scores=[];if(!S.vnComp)S.vnComp=[];
+  var jb=document.getElementById("scJudgeVN");if(jb)jb.innerHTML=judgeBarHtml("VN");
   var vnAddEl=document.getElementById("scVnAdd");
   if(vnAddEl)vnAddEl.innerHTML=isAdmin?'<button class="btn bp bsm" onclick="addVnComp()">➕ Thêm tiết mục</button>':'';
   var vnEl=document.getElementById("scVN");
@@ -1571,7 +1592,13 @@ function rscore(){
       return scItemHtml("vn",a.id,a.name,a.perf?("🎤 "+a.perf):"")+admB;
     }).join("");}
   }
-  // Trò chơi (nhiều trò, mỗi trò 1 mục)
+  var rEl=document.getElementById("scRankVN");
+  if(rEl){var vnRows=(S.vnComp||[]).map(function(a){return {name:a.name+(a.perf?" — "+a.perf:""),target:a.id};});rEl.innerHTML=scRankTable("vn",vnRows);}
+  try{if(document.querySelector("#pg-scorevn.on"))drawChartPair(vnItems(),"scChartBarVN","scChartLineVN","scChartNoteVN");}catch(e){}
+}
+function rscoreGame(){
+  if(!S.scores)S.scores=[];if(!S.scoreGames)S.scoreGames=[];if(!S.scoreTeams)S.scoreTeams=[];
+  var jb=document.getElementById("scJudgeGame");if(jb)jb.innerHTML=judgeBarHtml("Game");
   var gaAddEl=document.getElementById("scGameAdd");
   if(gaAddEl)gaAddEl.innerHTML=isAdmin?'<button class="btn bp bsm" onclick="addScoreGame()">➕ Thêm trò chơi</button>':'';
   var gamesEl=document.getElementById("scGames");
@@ -1583,7 +1610,6 @@ function rscore(){
       return scItemHtml("game",g.id,g.name,g.perf?("👥 "+g.perf):"")+admB;
     }).join("");}
   }
-  // Đội thi & thành viên
   var addEl=document.getElementById("scTeamAdd");
   if(addEl)addEl.innerHTML=isAdmin?'<button class="btn bp bsm" onclick="addScoreTeam()">➕ Thêm đội</button>':'';
   var gEl=document.getElementById("scGame");
@@ -1597,57 +1623,54 @@ function rscore(){
       return scItemHtml("team",t.id,t.name,sub)+admBtns;
     }).join("");}
   }
-  // Xếp hạng
-  var rEl=document.getElementById("scRank");
+  var rEl=document.getElementById("scRankGame");
   if(rEl){
-    var vnRows=(S.vnComp||[]).map(function(a){return {name:a.name+(a.perf?" — "+a.perf:""),target:a.id};});
     var gaRows=(S.scoreGames||[]).map(function(g){return {name:g.name+(g.perf?" — "+g.perf:""),target:g.id};});
     var teamRows=(S.scoreTeams||[]).map(function(t){return {name:t.name,target:t.id};});
-    rEl.innerHTML='<div style="font-weight:700;color:#334155;font-size:13px;margin:2px 0 8px">🎤 Văn nghệ dự thi</div>'+scRankTable("vn",vnRows)+
-      '<div style="font-weight:700;color:#334155;font-size:13px;margin:16px 0 8px">🕹️ Trò chơi</div>'+scRankTable("game",gaRows)+
+    rEl.innerHTML='<div style="font-weight:700;color:#334155;font-size:13px;margin:2px 0 8px">🕹️ Trò chơi</div>'+scRankTable("game",gaRows)+
       '<div style="font-weight:700;color:#334155;font-size:13px;margin:16px 0 8px">👥 Đội thi</div>'+scRankTable("team",teamRows);
   }
-  try{drawScoreCharts();}catch(e){}
+  try{if(document.querySelector("#pg-scoregame.on"))drawChartPair(gameItems(),"scChartBarGame","scChartLineGame","scChartNoteGame");}catch(e){}
 }
-// --- Biểu đồ Chart.js (tất cả thang 10) ---
-var scBarChart=null,scLineChart=null;
-var SC_COL={vn:"#F5A623",game:"#10B981",team:"#8B5CF6"};
-function scItemsAll(){
+function vnItems(){return (S.vnComp||[]).map(function(a){return {type:"vn",id:a.id,label:"🎤 "+a.name};});}
+function gameItems(){
   var items=[];
-  (S.vnComp||[]).forEach(function(a){items.push({type:"vn",id:a.id,label:"🎤 "+a.name});});
   (S.scoreGames||[]).forEach(function(g){items.push({type:"game",id:g.id,label:"🕹️ "+g.name});});
   (S.scoreTeams||[]).forEach(function(t){items.push({type:"team",id:t.id,label:"👥 "+t.name});});
   return items;
 }
-function drawScoreCharts(){
+// --- Biểu đồ Chart.js (thang 10), tách theo trang ---
+var SC_COL={vn:"#F5A623",game:"#10B981",team:"#8B5CF6"};
+var scChartInst={};
+function drawChartPair(items,barId,lineId,noteId){
   if(typeof Chart==="undefined")return;
-  var items=scItemsAll();
+  var palette=["#1A3A5C","#F5A623","#10B981","#FF6B6B","#8B5CF6","#EC4899","#3B82F6","#14B8A6","#F97316","#6366F1","#0EA5E9","#A855F7"];
   // BAR: điểm TB /10, xếp hạng
   var barItems=items.map(function(it){var ag=scAgg(it.type,it.id);return {label:it.label,avg:ag.avg,n:ag.n,type:it.type};}).filter(function(x){return x.n>0;}).sort(function(a,b){return b.avg-a.avg;});
-  var bc=document.getElementById("scChartBar");
+  var bc=document.getElementById(barId);
   if(bc){
-    if(scBarChart){scBarChart.destroy();scBarChart=null;}
+    if(scChartInst[barId]){scChartInst[barId].destroy();scChartInst[barId]=null;}
     if(barItems.length){
-      scBarChart=new Chart(bc,{type:"bar",data:{labels:barItems.map(function(x){return x.label;}),datasets:[{label:"Điểm TB",data:barItems.map(function(x){return Math.round(x.avg*10)/10;}),backgroundColor:barItems.map(function(x){return SC_COL[x.type]||"#64748B";}),borderRadius:6}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){var it=barItems[c.dataIndex];return (Math.round(it.avg*10)/10)+"/10 · "+it.n+" GK";}}}},scales:{x:{beginAtZero:true,max:10,ticks:{stepSize:2}}}}});
+      scChartInst[barId]=new Chart(bc,{type:"bar",data:{labels:barItems.map(function(x){return x.label;}),datasets:[{label:"Điểm TB",data:barItems.map(function(x){return Math.round(x.avg*10)/10;}),backgroundColor:barItems.map(function(x){return SC_COL[x.type]||"#64748B";}),borderRadius:6}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){var it=barItems[c.dataIndex];return (Math.round(it.avg*10)/10)+"/10 · "+it.n+" GK";}}}},scales:{x:{beginAtZero:true,max:10,ticks:{stepSize:2}}}}});
     }
   }
-  // LINE: x=giám khảo, mỗi mục 1 đường (điểm /10 mỗi GK cho)
+  // LINE: x=giám khảo (những GK đã chấm các mục này), mỗi mục 1 đường /10
+  var idset={};items.forEach(function(it){idset[it.type+"|"+it.id]=1;});
   var judges=[],seen={};
-  (S.scores||[]).forEach(function(r){if(!seen[r.judge]){seen[r.judge]=1;judges.push(r.judge);}});
-  var palette=["#1A3A5C","#F5A623","#10B981","#FF6B6B","#8B5CF6","#EC4899","#3B82F6","#14B8A6","#F97316","#6366F1","#0EA5E9","#A855F7"];
-  var lc=document.getElementById("scChartLine");
+  (S.scores||[]).forEach(function(r){if(idset[r.kind+"|"+r.target]&&!seen[r.judge]){seen[r.judge]=1;judges.push(r.judge);}});
+  var lc=document.getElementById(lineId);
   if(lc){
-    if(scLineChart){scLineChart.destroy();scLineChart=null;}
+    if(scChartInst[lineId]){scChartInst[lineId].destroy();scChartInst[lineId]=null;}
     if(judges.length&&items.length){
       var ds=items.map(function(it,idx){
         var data=judges.map(function(j){var rec=scGet(it.type,it.id,j);return rec?Math.round(scTotalRec(rec,it.type)*10)/10:null;});
         var col=palette[idx%palette.length];
         return {label:it.label,data:data,borderColor:col,backgroundColor:col,spanGaps:true,tension:.3,fill:false,pointRadius:4};
       });
-      scLineChart=new Chart(lc,{type:"line",data:{labels:judges,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+c.parsed.y+"/10";}}}},scales:{y:{beginAtZero:true,max:10,ticks:{stepSize:2}}}}});
+      scChartInst[lineId]=new Chart(lc,{type:"line",data:{labels:judges,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+c.parsed.y+"/10";}}}},scales:{y:{beginAtZero:true,max:10,ticks:{stepSize:2}}}}});
     }
   }
-  var note=document.getElementById("scChartNote");
+  var note=document.getElementById(noteId);
   if(note)note.textContent=judges.length?("Đã có "+judges.length+" giám khảo chấm điểm."):"Chưa có giám khảo nào chấm — biểu đồ sẽ hiện khi có điểm.";
 }
 
@@ -2667,7 +2690,7 @@ function rerenderCurrent(){
   try{
     if(id==="members")rm();else if(id==="checkin")rci();else if(id==="guests"){rgl();if(typeof rgadmin==="function")rgadmin();}
     else if(id==="gantt")rgantt();else if(id==="finance")rf();else if(id==="program")rpr();
-    else if(id==="polls")rta();else if(id==="music"){if(typeof rvn==="function")rvn();}else if(id==="score"){if(typeof rscore==="function")rscore();}else if(id==="letters")rl2();
+    else if(id==="polls")rta();else if(id==="music"){if(typeof rvn==="function")rvn();}else if(id==="scorevn"){if(typeof rscoreVN==="function")rscoreVN();}else if(id==="scoregame"){if(typeof rscoreGame==="function")rscoreGame();}else if(id==="letters")rl2();
     else if(id==="awards")raw();else if(id==="map")rma();else if(id==="photos")rgal();
   }catch(e){}
 }
