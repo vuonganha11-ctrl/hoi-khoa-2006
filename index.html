@@ -1546,13 +1546,26 @@ function openScoreTeam(id){
   var s=document.getElementById("scTeamSearch");if(s)s.value="";
   rScTeamPick();om("mScTeam");
 }
+function memberTeamMap(excludeTeamId){
+  var map={};
+  (S.scoreTeams||[]).forEach(function(t){
+    if(excludeTeamId!=null&&t.id===excludeTeamId)return;
+    (t.members||[]).forEach(function(mid){map[mid]=t.name;});
+  });
+  return map;
+}
 function rScTeamPick(){
   var el=document.getElementById("scTeamPick");if(!el)return;
   var q=(document.getElementById("scTeamSearch").value||"").toLowerCase().trim();
+  var taken=memberTeamMap(editScTeamId); // thành viên đã thuộc đội KHÁC
   var ms=(S.members||[]).slice().sort(function(a,b){return (a.cls||"").localeCompare(b.cls||"")||(a.name||"").localeCompare(b.name||"");});
   var rows=ms.filter(function(m){return !q||(m.name||"").toLowerCase().indexOf(q)>=0||(m.cls||"").toLowerCase().indexOf(q)>=0;});
   if(!rows.length){el.innerHTML='<div style="color:var(--mu);font-size:13px;padding:6px">Không tìm thấy thành viên.</div>';return;}
   el.innerHTML=rows.map(function(m){
+    var busy=taken[m.id];
+    if(busy){
+      return '<label style="display:flex;align-items:center;gap:8px;padding:5px 4px;font-size:13px;border-bottom:1px solid #F1F5F9;opacity:.55;cursor:not-allowed"><input type="checkbox" disabled style="width:16px;height:16px"><span><b>'+m.name+'</b> <span style="color:var(--mu)">'+(m.cls||"")+'</span> <span style="color:#B91C1C;font-size:11px">· đã ở đội '+busy+'</span></span></label>';
+    }
     var ck=scTeamSel[m.id]?"checked":"";
     return '<label style="display:flex;align-items:center;gap:8px;padding:5px 4px;font-size:13px;cursor:pointer;border-bottom:1px solid #F1F5F9"><input type="checkbox" '+ck+' onchange="scTeamToggle('+m.id+',this.checked)" style="width:16px;height:16px"><span><b>'+m.name+'</b> <span style="color:var(--mu)">'+(m.cls||"")+'</span></span></label>';
   }).join("");
@@ -1562,7 +1575,8 @@ function saveScoreTeam(){
   if(!isAdmin)return reqAdmin();
   var name=(document.getElementById("scTeamName").value||"").trim();
   if(!name){alert("Vui lòng nhập tên đội.");return;}
-  var members=Object.keys(scTeamSel).filter(function(k){return scTeamSel[k];}).map(function(k){return parseInt(k,10);});
+  var taken=memberTeamMap(editScTeamId);
+  var members=Object.keys(scTeamSel).filter(function(k){return scTeamSel[k];}).map(function(k){return parseInt(k,10);}).filter(function(mid){return !taken[mid];});
   if(!S.scoreTeams)S.scoreTeams=[];
   if(editScTeamId){
     var t=(S.scoreTeams||[]).filter(function(x){return x.id===editScTeamId;})[0];
