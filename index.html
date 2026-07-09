@@ -2306,7 +2306,7 @@ function delProg(){
 }
 
 /* ===== NOTE MC (PIN) ===== */
-var MCPIN="mc2026";
+var MCPIN="111";
 var mcUnlocked=false;
 function ldMC(){try{mcUnlocked=localStorage.getItem("r20mc")==="1";}catch(e){mcUnlocked=false;}}
 function mcCanView(){return isAdmin||mcUnlocked;}
