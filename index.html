@@ -988,7 +988,7 @@ var S={cfg:{cls:"Khóa 2003–2006 · THPT Nguyễn Trãi",date:"2026-07-12",loc
     time:{q:"Chọn ngày tổ chức (chốt trước 5/5/2026)",opts:["Chủ nhật 12/7/2026","Chủ nhật 19/7/2026"],v:[0,0]},
     gift:{q:"Quà kỷ niệm",opts:["Sách ảnh lớp","Ly/mug in hình","Khung ảnh","Không cần quà"],v:[0,0,0,0]}
   },
-  songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[],budget:[],scores:[],scoreTeams:[],vnComp:[],scoreGames:[],scoreAdjust:[]
+  songs:[],letters:[],awards:[],tawards:[],tvoted:{},svoted:{},mapMem:[],guests:[],tasks:[],team:[],acts:[],budget:[],scores:[],scoreTeams:[],vnComp:[],scoreGames:[],scoreAdjust:[],wheelWins:[]
 };
 function sv(){try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}try{supaPush();}catch(e){}}
 function gsv(){sv();try{if(typeof supaPushGal==="function")supaPushGal();}catch(e){}}
@@ -2481,22 +2481,79 @@ function aq(idx){
     }else{qst.ans=false;document.getElementById("gcont").innerHTML=bq();}
   },1200);
 }
+function wheelWonMap(){var o={};(S.wheelWins||[]).forEach(function(w){if(w&&w.name)o[w.name]=1;});return o;}
 function bw(){
-  var names=ciPool(); // ưu tiên người đã check-in (TV + khách mời)
-  if(!names.length)names=S.members.filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
-  wn=names.length?names:["Bạn A","Bạn B","Bạn C","Bạn D","Bạn E","Bạn F"];
+  var pool=ciPool(); // TV + đại biểu/khách mời đã check-in
+  var fromCheckin=pool.length>0;
+  if(!pool.length)pool=S.members.filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
+  var won=wheelWonMap();
+  var elig=pool.filter(function(nm){return !won[nm];});
+  var nWon=pool.length-elig.length;
+  var allDone=(pool.length>0&&elig.length===0);
+  wn=elig.length?elig:(pool.length?pool.slice():["Bạn A","Bạn B","Bạn C","Bạn D","Bạn E","Bạn F"]);
   var sz=Math.min(window.innerWidth-80,280);
   return '<div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:2px">🎡 Vòng quay may mắn</div>'+
-    '<div style="font-size:12px;color:var(--mu);margin-bottom:10px">Quay trong '+wn.length+' người'+(ciPool().length?' đã check-in':'')+'</div>'+
+    '<div style="font-size:12px;color:var(--mu);margin-bottom:10px">Quay trong <b><span id="wcount">'+wn.length+'</span></b> người'+(fromCheckin?' đã check-in':'')+(nWon>0?' · đã loại '+nWon+' người trúng':'')+'</div>'+
     '<div style="position:relative;display:flex;justify-content:center;align-items:center"><canvas id="wc" width="'+sz+'" height="'+sz+'"></canvas>'+
     '<div style="position:absolute;right:calc(50% - '+Math.floor(sz/2+2)+'px);width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:20px solid var(--ac)"></div></div>'+
     '<div id="wres" style="text-align:center;min-height:38px;margin-top:10px"></div>'+
-    '<button class="btn bg2" onclick="sw2()" id="spbtn" style="margin-top:8px">🎡 Quay ngay!</button>';
+    (allDone?'<div style="text-align:center;color:#B45309;font-size:13px;font-weight:600;margin-bottom:6px">✅ Tất cả đã trúng thưởng. Quản trị viên xóa bớt kết quả để quay tiếp.</div>':'')+
+    '<button class="btn bg2" onclick="sw2()" id="spbtn" style="margin-top:8px"'+(allDone?' disabled':'')+'>🎡 Quay ngay!</button>'+
+    '<div id="whist" style="margin-top:16px">'+wheelHistHtml()+'</div>';
+}
+function wheelHistHtml(){
+  var w=(S.wheelWins||[]).slice().sort(function(a,b){return (b.ts||0)-(a.ts||0);});
+  var delAll=(isAdmin&&w.length)?'<button onclick="clearWheelWins()" style="background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer">🗑 Xóa tất cả</button>':'';
+  var head='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px"><div style="font-size:13px;font-weight:800;color:var(--navy)">🏆 Đã trúng thưởng ('+w.length+')</div>'+delAll+'</div>';
+  if(!w.length)return head+'<div style="color:var(--mu);font-size:12.5px;text-align:center;padding:6px">Chưa có kết quả. Bấm “🎡 Quay ngay!”.</div>';
+  var rows=w.map(function(x,i){
+    var t=x.ts?new Date(x.ts):null,ts=t?(('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2)):'';
+    var del=isAdmin?'<button onclick="delWheelWin('+x.id+')" title="Xóa" style="flex-shrink:0;background:none;border:none;color:#B91C1C;font-size:15px;cursor:pointer;padding:0 2px">🗑</button>':'';
+    return '<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:'+(i%2?'#F8FAFC':'#fff')+';border:1px solid #EEF2F7;border-radius:9px;margin-bottom:5px">'+
+      '<div style="width:22px;height:22px;flex-shrink:0;border-radius:50%;background:var(--gold);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">'+(w.length-i)+'</div>'+
+      '<div style="flex:1;min-width:0;font-size:13.5px;font-weight:600;color:var(--navy);overflow-wrap:anywhere">'+esc(x.name)+'</div>'+
+      (ts?'<div style="font-size:11px;color:var(--mu);flex-shrink:0">'+ts+'</div>':'')+del+'</div>';
+  }).join("");
+  return head+rows;
+}
+function recordWin(name){
+  if(!canManageGame())return; // chỉ Quản trị viên / Trợ lý BTC điều khiển mới ghi vào sổ trúng thưởng
+  if(!Array.isArray(S.wheelWins))S.wheelWins=[];
+  if(!S.wheelWins.some(function(w){return w.name===name;})){
+    S.wheelWins.push({id:Date.now()+Math.floor(Math.random()*1000),name:name,ts:Date.now()});
+    sv();
+  }
+  var i=wn.indexOf(name);if(i>=0)wn.splice(i,1); // loại người vừa trúng khỏi lượt quay sau
+  dw(wa);
+  var wc=document.getElementById("wcount");if(wc)wc.textContent=wn.length;
+  if(!wn.length){var b=document.getElementById("spbtn");if(b)b.disabled=true;}
+  var h=document.getElementById("whist");if(h)h.innerHTML=wheelHistHtml();
+}
+function refreshWheel(){
+  var gc=document.getElementById("gcont");
+  if(gc&&document.getElementById("wc")){gc.innerHTML=bw();setTimeout(function(){dw(wa);},30);}
+}
+function delWheelWin(id){
+  if(!isAdmin)return reqAdmin();
+  var w=(S.wheelWins||[]).filter(function(x){return x.id===id;})[0];
+  if(!confirm("Xóa kết quả"+(w?' của "'+w.name+'"':"")+"?"))return;
+  S.wheelWins=(S.wheelWins||[]).filter(function(x){return x.id!==id;});
+  if(!S.tomb)S.tomb={};S.tomb[id]=Date.now();
+  sv();refreshWheel();
+}
+function clearWheelWins(){
+  if(!isAdmin)return reqAdmin();
+  if(!(S.wheelWins||[]).length)return;
+  if(!confirm("Xóa TẤT CẢ "+S.wheelWins.length+" kết quả trúng thưởng?"))return;
+  if(!S.tomb)S.tomb={};S.wheelWins.forEach(function(x){S.tomb[x.id]=Date.now();});
+  S.wheelWins=[];
+  sv();refreshWheel();
 }
 function dw(angle){
   var c=document.getElementById("wc");if(!c)return;
   var ctx=c.getContext("2d"),n=wn.length,r=c.width/2-4,cx=c.width/2,cy=c.height/2;
   ctx.clearRect(0,0,c.width,c.height);
+  if(!n){ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);ctx.fillStyle="#E5E7EB";ctx.fill();return;}
   var cols=["#1A3A5C","#F5A623","#10B981","#FF6B6B","#8B5CF6","#EC4899","#F59E0B","#3B82F6"];
   for(var i=0;i<n;i++){
     var a1=angle+i*(2*Math.PI/n),a2=a1+2*Math.PI/n;
@@ -2507,16 +2564,34 @@ function dw(angle){
   }
   ctx.beginPath();ctx.arc(cx,cy,14,0,2*Math.PI);ctx.fillStyle="#fff";ctx.fill();
 }
+// Spin dừng chắc chắn: chọn người thắng TRƯỚC, quay theo thời gian (easing) để luôn dừng đúng ô.
 function sw2(){
-  if(ws)return;ws=true;document.getElementById("spbtn").disabled=true;document.getElementById("wres").innerHTML="";
-  var sp=0.25+Math.random()*0.2,tot=0,min=Math.PI*8+Math.random()*Math.PI*6;
-  function a(){wa+=sp;tot+=sp;sp*=0.987;dw(wa);
-    if(tot<min||sp>0.01)requestAnimationFrame(a);
-    else{ws=false;document.getElementById("spbtn").disabled=false;
-      var idx=Math.floor((((-wa)%(2*Math.PI)+2*Math.PI)%(2*Math.PI))/(2*Math.PI/wn.length))%wn.length;
-      document.getElementById("wres").innerHTML='<div style="font-size:17px;font-weight:700;color:var(--navy)">🎉 '+wn[idx]+'!</div>';
-    }}
-  requestAnimationFrame(a);
+  if(ws)return;
+  var res=document.getElementById("wres");
+  if(!wn||!wn.length){if(res)res.innerHTML='<div style="color:#B91C1C;font-weight:700">Không còn ai để quay.</div>';return;}
+  ws=true;
+  var btn=document.getElementById("spbtn");if(btn)btn.disabled=true;
+  if(res)res.innerHTML="";
+  var n=wn.length,seg=2*Math.PI/n,twoPi=2*Math.PI;
+  var winner=Math.floor(Math.random()*n);
+  var target=-(winner*seg+seg/2);                 // đưa tâm ô người thắng về mũi tên (góc 0, bên phải)
+  var start=wa;
+  var turns=6+Math.floor(Math.random()*3);        // quay 6–8 vòng
+  var delta=turns*twoPi+((((target-start)%twoPi)+twoPi)%twoPi);
+  var dur=4200+Math.random()*900,t0=null;
+  function ease(x){return 1-Math.pow(1-x,3);}      // easeOutCubic
+  function step(now){
+    if(t0===null)t0=now;
+    var p=(now-t0)/dur;if(p>1)p=1;
+    wa=start+delta*ease(p);dw(wa);
+    if(p<1){requestAnimationFrame(step);return;}
+    wa=start+delta;dw(wa);
+    ws=false;if(btn)btn.disabled=false;
+    var name=wn[winner];
+    if(res)res.innerHTML='<div style="font-size:20px;font-weight:800;color:var(--navy)">🎉 '+esc(name)+' 🎉</div>';
+    recordWin(name);
+  }
+  requestAnimationFrame(step);
 }
 function bt(){
   var item=TD[Math.floor(Math.random()*TD.length)];
@@ -2981,9 +3056,10 @@ function applyRemote(data){
     data.scoreGames=mergeById(S.scoreGames,data.scoreGames,tomb);
     data.scoreAdjust=mergeById(S.scoreAdjust,data.scoreAdjust,tomb);
     data.checklist=mergeById(S.checklist,data.checklist,tomb);
+    data.wheelWins=mergeById(S.wheelWins,data.wheelWins,tomb);
     var keepGal=S.gallery; // gallery đồng bộ qua row riêng (r20_gal) — giữ lại khi nhận state chính
     if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});keepGal=data.gallery;}
-    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!Array.isArray(S.scores))S.scores=[];if(!Array.isArray(S.scoreTeams))S.scoreTeams=[];if(!Array.isArray(S.vnComp))S.vnComp=[];if(!Array.isArray(S.scoreGames))S.scoreGames=[];if(!Array.isArray(S.scoreAdjust))S.scoreAdjust=[];if(!Array.isArray(S.checklist))S.checklist=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();if(typeof S._ver!=="number")S._ver=parseInt(S._ver,10)||0;
+    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!Array.isArray(S.scores))S.scores=[];if(!Array.isArray(S.scoreTeams))S.scoreTeams=[];if(!Array.isArray(S.vnComp))S.vnComp=[];if(!Array.isArray(S.scoreGames))S.scoreGames=[];if(!Array.isArray(S.scoreAdjust))S.scoreAdjust=[];if(!Array.isArray(S.checklist))S.checklist=[];if(!Array.isArray(S.wheelWins))S.wheelWins=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();if(typeof S._ver!=="number")S._ver=parseInt(S._ver,10)||0;
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
