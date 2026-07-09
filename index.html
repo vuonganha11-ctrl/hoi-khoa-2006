@@ -285,6 +285,26 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 @media(max-width:767px){
   #sdb{display:none}.fcrow{display:block}.pwrap{display:block}.glist{display:block}
 }
+/* CHECKLIST */
+.chkgrp{margin-bottom:14px}
+.chkgh{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--navy);margin:0 0 7px 2px}
+.chkgh .cnt{font-size:11px;font-weight:700;color:var(--mu);background:var(--soft);border-radius:20px;padding:1px 9px}
+.chkr{background:#fff;border-radius:12px;padding:11px 12px;display:flex;align-items:flex-start;gap:11px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:4px solid var(--gold);margin-bottom:8px;transition:border-color .2s,opacity .2s}
+.chkr.done{border-left-color:var(--gr);opacity:.66}
+.chkr.done .chkn{text-decoration:line-through;color:var(--mu)}
+.chkbx{flex-shrink:0;width:26px;height:26px;border-radius:8px;border:2px solid var(--bdr);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:transparent;transition:all .15s;margin-top:1px}
+.chkbx.on{background:var(--gr);border-color:var(--gr);color:#fff}
+.chki{flex:1;min-width:0}
+.chkn{font-size:14px;font-weight:600;line-height:1.35;word-break:break-word}
+.chkm{font-size:11.5px;color:var(--mu);margin-top:4px;display:flex;flex-wrap:wrap;gap:5px 8px;align-items:center}
+.chkm .tag{background:var(--soft);color:var(--navy);border-radius:6px;padding:1px 7px;font-weight:700}
+.chkm .own{background:var(--gl);color:#9A6B00;border-radius:6px;padding:1px 7px;font-weight:700}
+.chkm .nt2{font-style:italic}
+.chkacts{display:flex;flex-direction:column;gap:5px;flex-shrink:0}
+.chkb{border-radius:7px;padding:3px 8px;font-size:12px;cursor:pointer;background:#fff;line-height:1.4}
+.chke{border:1px solid #C7D2FE;color:#3730A3}
+.chkd{border:1px solid #FCA5A5;color:#B91C1C}
+.chkstt{color:var(--navy);font-weight:800;font-size:11px;background:#EEF2F7;border-radius:6px;padding:1px 6px;margin-right:2px}
 </style>
 </head>
 <body>
@@ -312,7 +332,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="sdi" onclick="sp('photos',this)">📸 Bảng kỷ niệm</div>
     <div class="sdi" onclick="sp('map',this)">📍 Bản đồ lớp</div>
     <div class="sds">Quản trị</div>
-    <div class="sdi" onclick="sp('gantt',this)">📊 Tiến độ thực hiện</div>
+    <div class="sdi" onclick="sp('gantt',this)">📋 Checklist ngày 12/7</div>
     <div class="sdi" onclick="sp('finance',this)">💰 Tài chính</div>
     <div class="sdi" onclick="sp('admin',this)"><span class="adminbadge">🔐 Quản trị</span></div>
   </nav>
@@ -365,7 +385,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <button class="qab qg" onclick="sp('letters')"><span class="qai">📬</span>Góc nhắn nhủ</button>
     <button class="qab qgr" onclick="sp('games')"><span class="qai">🎮</span>Trò chơi</button>
     <button class="qab qgr" onclick="sp('program')"><span class="qai">🗓️</span>Timeline</button>
-    <button class="qab qpu" onclick="sp('gantt')"><span class="qai">📊</span>Tiến độ thực hiện</button>
+    <button class="qab qpu" onclick="sp('gantt')"><span class="qai">📋</span>Checklist 12/7</button>
     <button class="qab qp" onclick="sp('finance')"><span class="qai">💰</span>Tài chính</button>
     <button class="qab qg" onclick="sp('music')"><span class="qai">🎶</span>Đăng ký giao lưu âm nhạc</button>
     <button class="qab qpu" onclick="sp('scorevn')"><span class="qai">🎤</span>Chấm điểm VN</button>
@@ -422,12 +442,22 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   <div class="mlist" id="glist"></div>
 </div>
 
-<!-- GANTT -->
+<!-- CHECKLIST NGÀY 12/7 -->
 <div class="pg" id="pg-gantt">
-  <div class="ptit">📊 Tiến độ thực hiện</div>
-  <div class="psub">Theo dõi nhiệm vụ theo thời gian. Người phụ trách đăng nhập PIN để cập nhật % việc của mình.</div>
-  <div class="card" id="ganttLogin" style="margin-bottom:12px"></div>
-  <div id="ganttChart"></div>
+  <div class="ptit">📋 Checklist ngày 12/7</div>
+  <div class="psub">Danh mục cần hoàn thiện trong ngày sự kiện. Tích ✓ khi xong. Ai cũng có thể thêm / sửa / xoá và lọc.</div>
+  <div class="g2 g4" id="chkKpi" style="margin-bottom:10px"></div>
+  <div class="sb2"><input type="text" id="chkSrc" placeholder="🔍 Tìm nội dung, vật tư, người phụ trách..." oninput="rchk()"></div>
+  <div class="sb2" style="flex-wrap:wrap">
+    <select id="chkCat" onchange="rchk()"><option value="">🏷 Tất cả hạng mục</option></select>
+    <select id="chkOwner" onchange="rchk()"><option value="">👤 Tất cả phụ trách</option></select>
+    <select id="chkStat" onchange="rchk()"><option value="">🔁 Tất cả tình trạng</option><option value="done">✅ Đã xong</option><option value="todo">⏳ Chưa xong</option></select>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn bp bsm" onclick="openChk()">➕ Thêm mục</button>
+    <button class="btn bo2 bsm" onclick="clearChkFilter()">↺ Bỏ lọc</button>
+  </div>
+  <div id="chkList"></div>
 </div>
 
 <!-- FINANCE -->
@@ -786,6 +816,27 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
   </div>
 </div>
 
+<!-- MODAL: CHECKLIST ITEM -->
+<div class="mo" id="mchk" onclick="cbg(event,'mchk')">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mtr"><div class="mt" id="chkTitle">➕ Thêm mục</div><button class="mc" onclick="cm('mchk')">✕</button></div>
+    <div class="fg"><label>Nội dung *</label><input type="text" id="chkfName" placeholder="VD: Thảm đỏ đón đại biểu"></div>
+    <div class="fg"><label>Hạng mục</label><input type="text" id="chkfCat" list="chkCats" placeholder="VD: Trang trí"><datalist id="chkCats"></datalist></div>
+    <div class="g2">
+      <div class="fg"><label>Vật tư</label><input type="text" id="chkfMat" placeholder="VD: Bộ"></div>
+      <div class="fg"><label>Số lượng</label><input type="text" id="chkfQty" placeholder="VD: 2"></div>
+    </div>
+    <div class="g2">
+      <div class="fg"><label>Ngân sách</label><input type="text" id="chkfBudget" placeholder="VD: 400,000"></div>
+      <div class="fg"><label>Phụ trách</label><input type="text" id="chkfOwner" list="chkOwners" placeholder="VD: Vương Anh"><datalist id="chkOwners"></datalist></div>
+    </div>
+    <div class="fg"><label>Ghi chú</label><input type="text" id="chkfNote" placeholder="VD: Đại diện 4 lớp"></div>
+    <button class="btn bp" onclick="saveChk()">💾 Lưu mục</button>
+    <button class="btn" id="chkfDel" onclick="delChk()" style="display:none;width:100%;margin-top:8px;background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5">🗑 Xoá mục</button>
+  </div>
+</div>
+
 <!-- MODAL: TEAM PIN -->
 <div class="mo" id="mteam" onclick="cbg(event,'mteam')">
   <div class="modal">
@@ -992,7 +1043,7 @@ function sp(id,el){
   if(id==="members")rm();
   if(id==="checkin")rci();
   if(id==="guests")rgl();
-  if(id==="gantt")rgantt();
+  if(id==="gantt")rchk();
   if(id==="finance")rf();
   if(id==="admin")applyAdmin();
   if(id==="program")rpr();
@@ -2723,6 +2774,186 @@ function compressImg(file,cb){
 function od(){if(!isAdmin)return reqAdmin();var l=document.getElementById("dlink").value.trim();if(!S.cfg)S.cfg={};S.cfg.drive=l;sv();alert(l?"✅ Đã lưu link Album.":"Đã xoá link Album.");}
 function openDrive(){var l=((S.cfg&&S.cfg.drive)||((document.getElementById("dlink")||{}).value)||"").trim();if(l)window.open(l,"_blank");else alert("Chưa có link Album. Quản trị viên vui lòng dán link Google Drive ở phần quản trị.");}
 
+// ===== CHECKLIST NGÀY 12/7 =====
+function defaultChecklist(){
+  var raw=[
+    [1,"Ăn uống / Tiệc","Tiệc liên hoan (11 bàn x 1.400.000) - NCC: Dịch vụ Hạnh Huệ (Em Hợp)","","","","Vương Anh","",""],
+    [2,"Ăn uống / Tiệc","Bia (20 thùng X 320.000)","","","","Vương Anh","",""],
+    [3,"Ăn uống / Tiệc","Nước suối cho tiệc (5 thùng x 100.000)","","","","Vương Anh","",""],
+    [4,"Âm thanh","Dàn âm thanh + karaoke cho sự kiện (NCC: Sao Mai - anh Tú)","","","","Vương Anh","",""],
+    [5,"Chụp hình","Dịch vụ chụp hình","","","","Vương Anh","",""],
+    [6,"Trang trí","Màn hình Led sân khấu","","","","Hảo","",""],
+    [7,"Trang trí","Backdrop chụp hình (Hình xe Bus)","","","","Hảo","",""],
+    [8,"Trang trí","Backdrop checkin (có trang trí & bong bóng) - cửa sổ","","","","Hảo","",""],
+    [9,"Trang trí","Treo băng rôn trước cổng trường","","","","Huy","",""],
+    [10,"Trang trí","Thảm đỏ đón đại biểu","","1","","Vương Anh","",""],
+    [11,"Đồng phục","Áo đồng phục (79 cái x 80.000)","","79","","Hảo","x",""],
+    [12,"Bảng quà tặng","Quà tặng trường 10tr","","1","","Hảo","",""],
+    [13,"Bảng quà tặng","Học bổng 10tr","","1","","Hảo","",""],
+    [14,"Quà","Quà lưu niệm tặng thầy cô (295 x 36 phần)","Set quà","36","295,000","Duyên","",""],
+    [15,"Quà","Hoa tặng thầy cô","Hoa tươi (bó)","33","100,000","Trúc Phương","",""],
+    [16,"Quà lưu niệm trường","Quà tặng trường (Chưa chốt quà)","","","","Hồng","",""],
+    [17,"Thắp hương & tưởng nhớ","Giỏ trái cây","Giỏ","3","400,000","Trúc Phương","",""],
+    [18,"Vệ sinh","Chi phí bồi dưỡng dọn vệ sinh trước & sau tiệc","","1","500,000","Huy","",""],
+    [19,"Bàn lễ tân","Bàn lễ tân + 2 ghế","Bộ","2","","Huy","",""],
+    [20,"Lễ tân","Khay đựng hoa trao tặng","Khay","2","","Huy","",""],
+    [21,"Lễ tân","Hướng dẫn quét QR Code, checkin, cột ruy băng, phát bảng tên","","","","Trâm Anh, Duyên","",""],
+    [22,"Checkin","Bảng in QR Code truy cập Web ép Plastic","","","","Vương Anh","",""],
+    [23,"Checkin","Kệ A4 đặt QR Code trên bàn lễ tân","","","","Vương Anh","",""],
+    [24,"Checkin","Hoa cài áo cho đại biểu","","36","","Hảo","",""],
+    [25,"Checkin","Bảng tên thành viên in tên sẵn","","79","","Vương Anh","",""],
+    [26,"Mini game","Quà nhỏ mini game","","100","","Duyên","",""],
+    [27,"Mini game","Phong bì bí mật","","50","12,000","Vương Anh","",""],
+    [28,"Phòng học","Phấn nhiều màu trang trí phòng học","Hộp","4","","Vương Anh","",""],
+    [29,"Phòng học","Dẻ lau bảng","","4","","Vương Anh","",""],
+    [30,"Phòng học","Khăn trải bàn trong lớp","","4","","Huy","",""],
+    [31,"Phòng học","Bong bóng trang trí phòng học","","400","","Vương Anh","",""],
+    [32,"Phòng học","Keo 2 mặt để dán bong bóng","","4","","Vương Anh","",""],
+    [33,"Phòng học","Hoa trang trí phòng học","","","","Huy","",""],
+    [34,"Bàn đại biểu","Bàn và ghé ngồi cho đại biểu trong nhà thi đấu (14 bàn + 36 ghế)","","14","","Huy","",""],
+    [35,"Bàn đại biểu","Khăn trải bàn đại biểu","","14","","Huy","",""],
+    [36,"Bàn đại biểu","Bình hoa trang trí bàn đại biểu và lớp học","","11","","Huy","",""],
+    [37,"Bàn đại biểu","Đĩa giấy đựng kẹo bàn đại biểu","","5","","Vương Anh","",""],
+    [38,"Bàn đại biểu","Kẹo","","5","","Vương Anh","",""],
+    [39,"Làm mát","Quạt làm mát cho hội trường","Cái","4","","Vương Anh","",""],
+    [40,"Làm mát","Ổ cắm điện cho quạt","","4","","Vương Anh","",""],
+    [41,"Đại diện","Trao quà lưu niệm cho nhà trường","","","","Trúc Phương","",""],
+    [42,"Đại diện","Trao học bổng","","","","Tấn Thời","",""],
+    [43,"Đại diện","Trao quà tri ân thầy cô","","","","All","","Đại diện 4 lớp"],
+    [44,"Đại diện","Phát biểu","","","","Hồng","",""],
+    [45,"Đại diện","Chốt thầy/cô sẽ nhận quà","","","","Hồng","",""],
+    [46,"Game","Nước uống cho đội chơi","Bình 20 lít","5","","Vương Anh","",""],
+    [47,"Game","Ly giấy uống nước","Lốc","10","","Vương Anh","",""],
+    [48,"Game","Bong bóng dài","","100","","Vương Anh","",""],
+    [49,"Game","Bong bóng tròn","","100","","Vương Anh","",""],
+    [50,"Game","Ruy băng 4 màu chia đội","","4","","Vương Anh","",""],
+    [51,"Game","Giấy Roki A0","","4","","Vương Anh","",""],
+    [52,"Game","Hộp bút lông màu nhiều màu sắc","","4","","Vương Anh","",""],
+    [53,"Game","Ống hút","","","","Vương Anh","",""],
+    [54,"Game","Dây thun","","","","Vương Anh","",""],
+    [55,"Game","Vòng tròn bằng ống nước cứng","","4","","Vương Anh","",""],
+    [56,"Game","Thau nhựa","","8","","Vương Anh","",""],
+    [57,"Game","Bột mỳ","","","","Vương Anh","",""],
+    [58,"Game","Gạch","Viên","12","","Vương Anh","",""],
+    [59,"Game","Khăn bịt mắt","","","","Vương Anh","",""],
+    [60,"Âm thanh","Nhạc văn nghệ (File hoặc Link)","","","","Vương Anh","",""],
+    [61,"Âm thanh","Nhạc trò chơi Dance","","","","Vương Anh","",""],
+    [62,"Âm thanh","Nhạc xổ số","","","","Vương Anh","",""],
+    [63,"Âm thanh","Nhạc mini game","","","","Vương Anh","",""],
+    [64,"Âm thanh","Hiệu ứng","","","","Vương Anh","",""],
+    [65,"Hình ảnh","Hình ảnh các lớp để trình chiếu màn Led","","","","Hảo","","Đại diện các lớp gom hình gửi Hảo"],
+    [66,"CT","Pin tiểu","Cặp","10","","Vương Anh","",""]
+  ];
+  return raw.map(function(r){return {id:5000+r[0],stt:r[0],cat:r[1],name:r[2],mat:r[3],qty:r[4],budget:r[5],owner:r[6],done:r[7]==="x",note:r[8],ci:0};});
+}
+var editingCid=null;
+function chkArr(){if(!Array.isArray(S.checklist))S.checklist=[];return S.checklist;}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function clearChkFilter(){["chkSrc","chkCat","chkOwner","chkStat"].forEach(function(id){var e=document.getElementById(id);if(e)e.value="";});rchk();}
+function fillChkSelects(){
+  var all=chkArr();
+  var cats=[],owners=[];
+  all.forEach(function(t){if(t.cat&&cats.indexOf(t.cat)<0)cats.push(t.cat);if(t.owner&&owners.indexOf(t.owner)<0)owners.push(t.owner);});
+  cats.sort();owners.sort();
+  var cs=document.getElementById("chkCat");if(cs){var cur=cs.value;cs.innerHTML='<option value="">🏷 Tất cả hạng mục</option>'+cats.map(function(c){return '<option value="'+esc(c)+'">'+esc(c)+'</option>';}).join("");cs.value=cur;}
+  var os=document.getElementById("chkOwner");if(os){var cu=os.value;os.innerHTML='<option value="">👤 Tất cả phụ trách</option>'+owners.map(function(c){return '<option value="'+esc(c)+'">'+esc(c)+'</option>';}).join("");os.value=cu;}
+  var dc=document.getElementById("chkCats");if(dc)dc.innerHTML=cats.map(function(c){return '<option value="'+esc(c)+'">';}).join("");
+  var doo=document.getElementById("chkOwners");if(doo)doo.innerHTML=owners.map(function(c){return '<option value="'+esc(c)+'">';}).join("");
+}
+function rchk(){
+  var box=document.getElementById("chkList");if(!box)return;
+  fillChkSelects();
+  var all=chkArr().slice().sort(function(a,b){return (a.stt||0)-(b.stt||0);});
+  var q=((document.getElementById("chkSrc")||{}).value||"").trim().toLowerCase();
+  var fc=(document.getElementById("chkCat")||{}).value||"";
+  var fo=(document.getElementById("chkOwner")||{}).value||"";
+  var fs=(document.getElementById("chkStat")||{}).value||"";
+  // KPI (tổng thể, không theo lọc)
+  var total=all.length,doneN=all.filter(function(t){return t.done;}).length;
+  var pct=total?Math.round(doneN/total*100):0;
+  var k=document.getElementById("chkKpi");
+  if(k)k.innerHTML='<div class="csm kpi"><div class="kv">'+pct+'%</div><div class="kl">Hoàn thành</div></div>'+
+    '<div class="csm kpi"><div class="kv">'+doneN+'/'+total+'</div><div class="kl">Đã xong</div></div>'+
+    '<div class="csm kpi"><div class="kv" style="color:'+((total-doneN)?"#EF4444":"inherit")+'">'+(total-doneN)+'</div><div class="kl">Còn lại</div></div>'+
+    '<div class="csm kpi"><div class="kv">'+fmtD((S.cfg&&S.cfg.date)||"2026-07-12")+'</div><div class="kl">Ngày sự kiện</div></div>';
+  var list=all.filter(function(t){
+    if(fc&&t.cat!==fc)return false;
+    if(fo&&t.owner!==fo)return false;
+    if(fs==="done"&&!t.done)return false;
+    if(fs==="todo"&&t.done)return false;
+    if(q){var hay=((t.name||"")+" "+(t.cat||"")+" "+(t.mat||"")+" "+(t.owner||"")+" "+(t.note||"")).toLowerCase();if(hay.indexOf(q)<0)return false;}
+    return true;
+  });
+  if(!list.length){box.innerHTML='<div style="color:var(--mu);text-align:center;padding:26px 12px;font-size:13px">Không có mục nào khớp bộ lọc.</div>';return;}
+  // gom nhóm theo hạng mục
+  var groups=[],gmap={};
+  list.forEach(function(t){var g=t.cat||"Khác";if(!gmap[g]){gmap[g]=[];groups.push(g);}gmap[g].push(t);});
+  var html="";
+  groups.forEach(function(g){
+    var items=gmap[g];var gd=items.filter(function(t){return t.done;}).length;
+    html+='<div class="chkgrp"><div class="chkgh">🏷 '+esc(g)+' <span class="cnt">'+gd+'/'+items.length+'</span></div>';
+    items.forEach(function(t){
+      var meta=[];
+      if(t.mat)meta.push('<span class="tag">'+esc(t.mat)+'</span>');
+      if(t.qty)meta.push('SL: <b>'+esc(t.qty)+'</b>');
+      if(t.budget)meta.push('💰 '+esc(t.budget));
+      if(t.owner)meta.push('<span class="own">'+esc(t.owner)+'</span>');
+      if(t.note)meta.push('<span class="nt2">📝 '+esc(t.note)+'</span>');
+      html+='<div class="chkr'+(t.done?' done':'')+'">'+
+        '<div class="chkbx'+(t.done?' on':'')+'" onclick="toggleChk('+t.id+')">'+(t.done?'✓':'')+'</div>'+
+        '<div class="chki"><div class="chkn"><span class="chkstt">'+(t.stt||'')+'</span>'+esc(t.name)+'</div>'+
+        (meta.length?'<div class="chkm">'+meta.join(" ")+'</div>':'')+'</div>'+
+        '<div class="chkacts"><button class="chkb chke" onclick="openChk('+t.id+')">✏️</button>'+
+        '<button class="chkb chkd" onclick="delChk('+t.id+')">🗑</button></div>'+
+        '</div>';
+    });
+    html+='</div>';
+  });
+  box.innerHTML=html;
+}
+function toggleChk(id){var t=chkArr().find(function(x){return x.id===id;});if(!t)return;t.done=!t.done;t.ci=Date.now();sv();rchk();}
+function openChk(id){
+  fillChkSelects();
+  var del=document.getElementById("chkfDel");
+  if(id!=null){
+    var t=chkArr().find(function(x){return x.id===id;});if(!t)return;editingCid=id;
+    document.getElementById("chkTitle").textContent="✏️ Sửa mục";
+    document.getElementById("chkfName").value=t.name||"";
+    document.getElementById("chkfCat").value=t.cat||"";
+    document.getElementById("chkfMat").value=t.mat||"";
+    document.getElementById("chkfQty").value=t.qty||"";
+    document.getElementById("chkfBudget").value=t.budget||"";
+    document.getElementById("chkfOwner").value=t.owner||"";
+    document.getElementById("chkfNote").value=t.note||"";
+    if(del)del.style.display="flex";
+  }else{
+    editingCid=null;
+    document.getElementById("chkTitle").textContent="➕ Thêm mục";
+    ["chkfName","chkfCat","chkfMat","chkfQty","chkfBudget","chkfOwner","chkfNote"].forEach(function(x){var e=document.getElementById(x);if(e)e.value="";});
+    if(del)del.style.display="none";
+  }
+  om("mchk");
+}
+function saveChk(){
+  var name=document.getElementById("chkfName").value.trim();
+  if(!name)return alert("⚠ Vui lòng nhập nội dung.");
+  var data={name:name,cat:document.getElementById("chkfCat").value.trim(),mat:document.getElementById("chkfMat").value.trim(),
+    qty:document.getElementById("chkfQty").value.trim(),budget:document.getElementById("chkfBudget").value.trim(),
+    owner:document.getElementById("chkfOwner").value.trim(),note:document.getElementById("chkfNote").value.trim(),ci:Date.now()};
+  var arr=chkArr();
+  if(editingCid!=null){var t=arr.find(function(x){return x.id===editingCid;});if(t){for(var k in data)t[k]=data[k];}editingCid=null;}
+  else{data.id=Date.now();data.done=false;var mx=0;arr.forEach(function(x){if((x.stt||0)>mx)mx=x.stt;});data.stt=mx+1;arr.push(data);}
+  sv();cm("mchk");rchk();
+}
+function delChk(){
+  var id=(editingCid!=null)?editingCid:(arguments.length?arguments[0]:null);
+  if(id==null)return;
+  if(!confirm("Xoá mục này khỏi checklist?"))return;
+  if(!S.tomb)S.tomb={};S.tomb[id]=Date.now();
+  S.checklist=chkArr().filter(function(t){return t.id!==id;});
+  editingCid=null;sv();cm("mchk");rchk();
+}
+
 // ===== SUPABASE REALTIME (tuy chon) =====
 // >>> Dan PROJECT URL + ANON PUBLIC KEY cua Supabase vao 2 dong duoi de bat realtime nhieu may <<<
 var SUPA_URL="https://yncksjmovgfsyvhkztgw.supabase.co";   // tks-web project
@@ -2749,9 +2980,10 @@ function applyRemote(data){
     data.vnComp=mergeById(S.vnComp,data.vnComp,tomb);
     data.scoreGames=mergeById(S.scoreGames,data.scoreGames,tomb);
     data.scoreAdjust=mergeById(S.scoreAdjust,data.scoreAdjust,tomb);
+    data.checklist=mergeById(S.checklist,data.checklist,tomb);
     var keepGal=S.gallery; // gallery đồng bộ qua row riêng (r20_gal) — giữ lại khi nhận state chính
     if(data.gallery){var lg=S.gallery||{};GBOARDS.forEach(function(b){if(!data.gallery[b.k])data.gallery[b.k]=[];data.gallery[b.k]=mergeById(lg[b.k],data.gallery[b.k],tomb);});keepGal=data.gallery;}
-    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!Array.isArray(S.scores))S.scores=[];if(!Array.isArray(S.scoreTeams))S.scoreTeams=[];if(!Array.isArray(S.vnComp))S.vnComp=[];if(!Array.isArray(S.scoreGames))S.scoreGames=[];if(!Array.isArray(S.scoreAdjust))S.scoreAdjust=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();if(typeof S._ver!=="number")S._ver=parseInt(S._ver,10)||0;
+    S=data;S.gallery=keepGal;if(!Array.isArray(S.budget))S.budget=[];if(!Array.isArray(S.scores))S.scores=[];if(!Array.isArray(S.scoreTeams))S.scoreTeams=[];if(!Array.isArray(S.vnComp))S.vnComp=[];if(!Array.isArray(S.scoreGames))S.scoreGames=[];if(!Array.isArray(S.scoreAdjust))S.scoreAdjust=[];if(!Array.isArray(S.checklist))S.checklist=[];if(!S.tomb)S.tomb={};ensureGallery();if(!Array.isArray(S.mcnotes))S.mcnotes=[];ensureProgIds();if(typeof S._ver!=="number")S._ver=parseInt(S._ver,10)||0;
     try{localStorage.setItem("r20",JSON.stringify(S));}catch(e){}
     rerenderCurrent();
   }catch(e){}
@@ -3100,6 +3332,8 @@ if(!S.team||!S.team.length){S.team=defaultTeam();sv();}
 if(!S.budget||!S.budget.length){S.budget=defaultBudget();sv();}
 if(!S.tasks||!S.tasks.length){S.tasks=allSeed();S.taskv=5;sv();}
 else if((S.taskv||0)<5){S.tasks=allSeed();S.taskv=5;sv();}
+// seed checklist ngày 12/7 (chỉ lần đầu, không reseed nếu người dùng đã xoá hết)
+if((!S.checklist||!S.checklist.length)&&!S.chkv){S.checklist=defaultChecklist();S.chkv=1;sv();}
 // gán nhóm cho nhiệm vụ cũ chưa có nhóm
 (function(){var gm=gmap();var ch=false;(S.tasks||[]).forEach(function(t){if(!t.group){t.group=gm[t.title]||"Chưa phân nhóm";ch=true;}});if(ch)sv();})();
 // seed letter nếu chưa có
