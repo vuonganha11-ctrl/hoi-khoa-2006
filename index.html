@@ -2541,7 +2541,10 @@ function wheelWonMap(){var o={};(S.wheelWins||[]).forEach(function(w){if(w&&w.na
 function bw(){
   var pool=ciPool(); // TV + đại biểu/khách mời đã check-in
   var fromCheckin=pool.length>0;
-  if(!pool.length)pool=S.members.filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
+  if(!pool.length){
+    pool=S.members.filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
+    (S.guests||[]).forEach(function(g){if(g.role!=="Tưởng nhớ"&&(g.ci||g.inv==="xacnhan"))pool.push(g.name+(g.org?" ("+g.org+")":""));});
+  }
   var won=wheelWonMap();
   var elig=pool.filter(function(nm){return !won[nm];});
   var nWon=pool.length-elig.length;
@@ -2602,7 +2605,10 @@ function rgames(){
 function bwPage(){
   var pool=ciPool(); // tất cả người đã check-in (TV + khách mời)
   var fromCheckin=pool.length>0;
-  if(!pool.length)pool=(S.members||[]).filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
+  if(!pool.length){ // chưa ai check-in: tạm dùng TV đã xác nhận + đại biểu/khách mời (đã xác nhận hoặc đã check-in)
+    pool=(S.members||[]).filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
+    (S.guests||[]).forEach(function(g){if(g.role!=="Tưởng nhớ"&&(g.ci||g.inv==="xacnhan"))pool.push(g.name+(g.org?" ("+g.org+")":""));});
+  }
   var won=wheelWonMap();
   var elig=pool.filter(function(nm){return !won[nm];});
   var nWon=pool.length-elig.length;
