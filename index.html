@@ -540,12 +540,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div id="scGames"></div>
   </div>
   <div class="card">
-    <div class="stit">📊 Biểu đồ điểm trò chơi &amp; đội</div>
-    <div style="font-weight:700;color:#334155;font-size:13px;margin:6px 0 8px">Điểm mỗi đội qua từng trò chơi</div>
-    <div style="position:relative;height:300px"><canvas id="scChartLineGame"></canvas></div>
-    <div id="scChartNoteGame" style="font-size:12px;color:var(--mu);margin-top:10px"></div>
-  </div>
-  <div class="card">
     <div class="stit">🏆 Kết quả xếp hạng trò chơi &amp; đội</div>
     <div id="scRankGame"></div>
   </div>
@@ -1825,22 +1819,57 @@ function rscoreGame(){
   try{if(document.querySelector("#pg-scoregame.on"))drawGameCharts();}catch(e){}
 }
 function vnItems(){return (S.vnComp||[]).map(function(a){return {type:"vn",id:a.id,label:"🎤 "+a.name};});}
+// Suy ra màu cột từ tên đội (Xanh/Đỏ/Vàng/Hồng...). Không khớp thì dùng màu dự phòng.
+function teamColor(name,fallback){
+  var s=(name||"").toLowerCase();
+  if(/xanh\s*(l[áa]|l[uụ]c)/.test(s))return "#22C55E";
+  if(/xanh\s*(dương|duong|bi[eể]n|d\b)/.test(s))return "#2563EB";
+  if(/xanh/.test(s))return "#0EA5E9";
+  if(/đ[oỏ]|\bdo\b|red/.test(s))return "#EF4444";
+  if(/v[àa]ng|yellow|gold/.test(s))return "#F59E0B";
+  if(/h[oồ]ng|pink/.test(s))return "#EC4899";
+  if(/t[íi]m|purple/.test(s))return "#8B5CF6";
+  if(/cam|orange/.test(s))return "#F97316";
+  if(/tr[aắ]ng|white/.test(s))return "#94A3B8";
+  if(/n[âa]u|brown/.test(s))return "#92400E";
+  if(/đen|\bden\b|black/.test(s))return "#334155";
+  if(/lam/.test(s))return "#3B82F6";
+  return fallback||"#8B5CF6";
+}
 function drawGameCharts(){
   if(typeof Chart==="undefined")return;
   var teams=(S.scoreTeams||[]).slice().sort(function(a,b){return a.id-b.id;});
   var games=(S.scoreGames||[]).slice().sort(function(a,b){return a.id-b.id;});
   var palette=["#8B5CF6","#F5A623","#10B981","#FF6B6B","#3B82F6","#EC4899","#14B8A6","#F97316","#6366F1","#0EA5E9"];
-  // BAR: tổng điểm đội (trò chơi + thưởng − phạt)
-  var barItems=teams.map(function(t){var tt=teamTotal(t.id),aj=teamAdjust(t.id);return {name:t.name,game:tt.total,games:tt.games,bonus:aj.bonus,penalty:aj.penalty,grand:tt.total+aj.net};}).filter(function(x){return x.games>0||x.bonus>0||x.penalty>0;}).sort(function(a,b){return b.grand-a.grand;});
+  // BAR: TỔNG điểm mỗi đội (trò chơi + thưởng − phạt) — cột dọc lớn, màu theo đội, hạng phía trên
+  var barItems=teams.map(function(t){var tt=teamTotal(t.id),aj=teamAdjust(t.id);return {name:t.name,game:tt.total,games:tt.games,bonus:aj.bonus,penalty:aj.penalty,grand:tt.total+aj.net};}).sort(function(a,b){return b.grand-a.grand;});
   var bc=document.getElementById("scChartBarGame");
   if(bc){
     if(scChartInst.scChartBarGame){scChartInst.scChartBarGame.destroy();scChartInst.scChartBarGame=null;}
     if(barItems.length){
-      var barCol=barItems.map(function(x,i){return i===0?"#F59E0B":"#8B5CF6";});
-      scChartInst.scChartBarGame=new Chart(bc,{type:"bar",data:{labels:barItems.map(function(x,i){return (["🥇","🥈","🥉"][i]||"")+" "+x.name;}),datasets:[{label:"Tổng điểm",data:barItems.map(function(x){return scf1(x.grand);}),backgroundColor:barCol,borderRadius:6}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){var it=barItems[c.dataIndex];return scf1(it.grand)+" điểm (🎮"+scf1(it.game)+" +🎁"+scf1(it.bonus)+" −⚠️"+scf1(it.penalty)+")";}}}},scales:{x:{beginAtZero:true}}}});
+      // Hạng chuẩn (đồng điểm = đồng hạng)
+      var ranks=barItems.map(function(x){var r=1;barItems.forEach(function(y){if(y.grand>x.grand+1e-9)r++;});return r;});
+      var cols=barItems.map(function(x){return teamColor(x.name,"#8B5CF6");});
+      var rankTop={id:"rankTop",afterDatasetsDraw:function(chart){
+        var ctx=chart.ctx,meta=chart.getDatasetMeta(0);if(!meta)return;
+        meta.data.forEach(function(bar,i){
+          ctx.save();ctx.textAlign="center";ctx.textBaseline="bottom";
+          ctx.fillStyle="#475569";ctx.font="700 12px sans-serif";
+          ctx.fillText(scf1(barItems[i].grand)+" đ",bar.x,bar.y-6);
+          ctx.fillStyle=cols[i];ctx.font="800 24px sans-serif";
+          ctx.fillText(String(ranks[i]),bar.x,bar.y-22);
+          ctx.restore();
+        });
+      }};
+      scChartInst.scChartBarGame=new Chart(bc,{
+        type:"bar",
+        data:{labels:barItems.map(function(x){return x.name;}),datasets:[{label:"Tổng điểm",data:barItems.map(function(x){return scf1(x.grand);}),backgroundColor:cols,borderRadius:10,maxBarThickness:130,barPercentage:0.85,categoryPercentage:0.8}]},
+        options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:44}},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){var it=barItems[c.dataIndex];return "Hạng "+ranks[c.dataIndex]+" · "+scf1(it.grand)+" điểm (🎮"+scf1(it.game)+" +🎁"+scf1(it.bonus)+" −⚠️"+scf1(it.penalty)+")";}}}},scales:{y:{beginAtZero:true,ticks:{stepSize:2}},x:{ticks:{font:{size:14,weight:"700"},color:"#0F172A"},grid:{display:false}}}},
+        plugins:[rankTop]
+      });
     }
     var bnote=document.getElementById("scChartNoteBarGame");
-    if(bnote)bnote.textContent=barItems.length?("Dẫn đầu: "+barItems[0].name+" với "+scf1(barItems[0].grand)+" điểm."):"Chưa có điểm — biểu đồ sẽ hiện khi có kết quả chấm hoặc thưởng/phạt.";
+    if(bnote)bnote.textContent=barItems.length&&barItems[0].grand>0?("🏆 Dẫn đầu: "+barItems[0].name+" — "+scf1(barItems[0].grand)+" điểm. Số phía trên cột là hạng hiện tại."):"Chưa có điểm — biểu đồ sẽ hiện khi có kết quả chấm hoặc thưởng/phạt.";
   }
   // LINE: x=trò chơi, mỗi đội 1 đường (TB /10 trong trò)
   var lc=document.getElementById("scChartLineGame");
