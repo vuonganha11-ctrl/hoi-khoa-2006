@@ -1248,7 +1248,7 @@ function ciPool(){ // danh sách người ĐÃ check-in (tên) — cấp cho vò
   return a;
 }
 function ciEventStr(){var d=(S.cfg&&S.cfg.date)||"";if(!d)return "";var p=(""+d).split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:d;}
-function ciOpen(){var d=(S.cfg&&S.cfg.date)||"";if(!d)return true;var ev=new Date(d+"T00:00:00");if(isNaN(ev.getTime()))return true;return Date.now()>=ev.getTime();}
+function ciOpen(){return true;} // đã mở khóa check-in — luôn mở (banner + nút)
 function ciLocked(){return false;} // đã mở khóa check-in — cho phép check-in bất kỳ lúc nào
 function ciMember(id){
   var m=S.members.find(function(x){return x.id===id;});if(!m)return;
