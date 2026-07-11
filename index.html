@@ -322,7 +322,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="sdi" onclick="sp('guests',this)">🎓 Đại biểu / Khách mời</div>
     <div class="sdi" onclick="sp('program',this)">🗓️ Timeline</div>
     <div class="sds">Tính năng</div>
-    <div class="sdi" onclick="sp('games',this)">🎮 Trò chơi</div>
+    <div class="sdi" onclick="sp('games',this)">🎡 Vòng quay may mắn</div>
     <div class="sdi" onclick="sp('scorevn',this)">🎤 Chấm điểm văn nghệ</div>
     <div class="sdi" onclick="sp('scoregame',this)">🎮 Chấm điểm trò chơi</div>
     <div class="sdi" onclick="sp('polls',this)">🏆 Danh hiệu thầy cô</div>
@@ -383,7 +383,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <button class="qab qpu" onclick="sp('photos')"><span class="qai">📸</span>Bảng kỷ niệm</button>
     <button class="qab qp" onclick="sp('map')"><span class="qai">📍</span>Bản đồ lớp</button>
     <button class="qab qg" onclick="sp('letters')"><span class="qai">📬</span>Góc nhắn nhủ</button>
-    <button class="qab qgr" onclick="sp('games')"><span class="qai">🎮</span>Trò chơi</button>
+    <button class="qab qgr" onclick="sp('games')"><span class="qai">🎡</span>Vòng quay</button>
     <button class="qab qgr" onclick="sp('program')"><span class="qai">🗓️</span>Timeline</button>
     <button class="qab qpu" onclick="sp('gantt')"><span class="qai">📋</span>Checklist 12/7</button>
     <button class="qab qp" onclick="sp('finance')"><span class="qai">💰</span>Tài chính</button>
@@ -489,16 +489,21 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
 
 <!-- GAMES -->
 <div class="pg" id="pg-games">
-  <div class="ptit">🎮 Trò chơi</div>
-  <div class="psub">Mini-game vui nhộn cho buổi họp lớp</div>
-  <div class="glist">
-    <div class="gr2" onclick="og('tinhhuong')"><div class="gem">🎭</div><div><div class="gti">Game tình huống</div><div class="gde">Học trò gặp sự cố — chọn cách xử lý hài hước</div><div class="gpl">👥 1+ người</div></div><div class="gar">›</div></div>
-    <div class="gr2" onclick="og('quiz')"><div class="gem">🧠</div><div><div class="gti">Quiz "Bạn nhớ gì về lớp?"</div><div class="gde">Câu hỏi về kỷ niệm thời học sinh</div><div class="gpl">👥 2–30 người</div></div><div class="gar">›</div></div>
-    <div class="gr2" onclick="og('wheel')"><div class="gem">🎡</div><div><div class="gti">Vòng quay may mắn</div><div class="gde">Chọn ngẫu nhiên người lên chia sẻ</div><div class="gpl">👥 Không giới hạn</div></div><div class="gar">›</div></div>
-    <div class="gr2" onclick="og('truth')"><div class="gem">🎴</div><div><div class="gti">Thật hay Thách</div><div class="gde">Truth or Dare phiên bản họp lớp</div><div class="gpl">👥 3–20 người</div></div><div class="gar">›</div></div>
-    <div class="gr2" onclick="og('bingo')"><div class="gem">🎯</div><div><div class="gti">Bingo 20 năm</div><div class="gde">Tìm bạn phù hợp với từng ô</div><div class="gpl">👥 10+ người</div></div><div class="gar">›</div></div>
-    <div class="gr2" onclick="og('memory')"><div class="gem">🃏</div><div><div class="gti">Lật ảnh ký ức</div><div class="gde">Ghép đôi thẻ nhanh nhất</div><div class="gpl">👥 1–4 người</div></div><div class="gar">›</div></div>
-    <div class="gr2" onclick="og('sentence')"><div class="gem">✍️</div><div><div class="gti">Hoàn thành câu</div><div class="gde">Điền câu hài hước thời học sinh</div><div class="gpl">👥 Nhóm</div></div><div class="gar">›</div></div>
+  <div class="ptit">🎡 Vòng quay may mắn</div>
+  <div class="psub">Quay ngẫu nhiên chọn người trúng thưởng — trong số tất cả những người đã check-in (gồm cả khách mời). Ai cũng quay được.</div>
+  <div id="gamesWheel"></div>
+  <div class="card">
+    <details>
+      <summary style="cursor:pointer;font-weight:800;color:var(--navy);font-size:14px;list-style:none">🎮 Trò chơi khác (mini-game)</summary>
+      <div class="glist" style="margin-top:12px">
+        <div class="gr2" onclick="og('tinhhuong')"><div class="gem">🎭</div><div><div class="gti">Game tình huống</div><div class="gde">Học trò gặp sự cố — chọn cách xử lý hài hước</div><div class="gpl">👥 1+ người</div></div><div class="gar">›</div></div>
+        <div class="gr2" onclick="og('quiz')"><div class="gem">🧠</div><div><div class="gti">Quiz "Bạn nhớ gì về lớp?"</div><div class="gde">Câu hỏi về kỷ niệm thời học sinh</div><div class="gpl">👥 2–30 người</div></div><div class="gar">›</div></div>
+        <div class="gr2" onclick="og('truth')"><div class="gem">🎴</div><div><div class="gti">Thật hay Thách</div><div class="gde">Truth or Dare phiên bản họp lớp</div><div class="gpl">👥 3–20 người</div></div><div class="gar">›</div></div>
+        <div class="gr2" onclick="og('bingo')"><div class="gem">🎯</div><div><div class="gti">Bingo 20 năm</div><div class="gde">Tìm bạn phù hợp với từng ô</div><div class="gpl">👥 10+ người</div></div><div class="gar">›</div></div>
+        <div class="gr2" onclick="og('memory')"><div class="gem">🃏</div><div><div class="gti">Lật ảnh ký ức</div><div class="gde">Ghép đôi thẻ nhanh nhất</div><div class="gpl">👥 1–4 người</div></div><div class="gar">›</div></div>
+        <div class="gr2" onclick="og('sentence')"><div class="gem">✍️</div><div><div class="gti">Hoàn thành câu</div><div class="gde">Điền câu hài hước thời học sinh</div><div class="gpl">👥 Nhóm</div></div><div class="gar">›</div></div>
+      </div>
+    </details>
   </div>
 </div>
 
@@ -1051,6 +1056,7 @@ function sp(id,el){
   if(id==="music")rvn();
   if(id==="scorevn")rscoreVN();
   if(id==="scoregame")rscoreGame();
+  if(id==="games")rgames();
   if(id==="letters")rl2();
   if(id==="awards")raw();
   if(id==="map")rma();
@@ -2567,7 +2573,7 @@ function wheelHistHtml(){
   return head+rows;
 }
 function recordWin(name){
-  if(!canManageGame())return; // chỉ Quản trị viên / Trợ lý BTC điều khiển mới ghi vào sổ trúng thưởng
+  // Ai cũng quay được — kết quả trúng được ghi vào sổ (chỉ admin mới xóa được).
   if(!Array.isArray(S.wheelWins))S.wheelWins=[];
   if(!S.wheelWins.some(function(w){return w.name===name;})){
     S.wheelWins.push({id:Date.now()+Math.floor(Math.random()*1000),name:name,ts:Date.now()});
@@ -2580,8 +2586,41 @@ function recordWin(name){
   var h=document.getElementById("whist");if(h)h.innerHTML=wheelHistHtml();
 }
 function refreshWheel(){
+  // Ưu tiên trang Vòng quay (pg-games) nếu đang mở
+  var pageEl=document.getElementById("gamesWheel"),pg=document.getElementById("pg-games");
+  if(pageEl&&pg&&pg.classList.contains("on")){rgames();return;}
   var gc=document.getElementById("gcont");
   if(gc&&document.getElementById("wc")){gc.innerHTML=bw();setTimeout(function(){dw(wa);},30);}
+}
+// Render trang Vòng quay may mắn (toàn trang): vòng quay lớn ở giữa + bảng người đã trúng
+function rgames(){
+  var el=document.getElementById("gamesWheel");if(!el)return;
+  if(ws){var h=document.getElementById("whist");if(h)h.innerHTML=wheelHistHtml();return;} // đang quay: chỉ cập nhật bảng
+  el.innerHTML=bwPage();
+  setTimeout(function(){dw(wa);},40);
+}
+function bwPage(){
+  var pool=ciPool(); // tất cả người đã check-in (TV + khách mời)
+  var fromCheckin=pool.length>0;
+  if(!pool.length)pool=(S.members||[]).filter(function(m){return m.s==="c";}).map(function(m){return m.name;});
+  var won=wheelWonMap();
+  var elig=pool.filter(function(nm){return !won[nm];});
+  var nWon=pool.length-elig.length;
+  var allDone=(pool.length>0&&elig.length===0);
+  wn=elig.length?elig:(pool.length?pool.slice():["Bạn A","Bạn B","Bạn C","Bạn D"]);
+  var vw=window.innerWidth||360,sz=Math.min(vw-56,vw>720?440:360);if(sz<240)sz=240;
+  return ''+
+   '<div class="card" style="text-align:center">'+
+     '<div style="font-size:13px;color:var(--mu);margin-bottom:14px">Quay ngẫu nhiên trong <b><span id="wcount">'+wn.length+'</span></b> người'+(fromCheckin?' đã check-in':' (chưa có ai check-in — tạm dùng danh sách có mặt)')+(nWon>0?' · đã loại '+nWon+' người đã trúng':'')+'</div>'+
+     '<div style="position:relative;display:inline-flex;justify-content:center;align-items:center">'+
+       '<canvas id="wc" width="'+sz+'" height="'+sz+'"></canvas>'+
+       '<div style="position:absolute;right:calc(50% - '+Math.floor(sz/2+2)+'px);width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:26px solid var(--ac);filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))"></div>'+
+     '</div>'+
+     '<div id="wres" style="text-align:center;min-height:44px;margin-top:12px"></div>'+
+     (allDone?'<div style="text-align:center;color:#B45309;font-size:13px;font-weight:600;margin-bottom:8px">✅ Tất cả đã trúng thưởng. Quản trị viên xóa bớt kết quả để quay tiếp.</div>':'')+
+     '<button class="btn bg2" onclick="sw2()" id="spbtn" style="margin-top:4px;font-size:16px;padding:13px 30px"'+(allDone?' disabled':'')+'>🎡 Quay ngay!</button>'+
+   '</div>'+
+   '<div class="card"><div id="whist">'+wheelHistHtml()+'</div></div>';
 }
 function delWheelWin(id){
   if(!isAdmin)return reqAdmin();
@@ -3192,7 +3231,7 @@ function rerenderCurrent(){
   try{
     if(id==="members")rm();else if(id==="checkin")rci();else if(id==="guests"){rgl();if(typeof rgadmin==="function")rgadmin();}
     else if(id==="gantt")rgantt();else if(id==="finance")rf();else if(id==="program")rpr();
-    else if(id==="polls")rta();else if(id==="music"){if(typeof rvn==="function")rvn();}else if(id==="scorevn"){if(typeof rscoreVN==="function")rscoreVN();}else if(id==="scoregame"){if(typeof rscoreGame==="function")rscoreGame();}else if(id==="letters")rl2();
+    else if(id==="polls")rta();else if(id==="music"){if(typeof rvn==="function")rvn();}else if(id==="scorevn"){if(typeof rscoreVN==="function")rscoreVN();}else if(id==="scoregame"){if(typeof rscoreGame==="function")rscoreGame();}else if(id==="games"){if(typeof rgames==="function")rgames();}else if(id==="letters")rl2();
     else if(id==="awards")raw();else if(id==="map")rma();else if(id==="photos")rgal();
   }catch(e){}
 }
