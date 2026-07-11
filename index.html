@@ -1539,6 +1539,17 @@ function scAgg(kind,target){
   var s=0;recs.forEach(function(r){s+=scTotalRec(r,kind);});
   return {n:recs.length,avg:s/recs.length};
 }
+// Danh sách điểm từng giám khảo cho 1 mục (kind|target) — sắp xếp giảm dần.
+function scJudges(kind,target){
+  var recs=(S.scores||[]).filter(function(r){return r.kind===kind&&r.target===String(target);});
+  return recs.map(function(r){return {judge:r.judge,total:scTotalRec(r,kind)};}).sort(function(a,b){return b.total-a.total;});
+}
+function scJudgesHtml(kind,target){
+  var js=scJudges(kind,target);if(!js.length)return "";
+  return '<div style="flex-basis:100%;display:flex;flex-wrap:wrap;gap:5px;margin-top:4px">'+js.map(function(j){
+    return '<span style="font-size:11.5px;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:7px;padding:2px 8px;color:#475569">'+j.judge+': <b style="color:#1A3A5C">'+scf1(j.total)+'</b></span>';
+  }).join("")+'</div>';
+}
 // --- Tiết mục văn nghệ dự thi (do BTC thêm) ---
 function addVnComp(){
   if(!isAdmin)return reqAdmin();
@@ -1746,7 +1757,8 @@ function gameBlockHtml(g,teams){
     return '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 0;border-top:1px solid #F1F5F9">'+
       '<div style="flex:1;min-width:110px;font-weight:700;color:#0F172A">'+t.name+'</div>'+
       '<div style="display:flex;align-items:center;gap:6px"><input type="number" min="0" max="10" step="0.5" value="'+val+'"'+dis+' onchange="scSet(\'game\',\''+tgt+'\',\'diem\',this.value)" style="width:82px;padding:7px;border:1px solid #CBD5E1;border-radius:8px;font-size:16px;font-weight:800;text-align:center;color:#1A3A5C"><span style="font-size:12px;color:#94A3B8;font-weight:700">/10</span></div>'+
-      '<div style="min-width:130px;text-align:right;font-size:12.5px;color:#475569">'+(ag.n?('TB: <b style="color:#047857">'+scf1(ag.avg)+'</b>/10 · '+ag.n+' GK'):'Chưa chấm')+'</div></div>';
+      '<div style="min-width:130px;text-align:right;font-size:12.5px;color:#475569">'+(ag.n?('TB: <b style="color:#047857">'+scf1(ag.avg)+'</b>/10 · '+ag.n+' GK'):'Chưa chấm')+'</div>'+
+      scJudgesHtml("game",tgt)+'</div>';
   }).join("");
   var admB=canManageGame()?'<div style="display:flex;gap:6px;margin-top:10px"><button class="btn bo2 bsm" onclick="editScoreGame('+g.id+')">✏️ Sửa</button><button class="btn bsm" style="background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5" onclick="delScoreGame('+g.id+')">🗑 Xoá</button></div>':'';
   return '<div style="border:1px solid #E2E8F0;border-radius:12px;padding:12px 14px;margin-bottom:12px;background:#fff">'+
