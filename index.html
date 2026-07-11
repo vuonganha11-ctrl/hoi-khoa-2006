@@ -1249,7 +1249,7 @@ function ciPool(){ // danh sách người ĐÃ check-in (tên) — cấp cho vò
 }
 function ciEventStr(){var d=(S.cfg&&S.cfg.date)||"";if(!d)return "";var p=(""+d).split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:d;}
 function ciOpen(){var d=(S.cfg&&S.cfg.date)||"";if(!d)return true;var ev=new Date(d+"T00:00:00");if(isNaN(ev.getTime()))return true;return Date.now()>=ev.getTime();}
-function ciLocked(){if(ciOpen()||isAdmin)return false;alert("Chưa đến thời gian sự kiện ("+ciEventStr()+") nên chưa thể check-in.");return true;}
+function ciLocked(){return false;} // đã mở khóa check-in — cho phép check-in bất kỳ lúc nào
 function ciMember(id){
   var m=S.members.find(function(x){return x.id===id;});if(!m)return;
   if(m.ci){if(!confirm("Huỷ check-in của "+m.name+"?"))return;m.ci=null;}
