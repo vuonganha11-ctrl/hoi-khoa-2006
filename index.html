@@ -549,6 +549,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="stit">🏆 Kết quả xếp hạng trò chơi &amp; đội</div>
     <div id="scRankGame"></div>
   </div>
+  <div class="card">
+    <div class="stit">🥇 Tổng điểm thi đua các đội</div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Tổng điểm mỗi đội (điểm các trò chơi + thưởng − phạt). Đội cao nhất dẫn đầu thi đua.</div>
+    <div style="position:relative;height:340px"><canvas id="scChartBarGame"></canvas></div>
+    <div id="scChartNoteBarGame" style="font-size:12px;color:var(--mu);margin-top:10px"></div>
+  </div>
 </div>
 
 <div class="mo" id="mScTeam" onclick="cbg(event,'mScTeam')">
@@ -1830,8 +1836,11 @@ function drawGameCharts(){
   if(bc){
     if(scChartInst.scChartBarGame){scChartInst.scChartBarGame.destroy();scChartInst.scChartBarGame=null;}
     if(barItems.length){
-      scChartInst.scChartBarGame=new Chart(bc,{type:"bar",data:{labels:barItems.map(function(x){return "👥 "+x.name;}),datasets:[{label:"Tổng điểm",data:barItems.map(function(x){return scf1(x.grand);}),backgroundColor:"#8B5CF6",borderRadius:6}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){var it=barItems[c.dataIndex];return scf1(it.grand)+" điểm (🎮"+scf1(it.game)+" +🎁"+scf1(it.bonus)+" −⚠️"+scf1(it.penalty)+")";}}}},scales:{x:{beginAtZero:true}}}});
+      var barCol=barItems.map(function(x,i){return i===0?"#F59E0B":"#8B5CF6";});
+      scChartInst.scChartBarGame=new Chart(bc,{type:"bar",data:{labels:barItems.map(function(x,i){return (["🥇","🥈","🥉"][i]||"")+" "+x.name;}),datasets:[{label:"Tổng điểm",data:barItems.map(function(x){return scf1(x.grand);}),backgroundColor:barCol,borderRadius:6}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){var it=barItems[c.dataIndex];return scf1(it.grand)+" điểm (🎮"+scf1(it.game)+" +🎁"+scf1(it.bonus)+" −⚠️"+scf1(it.penalty)+")";}}}},scales:{x:{beginAtZero:true}}}});
     }
+    var bnote=document.getElementById("scChartNoteBarGame");
+    if(bnote)bnote.textContent=barItems.length?("Dẫn đầu: "+barItems[0].name+" với "+scf1(barItems[0].grand)+" điểm."):"Chưa có điểm — biểu đồ sẽ hiện khi có kết quả chấm hoặc thưởng/phạt.";
   }
   // LINE: x=trò chơi, mỗi đội 1 đường (TB /10 trong trò)
   var lc=document.getElementById("scChartLineGame");
